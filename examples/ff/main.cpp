@@ -12,14 +12,7 @@
 #include "ExpressionSourceModel.hpp"
 #include "ExpressionDisplayModel.hpp"
 #include "BoolConditionModel.hpp"
-//#include "NumberDisplayDataModel.hpp"
-//#include "AdditionModel.hpp"
-//#include "SubtractionModel.hpp"
-//#include "MultiplicationModel.hpp"
-//#include "DivisionModel.hpp"
-//#include "ModuloModel.hpp"
-//#include "DecimalToIntegerModel.hpp"
-//#include "IntegerToDecimalModel.hpp"
+#include "MathFunctionModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -30,9 +23,11 @@ static std::shared_ptr<DataModelRegistry>
 registerDataModels()
 {
   auto ret = std::make_shared<DataModelRegistry>();
-  ret->registerModel<ExpressionSourceModel>("Sources");
-  ret->registerModel<ExpressionDisplayModel>("Display");
-  ret->registerModel<BoolConditionModel>("BoolCondition");
+  ret->registerModel<ExpressionSourceModel>("IO");
+  ret->registerModel<ExpressionDisplayModel>("IO");
+
+  ret->registerModel<BoolConditionModel>("Operations");
+  ret->registerModel<MathFunctionModel>("Operations");
 
   return ret;
 }

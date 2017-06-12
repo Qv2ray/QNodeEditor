@@ -138,11 +138,13 @@ processChangedData()
 
   QString text = _variableEdit->text();
 
+  QString prefix("${%1}");
+
   std::vector<double> range = processRangeText(_rangeEdit->text());
 
   if (!text.isEmpty() && (range.size() > 0))
   {
-    _expression = std::make_shared<ExpressionRangeData>(text, range);
+    _expression = std::make_shared<ExpressionRangeData>(prefix.arg(text), range);
 
     emit dataUpdated(0);
   }
