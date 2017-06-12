@@ -11,8 +11,9 @@
 
 #include "ExpressionSourceModel.hpp"
 #include "ExpressionDisplayModel.hpp"
-#include "BoolConditionModel.hpp"
 #include "MathFunctionModel.hpp"
+#include "BoolConditionModel.hpp"
+#include "IfConditionModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -26,36 +27,37 @@ registerDataModels()
   ret->registerModel<ExpressionSourceModel>("IO");
   ret->registerModel<ExpressionDisplayModel>("IO");
 
-  ret->registerModel<BoolConditionModel>("Operations");
   ret->registerModel<MathFunctionModel>("Operations");
+  ret->registerModel<BoolConditionModel>("Operations");
+  ret->registerModel<IfConditionModel>("Operations");
 
   return ret;
 }
 
 
-//static
-//void
-//setStyle()
-//{
-  //ConnectionStyle::setConnectionStyle(
-  //R"(
-  //{
-    //"ConnectionStyle": {
-      //"ConstructionColor": "gray",
-      //"NormalColor": "black",
-      //"SelectedColor": "gray",
-      //"SelectedHaloColor": "deepskyblue",
-      //"HoveredColor": "deepskyblue",
+static
+void
+setStyle()
+{
+  ConnectionStyle::setConnectionStyle(
+  R"(
+  {
+    "ConnectionStyle": {
+      "ConstructionColor": "gray",
+      "NormalColor": "black",
+      "SelectedColor": "gray",
+      "SelectedHaloColor": "deepskyblue",
+      "HoveredColor": "deepskyblue",
 
-      //"LineWidth": 3.0,
-      //"ConstructionLineWidth": 2.0,
-      //"PointDiameter": 10.0,
+      "LineWidth": 3.0,
+      "ConstructionLineWidth": 2.0,
+      "PointDiameter": 10.0,
 
-      //"UseDataDefinedColors": true
-    //}
-  //}
-  //)");
-//}
+      "UseDataDefinedColors": true
+    }
+  }
+  )");
+}
 
 
 int
@@ -63,7 +65,7 @@ main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
-  //setStyle();
+  setStyle();
 
   QWidget mainWidget;
 

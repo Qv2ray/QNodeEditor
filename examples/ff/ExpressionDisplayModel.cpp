@@ -17,6 +17,11 @@ ExpressionDisplayModel()
 {
   _widget = new QWidget();
 
+  //auto pal = _widget->palette();
+  //pal.setColor(QPalette::Background, nodeStyle().GradientColor2);
+  //_widget->setAutoFillBackground(false);
+  //_widget->setPalette(pal);
+
   auto l = new QFormLayout();
 
   _variableLabel = new QLabel();
@@ -120,6 +125,7 @@ convertRangeToText(std::vector<double> const &range) const
 
   return result;
 }
+
 
 void
 ExpressionDisplayModel::

@@ -77,7 +77,7 @@ public:
   outData(PortIndex port) override;
 
   void
-    setInData(std::shared_ptr<NodeData>, PortIndex) override;
+  setInData(std::shared_ptr<NodeData>, PortIndex) override;
 
   QWidget *
   embeddedWidget() override;
@@ -90,7 +90,8 @@ private:
   std::vector<double>
   applyFunction(std::vector<double> const &range) const;
 
-  void processData();
+  void
+  processData();
 
   void
   createNameAndFunctions();

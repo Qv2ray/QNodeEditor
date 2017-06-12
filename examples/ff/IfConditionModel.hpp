@@ -11,7 +11,6 @@ class ExpressionRangeData;
 class ExpressionBoolData;
 
 class QLabel;
-class QComboBox;
 class QWidget;
 
 using QtNodes::PortType;
@@ -28,22 +27,22 @@ using NameAndBoolFunction = std::tuple<QString, QString, BoolFunctionPtr>;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class BoolConditionModel
+class IfConditionModel
   : public NodeDataModel
 {
   Q_OBJECT
 
 public:
-  BoolConditionModel();
+  IfConditionModel();
 
   virtual
-  ~BoolConditionModel() {}
+  ~IfConditionModel() {}
 
 public:
 
   QString
   caption() const override
-  { return QStringLiteral("Bool Condition"); }
+  { return QStringLiteral("If Condition"); }
 
   bool
   captionVisible() const override
@@ -51,11 +50,11 @@ public:
 
   QString
   name() const override
-  { return QStringLiteral("Bool Condition"); }
+  { return QStringLiteral("If Condition"); }
 
   std::unique_ptr<NodeDataModel>
   clone() const override
-  { return std::make_unique<BoolConditionModel>(); }
+  { return std::make_unique<IfConditionModel>(); }
 
 public:
 
@@ -82,11 +81,6 @@ public:
   QWidget *
   embeddedWidget() override;
 
-private:
-
-  void
-  createNameAndBoolFunctions();
-
 private slots:
 
   void
@@ -95,25 +89,34 @@ private slots:
   void
   processData();
 
-  std::vector<bool>
-  applyFunction(std::vector<double> const &range1,
+  std::vector<double>
+  applyFunction(std::vector<bool> const &range0,
+                std::vector<double> const &range1,
                 std::vector<double> const &range2) const;
 
   QString
-  convertRangeToText(std::vector<bool> const &range) const;
+  convertBoolRangeToText(std::vector<bool> const &range) const;
+
+  QString
+  convertRangeToText(std::vector<double> const &range) const;
 
 private:
 
+  std::weak_ptr<ExpressionBoolData> _input0;
   std::weak_ptr<ExpressionRangeData> _input1;
   std::weak_ptr<ExpressionRangeData> _input2;
 
-  std::shared_ptr<ExpressionBoolData> _expression;
+  std::shared_ptr<ExpressionRangeData> _expression;
 
   std::vector<NameAndBoolFunction> _nameAndBoolFunctions;
 
   QWidget * _widget;
 
-  QComboBox * _functionComboBox;
+  QLabel * _ifLabel;
+
+  QLabel * _thenLabel;
+
+  QLabel * _elseLabel;
 
   QLabel * _variableLabel;
 
