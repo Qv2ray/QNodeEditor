@@ -9,7 +9,7 @@
 class ExpressionRangeData;
 
 class QWidget;
-class QLabel;
+class QLineEdit;
 
 using QtNodes::PortType;
 using QtNodes::PortIndex;
@@ -85,6 +85,6 @@ private:
 
   QWidget * _widget;
 
-  QLabel * _variableLabel;
-  QLabel * _rangeLabel;
+  QLineEdit * _variableLabel;
+  QLineEdit * _rangeLabel;
 };

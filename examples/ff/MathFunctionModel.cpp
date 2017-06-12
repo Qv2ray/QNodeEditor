@@ -6,7 +6,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QFormLayout>
 
 #include "ExpressionRangeData.hpp"
@@ -31,13 +31,12 @@ MathFunctionModel()
     _functionComboBox->addItem(std::get<0>(f));
   }
 
-  _variableLabel = new QLabel();
-  _variableLabel->setMargin(3);
-  _variableLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  _variableLabel = new QLineEdit();
+  _variableLabel->setReadOnly(true);
 
-  _rangeLabel = new QLabel();
-  _rangeLabel->setMargin(3);
-  _rangeLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  _rangeLabel = new QLineEdit();
+  _variableLabel->setReadOnly(true);
+  _rangeLabel->setMaximumWidth(200);
 
   l->addRow("Function:", _functionComboBox);
   l->addRow("Variable:", _variableLabel);

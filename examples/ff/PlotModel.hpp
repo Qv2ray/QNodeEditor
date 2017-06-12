@@ -11,8 +11,13 @@
 class ExpressionRangeData;
 
 class QWidget;
-class QLineEdit;
+class QLabel;
 class QComboBox;
+
+namespace QtCharts
+{
+class QChartView;
+}
 
 using QtNodes::PortType;
 using QtNodes::PortIndex;
@@ -28,22 +33,22 @@ using NameAndFunction = std::tuple<QString, QString, FunctionPtr>;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class MathFunctionModel
+class PlotModel
   : public NodeDataModel
 {
   Q_OBJECT
 
 public:
-  MathFunctionModel();
+  PlotModel();
 
   virtual
-  ~MathFunctionModel() {}
+  ~PlotModel() {}
 
 public:
 
   QString
   caption() const override
-  { return QStringLiteral("Math Function"); }
+  { return QStringLiteral("Plot"); }
 
   bool
   captionVisible() const override
@@ -51,11 +56,11 @@ public:
 
   QString
   name() const override
-  { return QStringLiteral("Math Function"); }
+  { return QStringLiteral("Plot"); }
 
   std::unique_ptr<NodeDataModel>
   clone() const override
-  { return std::make_unique<MathFunctionModel>(); }
+  { return std::make_unique<PlotModel>(); }
 
 public:
 
@@ -77,24 +82,23 @@ public:
   outData(PortIndex port) override;
 
   void
-  setInData(std::shared_ptr<NodeData>, PortIndex) override;
+    setInData(std::shared_ptr<NodeData>, PortIndex) override;
 
   QWidget *
   embeddedWidget() override;
 
+  bool
+  resizable() const override { return true; }
+
+protected:
+
+  bool
+  eventFilter(QObject *object, QEvent *event) override;
+
 private:
-
-  QString
-  convertRangeToText(std::vector<double> const &range) const;
-
-  std::vector<double>
-  applyFunction(std::vector<double> const &range) const;
 
   void
   processData();
-
-  void
-  createNameAndFunctions();
 
 private slots:
 
@@ -103,15 +107,8 @@ private slots:
 
 private:
 
-  std::weak_ptr<ExpressionRangeData> _inputExpression;
-  std::shared_ptr<ExpressionRangeData> _expression;
+  std::weak_ptr<ExpressionRangeData> _input1;
+  std::weak_ptr<ExpressionRangeData> _input2;
 
-  QWidget * _widget;
-
-  QComboBox * _functionComboBox;
-
-  QLineEdit * _variableLabel;
-  QLineEdit * _rangeLabel;
-
-  std::vector<NameAndFunction> _nameAndFunctions;
+  QtCharts::QChartView * _chartView;
 };

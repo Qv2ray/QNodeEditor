@@ -224,7 +224,7 @@ processData()
 
   if (n0 && n1 && n2)
   {
-    QString input0 = n1->expression();
+    QString input0 = n0->expression();
     QString input1 = n1->expression();
     QString input2 = n2->expression();
 
@@ -250,7 +250,7 @@ processData()
 
     QString tt(" ( (%1) ? %2 : %3 ) ");
 
-    _expression = std::make_shared<ExpressionRangeData>(tt.arg(input0).arg(input1).arg(input2),
+    _expression = std::make_shared<ExpressionRangeData>(tt.arg(input0, input1, input2),
                                                         modifiedRange);
 
     _variableLabel->setText(_expression->expression());

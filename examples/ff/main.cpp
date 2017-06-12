@@ -14,6 +14,7 @@
 #include "MathFunctionModel.hpp"
 #include "BoolConditionModel.hpp"
 #include "IfConditionModel.hpp"
+#include "PlotModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -26,6 +27,7 @@ registerDataModels()
   auto ret = std::make_shared<DataModelRegistry>();
   ret->registerModel<ExpressionSourceModel>("IO");
   ret->registerModel<ExpressionDisplayModel>("IO");
+  ret->registerModel<PlotModel>("IO");
 
   ret->registerModel<MathFunctionModel>("Operations");
   ret->registerModel<BoolConditionModel>("Operations");
