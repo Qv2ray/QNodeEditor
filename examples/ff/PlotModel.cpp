@@ -190,7 +190,7 @@ processData()
 
     _chartView->chart()->createDefaultAxes();
 
-    _chartView->chart()->setTitle("Simple line chart example");
+    _chartView->chart()->setTitle("X-Y Plot");
   }
 }
 
