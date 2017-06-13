@@ -13,6 +13,7 @@
 #include "ExpressionDisplayModel.hpp"
 #include "MathFunctionModel.hpp"
 #include "BoolConditionModel.hpp"
+#include "BoolFunctionModel.hpp"
 #include "IfConditionModel.hpp"
 #include "PlotModel.hpp"
 
@@ -31,6 +32,7 @@ registerDataModels()
 
   ret->registerModel<MathFunctionModel>("Operations");
   ret->registerModel<BoolConditionModel>("Operations");
+  ret->registerModel<BoolFunctionModel>("Operations");
   ret->registerModel<IfConditionModel>("Operations");
 
   return ret;
