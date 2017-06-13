@@ -18,6 +18,7 @@
 #include "BoolFunctionModel.hpp"
 #include "IfConditionModel.hpp"
 #include "PlotModel.hpp"
+#include "IntervalConditionModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -38,6 +39,7 @@ registerDataModels()
   ret->registerModel<BoolConditionModel>("Operations");
   ret->registerModel<BoolFunctionModel>("Operations");
   ret->registerModel<IfConditionModel>("Operations");
+  ret->registerModel<IntervalConditionModel>("Operations");
 
   return ret;
 }
