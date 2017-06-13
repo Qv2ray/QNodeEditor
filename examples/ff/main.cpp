@@ -11,6 +11,7 @@
 
 #include "ExpressionSourceModel.hpp"
 #include "ExpressionConstantModel.hpp"
+#include "ExpressionStepRangeModel.hpp"
 #include "ExpressionDisplayModel.hpp"
 #include "MathFunctionModel.hpp"
 #include "BoolConditionModel.hpp"
@@ -29,6 +30,7 @@ registerDataModels()
   auto ret = std::make_shared<DataModelRegistry>();
   ret->registerModel<ExpressionSourceModel>("IO");
   ret->registerModel<ExpressionConstantModel>("IO");
+  ret->registerModel<ExpressionStepRangeModel>("IO");
   ret->registerModel<ExpressionDisplayModel>("IO");
   ret->registerModel<PlotModel>("IO");
 

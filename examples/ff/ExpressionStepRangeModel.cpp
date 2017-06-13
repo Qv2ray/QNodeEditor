@@ -1,4 +1,4 @@
-#include "ExpressionConstantModel.hpp"
+#include "ExpressionStepRangeModel.hpp"
 
 #include <QtCore/QJsonValue>
 #include <QtCore/QDebug>
@@ -14,8 +14,8 @@
 
 #include <algorithm>
 
-ExpressionConstantModel::
-ExpressionConstantModel()
+ExpressionStepRangeModel::
+ExpressionStepRangeModel()
 {
   _widget = new QWidget();
 
@@ -39,20 +39,29 @@ ExpressionConstantModel()
   ll->addWidget(_numberEdit);
   ll->addWidget(_spinBox);
 
+  _stepEdit = new QLineEdit();
+  _stepEdit->setPlaceholderText("Step");
+  _stepEdit->setValidator(new QDoubleValidator());
+  _stepEdit->setText("1.0");
+
   _rangeEdit = new QLineEdit();
   _rangeEdit->setReadOnly(true);
 
   l->addRow("Variable", _variableEdit);
   l->addRow("Constant x N", ll);
+  l->addRow("Step", _stepEdit);
   l->addRow("Range", _rangeEdit);
 
   _widget->setLayout(l);
 
   connect(_variableEdit, &QLineEdit::textChanged,
-          this, &ExpressionConstantModel::onVariableEdited);
+          this, &ExpressionStepRangeModel::onVariableEdited);
 
   connect(_numberEdit, &QLineEdit::textChanged,
-          this, &ExpressionConstantModel::onVariableEdited);
+          this, &ExpressionStepRangeModel::onVariableEdited);
+
+  connect(_stepEdit, &QLineEdit::textChanged,
+          this, &ExpressionStepRangeModel::onVariableEdited);
 
   connect(_spinBox, SIGNAL(valueChanged(QString)),
           this, SLOT(onVariableEdited(QString)));
@@ -60,7 +69,7 @@ ExpressionConstantModel()
 
 
 QJsonObject
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 save() const
 {
   QJsonObject modelJson = NodeDataModel::save();
@@ -73,7 +82,7 @@ save() const
 
 
 void
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 restore(QJsonObject const &p)
 {
   QJsonValue v = p["expression"];
@@ -92,7 +101,7 @@ restore(QJsonObject const &p)
 
 
 unsigned int
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 nPorts(PortType portType) const
 {
   unsigned int result = 1;
@@ -115,8 +124,8 @@ nPorts(PortType portType) const
 
 
 std::vector<double>
-ExpressionConstantModel::
-processRangeText(QString const &numberText, int times) const
+ExpressionStepRangeModel::
+processRangeText(QString const &numberText, QString const &stepText, int times) const
 {
   std::vector<double> result;
 
@@ -125,18 +134,26 @@ processRangeText(QString const &numberText, int times) const
   bool   ok = true;
   double d  = numberText.toDouble(&ok);
 
-  if (!ok)
+  bool   ook  = true;
+  double step = stepText.toDouble(&ook);
+
+  if (!ok || !ook)
     return result;
 
-  result.resize(times);
+  result.push_back(d);
 
-  std::fill_n(result.begin(), times, d);
+  for (std::size_t i = 0; i < times - 1; ++i)
+  {
+    d += step;
+    result.push_back(d);
+  }
 
   return result;
 }
 
+
 QString
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 convertRangeToText(std::vector<double> const &range) const
 {
   QString result("(");
@@ -153,7 +170,7 @@ convertRangeToText(std::vector<double> const &range) const
 
 
 void
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 processData()
 {
   bool ok = false;
@@ -163,6 +180,7 @@ processData()
   QString prefix("${%1}");
 
   std::vector<double> range = processRangeText(_numberEdit->text(),
+                                               _stepEdit->text(),
                                                _spinBox->value());
 
   if (!text.isEmpty() && (range.size() > 0))
@@ -181,7 +199,7 @@ processData()
 
 
 void
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 onVariableEdited(QString const &string)
 {
   Q_UNUSED(string);
@@ -191,7 +209,7 @@ onVariableEdited(QString const &string)
 
 
 void
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 onRangeEdited(QString const &string)
 {
   Q_UNUSED(string);
@@ -201,7 +219,7 @@ onRangeEdited(QString const &string)
 
 
 NodeDataType
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 dataType(PortType, PortIndex) const
 {
   return ExpressionRangeData().type();
@@ -209,7 +227,7 @@ dataType(PortType, PortIndex) const
 
 
 std::shared_ptr<NodeData>
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 outData(PortIndex)
 {
   return _expression;
@@ -217,7 +235,7 @@ outData(PortIndex)
 
 
 QWidget *
-ExpressionConstantModel::
+ExpressionStepRangeModel::
 embeddedWidget()
 {
   return _widget;
