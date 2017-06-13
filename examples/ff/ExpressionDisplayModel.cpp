@@ -134,10 +134,8 @@ setInData(std::shared_ptr<NodeData> nodeData, PortIndex portIndex)
   if (_expression)
   {
     _variableLabel->setText(_expression->expression());
-    _variableLabel->adjustSize();
 
     _rangeLabel->setText(convertRangeToText(_expression->range()));
-    _rangeLabel->adjustSize();
 
     emit dataUpdated(0);
   }
