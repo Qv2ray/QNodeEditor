@@ -21,17 +21,17 @@ using QtNodes::NodeDataType;
 using QtNodes::NodeDataModel;
 using QtNodes::NodeValidationState;
 
-using FunctionPtr = std::function<double(double)>;
-//std::add_pointer<double(double)>::type;
-
-using NameAndFunction = std::tuple<QString, QString, FunctionPtr>;
-
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
 class MathFunctionModel
   : public NodeDataModel
 {
   Q_OBJECT
+
+public:
+  using FunctionPtr = std::function<double(double, double)>;
+
+  using NameAndFunction = std::tuple<QString, QString, FunctionPtr>;
 
 public:
   MathFunctionModel();
@@ -77,7 +77,7 @@ public:
   outData(PortIndex port) override;
 
   void
-  setInData(std::shared_ptr<NodeData>, PortIndex) override;
+    setInData(std::shared_ptr<NodeData>, PortIndex) override;
 
   QWidget *
   embeddedWidget() override;
@@ -101,6 +101,9 @@ private slots:
   void
   onFunctionIndexChanged(int index);
 
+  void
+  onTextChanged(QString);
+
 private:
 
   std::weak_ptr<ExpressionRangeData> _inputExpression;
@@ -109,6 +112,8 @@ private:
   QWidget * _widget;
 
   QComboBox * _functionComboBox;
+
+  QLineEdit * _secondOperandEdit;
 
   QLineEdit * _variableLabel;
   QLineEdit * _rangeLabel;

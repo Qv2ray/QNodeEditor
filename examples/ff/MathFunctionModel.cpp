@@ -31,6 +31,10 @@ MathFunctionModel()
     _functionComboBox->addItem(std::get<0>(f));
   }
 
+  _secondOperandEdit = new QLineEdit();
+  _secondOperandEdit->setValidator(new QDoubleValidator());
+  _secondOperandEdit->setText("0.0");
+
   _variableLabel = new QLineEdit();
   _variableLabel->setReadOnly(true);
 
@@ -39,10 +43,14 @@ MathFunctionModel()
   _rangeLabel->setMaximumWidth(200);
 
   l->addRow("Function:", _functionComboBox);
+  l->addRow("Second Operand", _secondOperandEdit);
   l->addRow("Variable:", _variableLabel);
   l->addRow("Range:", _rangeLabel);
 
   _widget->setLayout(l);
+
+  connect(_secondOperandEdit, SIGNAL(textChanged(QString)),
+          this, SLOT(onTextChanged(QString)));
 
   connect(_functionComboBox, SIGNAL(currentIndexChanged(int)),
           this, SLOT(onFunctionIndexChanged(int)));
@@ -51,7 +59,15 @@ MathFunctionModel()
 
 void
 MathFunctionModel::
-onFunctionIndexChanged(int index)
+onFunctionIndexChanged(int)
+{
+  processData();
+}
+
+
+void
+MathFunctionModel::
+onTextChanged(QString)
 {
   processData();
 }
@@ -76,16 +92,16 @@ restore(QJsonObject const &p)
 {
   QJsonValue v = p["expression"];
 
-  if (!v.isUndefined())
-  {
-    QString str = v.toString();
+  //if (!v.isUndefined())
+  //{
+    //QString str = v.toString();
 
-    std::vector<double> d;
-    d.push_back(0.0);
+    //std::vector<double> d;
+    //d.push_back(0.0);
 
-    _expression = std::make_shared<ExpressionRangeData>(str, d);
-    _variableLabel->setText(str);
-  }
+    //_expression = std::make_shared<ExpressionRangeData>(str, d);
+    //_variableLabel->setText(str);
+  //}
 }
 
 
@@ -151,11 +167,17 @@ applyFunction(std::vector<double> const &range) const
 {
   std::vector<double> result;
 
-  FunctionPtr const & f = std::get<2>(_nameAndFunctions[_functionComboBox->currentIndex()]);
+  FunctionPtr const & f = 
+    std::get<2>(_nameAndFunctions[_functionComboBox->currentIndex()]);
+
+  QString secondOperandText = _secondOperandEdit->text();
+
+  bool ok;
+  double so = secondOperandText.toDouble(&ok);
 
   for (auto const & d : range)
   {
-    result.push_back(f(d));
+    result.push_back(f(d, so));
   }
 
   return result;
@@ -169,15 +191,43 @@ createNameAndFunctions()
   _nameAndFunctions.push_back(
     std::make_tuple(QString("sin()"),
                     QString("sin(%1)"),
-                    static_cast<FunctionPtr>([](double d) {
-    return sin(d);
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return sin(a);
   })));
 
   _nameAndFunctions.push_back(
     std::make_tuple(QString("cos()"),
                     QString("cos(%1)"),
-                    static_cast<FunctionPtr>([](double d) {
-    return cos(d);
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return cos(a);
+  })));
+
+  _nameAndFunctions.push_back(
+    std::make_tuple(QString("-"),
+                    QString(" %1 - %2 "),
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return a - b;
+  })));
+
+  _nameAndFunctions.push_back(
+    std::make_tuple(QString("+"),
+                    QString(" %1 + %2 "),
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return a + b;
+  })));
+
+  _nameAndFunctions.push_back(
+    std::make_tuple(QString("*"),
+                    QString(" %1 * %2 "),
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return a * b;
+  })));
+
+  _nameAndFunctions.push_back(
+    std::make_tuple(QString("pow"),
+                    QString("pow(%1, %2)"),
+                    static_cast<FunctionPtr>([](double a, double b) {
+    return std::pow(a, b);
   })));
 }
 
@@ -196,13 +246,13 @@ processData()
 
     QString tt = std::get<1>(_nameAndFunctions[_functionComboBox->currentIndex()]);
 
-    _expression = std::make_shared<ExpressionRangeData>(tt.arg(input), modifiedRange);
+    _expression = std::make_shared<ExpressionRangeData>(tt.arg(input, _secondOperandEdit->text()), modifiedRange);
 
     _variableLabel->setText(_expression->expression());
-    _variableLabel->adjustSize();
+    //_variableLabel->adjustSize();
 
     _rangeLabel->setText(convertRangeToText(modifiedRange));
-    _rangeLabel->adjustSize();
+    //_rangeLabel->adjustSize();
 
     emit dataUpdated(0);
   }
