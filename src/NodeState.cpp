@@ -20,7 +20,6 @@ NodeState(std::unique_ptr<NodeDataModel> const &model)
   , _resizing(false)
 {}
 
-
 std::vector<NodeState::ConnectionPtrSet> const &
 NodeState::
 getEntries(PortType portType) const
@@ -62,7 +61,7 @@ setConnection(PortType portType,
   auto &connections = getEntries(portType);
 
   connections.at(portIndex).insert(std::make_pair(connection.id(),
-                                               &connection));
+                                                  &connection));
 }
 
 

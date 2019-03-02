@@ -10,3 +10,4 @@ add_subdirectory(styles)
 
 add_subdirectory(ff)
 
+add_subdirectory(state_machine)

@@ -100,7 +100,7 @@ void
 ConnectionGraphicsObject::
 move()
 {
-  for(PortType portType: { PortType::In, PortType::Out } )
+  for (PortType portType: { PortType::In, PortType::Out })
   {
     if (auto node = _connection.getNode(portType))
     {
@@ -124,10 +124,12 @@ move()
       _connection.getConnectionGraphicsObject().update();
     }
   }
-
 }
 
-void ConnectionGraphicsObject::lock(bool locked)
+
+void
+ConnectionGraphicsObject::
+lock(bool locked)
 {
   setFlag(QGraphicsItem::ItemIsMovable, !locked);
   setFlag(QGraphicsItem::ItemIsFocusable, !locked);
@@ -143,8 +145,7 @@ paint(QPainter* painter,
 {
   painter->setClipRect(option->exposedRect);
 
-  ConnectionPainter::paint(painter,
-                           _connection);
+  ConnectionPainter::paint(painter, _connection);
 }
 
 
@@ -153,7 +154,6 @@ ConnectionGraphicsObject::
 mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
   QGraphicsItem::mousePressEvent(event);
-  //event->ignore();
 }
 
 
@@ -168,13 +168,14 @@ mouseMoveEvent(QGraphicsSceneMouseEvent* event)
                            _scene,
                            view->transform());
 
-  auto &state = _connection.connectionState();
+  auto & connectionState = _connection.connectionState();
 
-  state.interactWithNode(node);
+  connectionState.interactWithNode(node);
   if (node)
   {
-    node->reactToPossibleConnection(state.requiredPort(),
-                                    _connection.dataType(oppositePort(state.requiredPort())),
+    auto oppPort = oppositePort(connectionState.requiredPort());
+    node->reactToPossibleConnection(connectionState.requiredPort(),
+                                    _connection.dataType(oppPort),
                                     event->scenePos());
   }
 
@@ -184,6 +185,7 @@ mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
   auto requiredPort = _connection.requiredPort();
 
+  // This moves the loose end exactly to the mouse position
   if (requiredPort != PortType::None)
   {
     _connection.connectionGeometry().moveEndPoint(requiredPort, offset);

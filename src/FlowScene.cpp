@@ -37,7 +37,6 @@ using QtNodes::PortType;
 using QtNodes::PortIndex;
 using QtNodes::TypeConverter;
 
-
 FlowScene::
 FlowScene(std::shared_ptr<DataModelRegistry> registry,
           QObject * parent)
@@ -52,12 +51,12 @@ FlowScene(std::shared_ptr<DataModelRegistry> registry,
   connect(this, &FlowScene::connectionDeleted, this, &FlowScene::sendConnectionDeletedToNodes);
 }
 
+
 FlowScene::
 FlowScene(QObject * parent)
   : FlowScene(std::make_shared<DataModelRegistry>(),
               parent)
 {}
-
 
 FlowScene::
 ~FlowScene()
@@ -90,8 +89,8 @@ createConnection(PortType connectedPort,
           &Connection::connectionCompleted,
           this,
           [this](Connection const& c) {
-            connectionCreated(c);
-          });
+    connectionCreated(c);
+  });
 
   return connection;
 }
@@ -145,28 +144,28 @@ restoreConnection(QJsonObject const &connectionJson)
   auto nodeOut = _nodes[nodeOutId].get();
 
   auto getConverter = [&]()
-  {
-    QJsonValue converterVal = connectionJson["converter"];
+                      {
+                        QJsonValue converterVal = connectionJson["converter"];
 
-    if (!converterVal.isUndefined())
-    {
-      QJsonObject converterJson = converterVal.toObject();
+                        if (!converterVal.isUndefined())
+                        {
+                          QJsonObject converterJson = converterVal.toObject();
 
-      NodeDataType inType { converterJson["in"].toObject()["id"].toString(),
-                            converterJson["in"].toObject()["name"].toString() };
+                          NodeDataType inType { converterJson["in"].toObject()["id"].toString(),
+                                                converterJson["in"].toObject()["name"].toString() };
 
-      NodeDataType outType { converterJson["out"].toObject()["id"].toString(),
-                             converterJson["out"].toObject()["name"].toString() };
+                          NodeDataType outType { converterJson["out"].toObject()["id"].toString(),
+                                                 converterJson["out"].toObject()["name"].toString() };
 
       auto converter  =
         registry().getTypeConverter(outType.id(), inType.id());
 
-      if (converter)
-        return converter;
-    }
+                          if (converter)
+                            return converter;
+                        }
 
-    return TypeConverter{};
-  };
+                        return TypeConverter{};
+                      };
 
   std::shared_ptr<Connection> connection =
     createConnection(*nodeIn, portIndexIn,
@@ -185,7 +184,9 @@ FlowScene::
 deleteConnection(const Connection& connection)
 {
   auto it = _connections.find(connection.id());
-  if (it != _connections.end()) {
+
+  if (it != _connections.end())
+  {
     connection.removeFromNodes();
     _connections.erase(it);
   }
@@ -243,7 +244,7 @@ removeNode(Node& node)
   // call signal
   nodeDeleted(node);
 
-  for(auto portType: {PortType::In,PortType::Out})
+  for (auto portType: {PortType::In, PortType::Out})
   {
     auto nodeState = node.nodeState();
     auto const & nodeEntries = nodeState.getEntries(portType);

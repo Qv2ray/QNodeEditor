@@ -147,6 +147,7 @@ private:
 private Q_SLOTS:
 
   void setupConnectionSignals(Connection const& c);
+
   void sendConnectionCreatedToNodes(Connection const& c);
   void sendConnectionDeletedToNodes(Connection const& c);
 

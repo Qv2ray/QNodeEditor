@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <QtWidgets/QWidget>
 
 #include "PortType.hpp"
@@ -69,25 +68,32 @@ public:
   virtual
   unsigned int nPorts(PortType portType) const = 0;
   virtual std::unique_ptr<NodeDataModel> clone() const = 0;
-
-
-  virtual
-  std::shared_ptr<NodeDataType>
-  dataType(PortType portType, PortIndex portIndex) const = 0;
+  virtual std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const = 0;
 
 public:
 
   enum class ConnectionPolicy
   {
     One,
-    Many,
+    Many
   };
+
+
+  ConnectionPolicy
+  portConnectionPolicy(PortType portType, PortIndex portIndex) const;
 
   virtual
   ConnectionPolicy
   portOutConnectionPolicy(PortIndex) const
   {
     return ConnectionPolicy::Many;
+  }
+
+  virtual
+  ConnectionPolicy
+  portInConnectionPolicy(PortIndex) const
+  {
+    return ConnectionPolicy::One;
   }
 
   NodeStyle const&
@@ -103,6 +109,11 @@ public:
   void
   setInData(std::shared_ptr<NodeData> nodeData,
             PortIndex port) = 0;
+
+  virtual
+  void
+  setInData(std::vector<std::shared_ptr<NodeData> > nodeData,
+            PortIndex port);
 
   virtual
   std::shared_ptr<NodeData>
@@ -125,29 +136,22 @@ public:
   validationMessage() const { return QString(""); }
 
   virtual
-  NodePainterDelegate* painterDelegate() const { return nullptr; }
+  NodePainterDelegate*
+  painterDelegate() const { return nullptr; }
 
 public Q_SLOTS:
 
   virtual void
-  inputConnectionCreated(Connection const&)
-  {
-  }
+  inputConnectionCreated(Connection const&) {}
 
   virtual void
-  inputConnectionDeleted(Connection const&)
-  {
-  }
+  inputConnectionDeleted(Connection const&) {}
 
   virtual void
-  outputConnectionCreated(Connection const&)
-  {
-  }
+  outputConnectionCreated(Connection const&) {}
 
   virtual void
-  outputConnectionDeleted(Connection const&)
-  {
-  }
+  outputConnectionDeleted(Connection const&) {}
 
 Q_SIGNALS:
 
@@ -163,7 +167,8 @@ Q_SIGNALS:
   void
   computingFinished();
 
-  void embeddedWidgetSizeUpdated();
+  void
+  embeddedWidgetSizeUpdated();
 
 private:
 

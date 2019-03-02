@@ -15,14 +15,12 @@ using QtNodes::Connection;
 using QtNodes::NodeDataModel;
 using QtNodes::TypeConverter;
 
-
 NodeConnectionInteraction::
 NodeConnectionInteraction(Node& node, Connection& connection, FlowScene& scene)
   : _node(&node)
   , _connection(&connection)
   , _scene(&scene)
 {}
-
 
 bool
 NodeConnectionInteraction::
@@ -31,7 +29,6 @@ canConnect(PortIndex &portIndex, TypeConverter & converter) const
   // 1) Connection requires a port
 
   PortType requiredPort = connectionRequiredPort();
-
 
   if (requiredPort == PortType::None)
   {
@@ -149,7 +146,7 @@ disconnect(PortType portToDisconnect) const
   NodeState &state = _node->nodeState();
 
   // clear pointer to Connection in the NodeState
-  state.getEntries(portToDisconnect)[portIndex].clear();
+  state.getEntries(portToDisconnect)[portIndex].erase(_connection->id());
 
   // 4) Propagate invalid data to IN node
   _connection->propagateEmptyData();
@@ -219,6 +216,7 @@ nodePortIndexUnderScenePoint(PortType portType,
   PortIndex portIndex = nodeGeom.checkHitScenePoint(portType,
                                                     scenePoint,
                                                     sceneTransform);
+
   return portIndex;
 }
 
@@ -227,12 +225,20 @@ bool
 NodeConnectionInteraction::
 nodePortIsEmpty(PortType portType, PortIndex portIndex) const
 {
+  if (portType == PortType::None)
+  {
+    return false;
+  }
+
   NodeState const & nodeState = _node->nodeState();
 
   auto const & entries = nodeState.getEntries(portType);
 
-  if (entries[portIndex].empty()) return true;
+  if (entries[portIndex].empty())
+    return true;
 
-  const auto outPolicy = _node->nodeDataModel()->portOutConnectionPolicy(portIndex);
-  return ( portType == PortType::Out && outPolicy == NodeDataModel::ConnectionPolicy::Many);
+  if (portType == PortType::In)
+    return _node->nodeDataModel()->portInConnectionPolicy(portIndex) == NodeDataModel::ConnectionPolicy::Many;
+
+  return _node->nodeDataModel()->portOutConnectionPolicy(portIndex) == NodeDataModel::ConnectionPolicy::Many;
 }

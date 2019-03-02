@@ -118,7 +118,7 @@ drawConnectionPoints(QPainter* painter,
   float diameter = nodeStyle.ConnectionPointDiameter;
   auto  reducedDiameter = diameter * 0.6;
 
-  for(PortType portType: {PortType::Out, PortType::In})
+  for (PortType portType: {PortType::Out, PortType::In})
   {
     size_t n = state.getEntries(portType).size();
 
@@ -129,15 +129,13 @@ drawConnectionPoints(QPainter* painter,
       auto const & dataType = model->dataType(portType, i);
 
       bool canConnect = (state.getEntries(portType)[i].empty() ||
-                         (portType == PortType::Out &&
-                          model->portOutConnectionPolicy(i) == NodeDataModel::ConnectionPolicy::Many) );
+                         model->portConnectionPolicy(portType, i) == NodeDataModel::ConnectionPolicy::Many);
 
       double r = 1.0;
       if (state.isReacting() &&
           canConnect &&
           portType == state.reactingPortType())
       {
-
         auto   diff = geom.draggingPos() - p;
         double dist = std::sqrt(QPointF::dotProduct(diff, diff));
         bool   typeConvertable = false;
@@ -157,15 +155,15 @@ drawConnectionPoints(QPainter* painter,
         {
           double const thres = 40.0;
           r = (dist < thres) ?
-                (2.0 - dist / thres ) :
-                1.0;
+              (2.0 - dist / thres ) :
+              1.0;
         }
         else
         {
           double const thres = 80.0;
           r = (dist < thres) ?
-                (dist / thres) :
-                1.0;
+              (dist / thres) :
+              1.0;
         }
       }
 
@@ -182,7 +180,9 @@ drawConnectionPoints(QPainter* painter,
                            reducedDiameter * r,
                            reducedDiameter * r);
     }
-  };
+  }
+
+  ;
 }
 
 
@@ -198,7 +198,7 @@ drawFilledConnectionPoints(QPainter * painter,
 
   auto diameter = nodeStyle.ConnectionPointDiameter;
 
-  for(PortType portType: {PortType::Out, PortType::In})
+  for (PortType portType: {PortType::Out, PortType::In})
   {
     size_t n = state.getEntries(portType).size();
 
@@ -277,7 +277,7 @@ drawEntryLabels(QPainter * painter,
   QFontMetrics const & metrics =
     painter->fontMetrics();
 
-  for(PortType portType: {PortType::Out, PortType::In})
+  for (PortType portType: {PortType::Out, PortType::In})
   {
     auto const &nodeStyle = model->nodeStyle();
 
@@ -311,16 +311,16 @@ drawEntryLabels(QPainter * painter,
 
       switch (portType)
       {
-      case PortType::In:
-        p.setX(5.0);
-        break;
+        case PortType::In:
+          p.setX(5.0);
+          break;
 
-      case PortType::Out:
-        p.setX(geom.width() - 5.0 - rect.width());
-        break;
+        case PortType::Out:
+          p.setX(geom.width() - 5.0 - rect.width());
+          break;
 
-      default:
-        break;
+        default:
+          break;
       }
 
       painter->drawText(p, s);
