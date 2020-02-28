@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QtCore/QUuid>
-
 #include "PortType.hpp"
+
+#include <QtCore/QUuid>
 
 class QPointF;
 
@@ -15,57 +15,35 @@ namespace QtNodes
     /// Remembers last hovered Node.
     class ConnectionState
     {
-        public:
+      public:
+        ConnectionState(PortType port = PortType::None) : _requiredPort(port) {}
 
-            ConnectionState(PortType port = PortType::None)
-                : _requiredPort(port)
-            {}
+        ConnectionState(const ConnectionState &) = delete;
+        ConnectionState operator=(const ConnectionState &) = delete;
 
-            ConnectionState(const ConnectionState &) = delete;
-            ConnectionState operator=(const ConnectionState &) = delete;
+        ~ConnectionState();
 
-            ~ConnectionState();
+      public:
+        void setRequiredPort(PortType end) { _requiredPort = end; }
 
-        public:
+        PortType requiredPort() const { return _requiredPort; }
 
-            void setRequiredPort(PortType end)
-            {
-                _requiredPort = end;
-            }
+        bool requiresPort() const { return _requiredPort != PortType::None; }
 
-            PortType requiredPort() const
-            {
-                return _requiredPort;
-            }
+        void setNoRequiredPort() { _requiredPort = PortType::None; }
 
-            bool requiresPort() const
-            {
-                return _requiredPort != PortType::None;
-            }
+      public:
+        void interactWithNode(Node *node);
 
-            void setNoRequiredPort()
-            {
-                _requiredPort = PortType::None;
-            }
+        void setLastHoveredNode(Node *node);
 
-        public:
+        Node *lastHoveredNode() const { return _lastHoveredNode; }
 
-            void interactWithNode(Node *node);
+        void resetLastHoveredNode();
 
-            void setLastHoveredNode(Node *node);
+      private:
+        PortType _requiredPort;
 
-            Node *
-            lastHoveredNode() const
-            {
-                return _lastHoveredNode;
-            }
-
-            void resetLastHoveredNode();
-
-        private:
-
-            PortType _requiredPort;
-
-            Node *_lastHoveredNode{nullptr};
+        Node *_lastHoveredNode{ nullptr };
     };
-}
+} // namespace QtNodes

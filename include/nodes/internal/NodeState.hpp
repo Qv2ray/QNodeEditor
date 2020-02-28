@@ -1,15 +1,13 @@
 #pragma once
 
-#include <vector>
-#include <unordered_map>
+#include "Export.hpp"
+#include "NodeData.hpp"
+#include "PortType.hpp"
+#include "memory.hpp"
 
 #include <QtCore/QUuid>
-
-#include "Export.hpp"
-
-#include "PortType.hpp"
-#include "NodeData.hpp"
-#include "memory.hpp"
+#include <unordered_map>
+#include <vector>
 
 namespace QtNodes
 {
@@ -21,79 +19,57 @@ namespace QtNodes
     /// Stores bool for reacting on hovering connections
     class NODE_EDITOR_PUBLIC NodeState
     {
-        public:
-            enum ReactToConnectionState {
-                REACTING,
-                NOT_REACTING
-            };
+      public:
+        enum ReactToConnectionState
+        {
+            REACTING,
+            NOT_REACTING
+        };
 
-        public:
+      public:
+        NodeState(std::unique_ptr<NodeDataModel> const &model);
 
-            NodeState(std::unique_ptr<NodeDataModel> const &model);
+      public:
+        using ConnectionPtrSet = std::unordered_map<QUuid, Connection *>;
 
-        public:
+        /// Returns vector of connections ID.
+        /// Some of them can be empty (null)
+        std::vector<ConnectionPtrSet> const &getEntries(PortType) const;
 
-            using ConnectionPtrSet =
-                std::unordered_map<QUuid, Connection *>;
+        std::vector<ConnectionPtrSet> &getEntries(PortType);
 
-            /// Returns vector of connections ID.
-            /// Some of them can be empty (null)
-            std::vector<ConnectionPtrSet> const &
-            getEntries(PortType) const;
+        ConnectionPtrSet connections(PortType portType, PortIndex portIndex) const;
 
-            std::vector<ConnectionPtrSet> &
-            getEntries(PortType);
+        void setConnection(PortType portType, PortIndex portIndex, Connection &connection);
 
-            ConnectionPtrSet
-            connections(PortType portType, PortIndex portIndex) const;
+        void eraseConnection(PortType portType, PortIndex portIndex, QUuid id);
 
-            void
-            setConnection(PortType portType,
-                          PortIndex portIndex,
-                          Connection &connection);
+        ReactToConnectionState reaction() const;
 
-            void
-            eraseConnection(PortType portType,
-                            PortIndex portIndex,
-                            QUuid id);
+        PortType reactingPortType() const;
 
-            ReactToConnectionState
-            reaction() const;
+        NodeDataType reactingDataType() const;
 
-            PortType
-            reactingPortType() const;
+        void setReaction(ReactToConnectionState reaction, PortType reactingPortType = PortType::None,
+                         NodeDataType reactingDataType = NodeDataType());
 
-            NodeDataType
-            reactingDataType() const;
+        bool isReacting() const;
 
-            void
-            setReaction(ReactToConnectionState reaction,
-                        PortType reactingPortType = PortType::None,
-                        NodeDataType reactingDataType =
-                            NodeDataType());
+        void setResizing(bool resizing);
 
-            bool
-            isReacting() const;
+        bool resizing() const;
 
-            void
-            setResizing(bool resizing);
+      public:
+        void updatePortCount(int inPorts, int outPorts);
 
-            bool
-            resizing() const;
+      private:
+        std::vector<ConnectionPtrSet> _inConnections;
+        std::vector<ConnectionPtrSet> _outConnections;
 
-        public:
-            void
-            updatePortCount(int inPorts, int outPorts);
+        ReactToConnectionState _reaction;
+        PortType _reactingPortType;
+        NodeDataType _reactingDataType;
 
-        private:
-
-            std::vector<ConnectionPtrSet> _inConnections;
-            std::vector<ConnectionPtrSet> _outConnections;
-
-            ReactToConnectionState _reaction;
-            PortType     _reactingPortType;
-            NodeDataType _reactingDataType;
-
-            bool _resizing;
+        bool _resizing;
     };
-}
+} // namespace QtNodes

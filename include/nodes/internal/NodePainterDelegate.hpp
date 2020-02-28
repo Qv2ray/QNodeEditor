@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QPainter>
-
-#include "NodeGeometry.hpp"
 #include "Export.hpp"
+#include "NodeGeometry.hpp"
+
+#include <QPainter>
 
 namespace QtNodes
 {
@@ -12,14 +12,9 @@ namespace QtNodes
     class NODE_EDITOR_PUBLIC NodePainterDelegate
     {
 
-        public:
+      public:
+        virtual ~NodePainterDelegate() = default;
 
-            virtual
-            ~NodePainterDelegate() = default;
-
-            virtual void
-            paint(QPainter *painter,
-                  NodeGeometry const &geom,
-                  NodeDataModel const *model) = 0;
+        virtual void paint(QPainter *painter, NodeGeometry const &geom, NodeDataModel const *model) = 0;
     };
-}
+} // namespace QtNodes

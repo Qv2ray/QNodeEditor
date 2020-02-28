@@ -1,48 +1,33 @@
 #include "ConnectionState.hpp"
 
-#include <iostream>
-
-#include <QtCore/QPointF>
-
 #include "FlowScene.hpp"
 #include "Node.hpp"
+
+#include <QtCore/QPointF>
+#include <iostream>
 
 using QtNodes::ConnectionState;
 using QtNodes::Node;
 
-ConnectionState::
-~ConnectionState()
-{
-    resetLastHoveredNode();
-}
+ConnectionState::~ConnectionState() { resetLastHoveredNode(); }
 
-
-void
-ConnectionState::
-interactWithNode(Node *node)
+void ConnectionState::interactWithNode(Node *node)
 {
-    if (node) {
+    if (node)
+    {
         _lastHoveredNode = node;
-    } else {
+    }
+    else
+    {
         resetLastHoveredNode();
     }
 }
 
+void ConnectionState::setLastHoveredNode(Node *node) { _lastHoveredNode = node; }
 
-void
-ConnectionState::
-setLastHoveredNode(Node *node)
+void ConnectionState::resetLastHoveredNode()
 {
-    _lastHoveredNode = node;
-}
-
-
-void
-ConnectionState::
-resetLastHoveredNode()
-{
-    if (_lastHoveredNode)
-        _lastHoveredNode->resetReactionToConnection();
+    if (_lastHoveredNode) _lastHoveredNode->resetReactionToConnection();
 
     _lastHoveredNode = nullptr;
 }

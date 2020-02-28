@@ -1,97 +1,77 @@
 #include "Connection.hpp"
 
+#include "ConnectionGeometry.hpp"
+#include "ConnectionGraphicsObject.hpp"
+#include "ConnectionState.hpp"
+#include "FlowScene.hpp"
+#include "FlowView.hpp"
+#include "Node.hpp"
+#include "NodeDataModel.hpp"
+#include "NodeGeometry.hpp"
+#include "NodeGraphicsObject.hpp"
+
+#include <QtGlobal>
+#include <QtWidgets/QtWidgets>
 #include <cmath>
 #include <utility>
 
-#include <QtWidgets/QtWidgets>
-#include <QtGlobal>
-
-#include "Node.hpp"
-#include "FlowScene.hpp"
-#include "FlowView.hpp"
-
-#include "NodeGeometry.hpp"
-#include "NodeGraphicsObject.hpp"
-#include "NodeDataModel.hpp"
-
-#include "ConnectionState.hpp"
-#include "ConnectionGeometry.hpp"
-#include "ConnectionGraphicsObject.hpp"
-
 using QtNodes::Connection;
-using QtNodes::PortType;
-using QtNodes::PortIndex;
+using QtNodes::ConnectionGeometry;
+using QtNodes::ConnectionGraphicsObject;
 using QtNodes::ConnectionState;
 using QtNodes::Node;
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
-using QtNodes::ConnectionGraphicsObject;
-using QtNodes::ConnectionGeometry;
+using QtNodes::PortIndex;
+using QtNodes::PortType;
 using QtNodes::TypeConverter;
 
-Connection::
-Connection(PortType portType,
-           Node &node,
-           PortIndex portIndex)
-    : _uid(QUuid::createUuid())
-    , _outPortIndex(INVALID)
-    , _inPortIndex(INVALID)
-    , _connectionState()
+Connection::Connection(PortType portType, Node &node, PortIndex portIndex)
+    : _uid(QUuid::createUuid()), _outPortIndex(INVALID), _inPortIndex(INVALID), _connectionState()
 {
     setNodeToPort(node, portType, portIndex);
     setRequiredPort(oppositePort(portType));
 }
 
-
-Connection::
-Connection(Node &nodeIn,
-           PortIndex portIndexIn,
-           Node &nodeOut,
-           PortIndex portIndexOut,
-           TypeConverter typeConverter)
-    : _uid(QUuid::createUuid())
-    , _outNode(&nodeOut)
-    , _inNode(&nodeIn)
-    , _outPortIndex(portIndexOut)
-    , _inPortIndex(portIndexIn)
-    , _connectionState()
-    , _converter(std::move(typeConverter))
+Connection::Connection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut, PortIndex portIndexOut,
+                       TypeConverter typeConverter)
+    : _uid(QUuid::createUuid()), _outNode(&nodeOut), _inNode(&nodeIn), _outPortIndex(portIndexOut),
+      _inPortIndex(portIndexIn), _connectionState(), _converter(std::move(typeConverter))
 {
     setNodeToPort(nodeIn, PortType::In, portIndexIn);
     setNodeToPort(nodeOut, PortType::Out, portIndexOut);
 }
 
-
-Connection::
-~Connection()
+Connection::~Connection()
 {
     if (complete()) connectionMadeIncomplete(*this);
 
     propagateEmptyData();
 
-    if (_inNode) {
+    if (_inNode)
+    {
         _inNode->nodeGraphicsObject().update();
     }
 
-    if (_outNode) {
+    if (_outNode)
+    {
         _outNode->nodeGraphicsObject().update();
     }
 }
 
-
-QJsonObject
-Connection::
-save() const
+QJsonObject Connection::save() const
 {
     QJsonObject connectionJson;
 
-    if (_inNode && _outNode) {
+    if (_inNode && _outNode)
+    {
         connectionJson["in_id"] = _inNode->id().toString();
         connectionJson["in_index"] = _inPortIndex;
         connectionJson["out_id"] = _outNode->id().toString();
         connectionJson["out_index"] = _outPortIndex;
 
-        if (_converter) {
+        if (_converter)
+        {
             auto getTypeJson = [this](PortType type) {
                 QJsonObject typeJson;
                 NodeDataType nodeType = this->dataType(type);
@@ -109,37 +89,23 @@ save() const
     return connectionJson;
 }
 
+QUuid Connection::id() const { return _uid; }
 
-QUuid
-Connection::
-id() const
-{
-    return _uid;
-}
+bool Connection::complete() const { return _inNode != nullptr && _outNode != nullptr; }
 
-
-bool
-Connection::
-complete() const
-{
-    return _inNode != nullptr && _outNode != nullptr;
-}
-
-
-void
-Connection::
-setRequiredPort(PortType dragging)
+void Connection::setRequiredPort(PortType dragging)
 {
     _connectionState.setRequiredPort(dragging);
 
-    switch (dragging) {
+    switch (dragging)
+    {
         case PortType::Out:
-            _outNode      = nullptr;
+            _outNode = nullptr;
             _outPortIndex = INVALID;
             break;
 
         case PortType::In:
-            _inNode      = nullptr;
+            _inNode = nullptr;
             _inPortIndex = INVALID;
             break;
 
@@ -148,18 +114,9 @@ setRequiredPort(PortType dragging)
     }
 }
 
+PortType Connection::requiredPort() const { return _connectionState.requiredPort(); }
 
-PortType
-Connection::
-requiredPort() const
-{
-    return _connectionState.requiredPort();
-}
-
-
-void
-Connection::
-setGraphicsObject(std::unique_ptr<ConnectionGraphicsObject> &&graphics)
+void Connection::setGraphicsObject(std::unique_ptr<ConnectionGraphicsObject> &&graphics)
 {
     _connectionGraphicsObject = std::move(graphics);
 
@@ -170,30 +127,25 @@ setGraphicsObject(std::unique_ptr<ConnectionGraphicsObject> &&graphics)
     // By moving the whole object to the Node Port position
     // we position both connection ends correctly.
 
-    if (requiredPort() != PortType::None) {
+    if (requiredPort() != PortType::None)
+    {
         PortType attachedPort = oppositePort(requiredPort());
         PortIndex attachedPortIndex = getPortIndex(attachedPort);
         auto node = getNode(attachedPort);
-        QTransform nodeSceneTransform =
-            node->nodeGraphicsObject().sceneTransform();
-        QPointF pos = node->nodeGeometry().portScenePosition(attachedPortIndex,
-                      attachedPort,
-                      nodeSceneTransform);
+        QTransform nodeSceneTransform = node->nodeGraphicsObject().sceneTransform();
+        QPointF pos = node->nodeGeometry().portScenePosition(attachedPortIndex, attachedPort, nodeSceneTransform);
         _connectionGraphicsObject->setPos(pos);
     }
 
     _connectionGraphicsObject->move();
 }
 
-
-
-PortIndex
-Connection::
-getPortIndex(PortType portType) const
+PortIndex Connection::getPortIndex(PortType portType) const
 {
     PortIndex result = INVALID;
 
-    switch (portType) {
+    switch (portType)
+    {
         case PortType::In:
             result = _inPortIndex;
             break;
@@ -209,12 +161,7 @@ getPortIndex(PortType portType) const
     return result;
 }
 
-
-void
-Connection::
-setNodeToPort(Node &node,
-              PortType portType,
-              PortIndex portIndex)
+void Connection::setNodeToPort(Node &node, PortType portType, PortIndex portIndex)
 {
     bool wasIncomplete = !complete();
     auto &nodeWeak = getNode(portType);
@@ -228,69 +175,33 @@ setNodeToPort(Node &node,
     _connectionState.setNoRequiredPort();
     updated(*this);
 
-    if (complete() && wasIncomplete) {
+    if (complete() && wasIncomplete)
+    {
         connectionCompleted(*this);
     }
 }
 
-
-void
-Connection::
-removeFromNodes() const
+void Connection::removeFromNodes() const
 {
-    if (_inNode)
-        _inNode->nodeState().eraseConnection(PortType::In, _inPortIndex, id());
+    if (_inNode) _inNode->nodeState().eraseConnection(PortType::In, _inPortIndex, id());
 
-    if (_outNode)
-        _outNode->nodeState().eraseConnection(PortType::Out, _outPortIndex, id());
+    if (_outNode) _outNode->nodeState().eraseConnection(PortType::Out, _outPortIndex, id());
 }
 
+ConnectionGraphicsObject &Connection::getConnectionGraphicsObject() const { return *_connectionGraphicsObject; }
 
-ConnectionGraphicsObject &
-Connection::
-getConnectionGraphicsObject() const
+ConnectionState &Connection::connectionState() { return _connectionState; }
+
+ConnectionState const &Connection::connectionState() const { return _connectionState; }
+
+ConnectionGeometry &Connection::connectionGeometry() { return _connectionGeometry; }
+
+ConnectionGeometry const &Connection::connectionGeometry() const { return _connectionGeometry; }
+
+Node *Connection::getNode(PortType portType) const
 {
-    return *_connectionGraphicsObject;
-}
-
-
-ConnectionState &
-Connection::
-connectionState()
-{
-    return _connectionState;
-}
-
-
-ConnectionState const &
-Connection::
-connectionState() const
-{
-    return _connectionState;
-}
-
-
-ConnectionGeometry &
-Connection::
-connectionGeometry()
-{
-    return _connectionGeometry;
-}
-
-
-ConnectionGeometry const &
-Connection::
-connectionGeometry() const
-{
-    return _connectionGeometry;
-}
-
-
-Node *
-Connection::
-getNode(PortType portType) const
-{
-    switch (portType) {
+    switch (portType)
+    {
         case PortType::In:
             return _inNode;
             break;
@@ -307,12 +218,10 @@ getNode(PortType portType) const
     return nullptr;
 }
 
-
-Node *&
-Connection::
-getNode(PortType portType)
+Node *&Connection::getNode(PortType portType)
 {
-    switch (portType) {
+    switch (portType)
+    {
         case PortType::In:
             return _inNode;
             break;
@@ -329,12 +238,10 @@ getNode(PortType portType)
     Q_UNREACHABLE();
 }
 
-
-void
-Connection::
-clearNode(PortType portType)
+void Connection::clearNode(PortType portType)
 {
-    if (complete()) {
+    if (complete())
+    {
         connectionMadeIncomplete(*this);
     }
 
@@ -346,32 +253,32 @@ clearNode(PortType portType)
         _outPortIndex = INVALID;
 }
 
-
-NodeDataType
-Connection::
-dataType(PortType portType) const
+NodeDataType Connection::dataType(PortType portType) const
 {
-    if (_inNode && _outNode) {
-        auto const &model = (portType == PortType::In) ?
-                            _inNode->nodeDataModel() :
-                            _outNode->nodeDataModel();
-        PortIndex index = (portType == PortType::In) ?
-                          _inPortIndex :
-                          _outPortIndex;
+    if (_inNode && _outNode)
+    {
+        auto const &model = (portType == PortType::In) ? _inNode->nodeDataModel() : _outNode->nodeDataModel();
+        PortIndex index = (portType == PortType::In) ? _inPortIndex : _outPortIndex;
         return model->dataType(portType, index);
-    } else {
+    }
+    else
+    {
         Node *validNode;
         PortIndex index = INVALID;
 
-        if ((validNode = _inNode)) {
-            index    = _inPortIndex;
+        if ((validNode = _inNode))
+        {
+            index = _inPortIndex;
             portType = PortType::In;
-        } else if ((validNode = _outNode)) {
-            index    = _outPortIndex;
+        }
+        else if ((validNode = _outNode))
+        {
+            index = _outPortIndex;
             portType = PortType::Out;
         }
 
-        if (validNode) {
+        if (validNode)
+        {
             auto const &model = validNode->nodeDataModel();
             return model->dataType(portType, index);
         }
@@ -380,39 +287,27 @@ dataType(PortType portType) const
     Q_UNREACHABLE();
 }
 
-TypeConverter
-Connection::
-getTypeConverter() const
-{
-    return _converter;
-}
+TypeConverter Connection::getTypeConverter() const { return _converter; }
 
-void
-Connection::
-setTypeConverter(TypeConverter converter)
-{
-    _converter = std::move(converter);
-}
+void Connection::setTypeConverter(TypeConverter converter) { _converter = std::move(converter); }
 
-
-void
-Connection::
-propagateData(std::shared_ptr<NodeData> nodeData) const
+void Connection::propagateData(std::shared_ptr<NodeData> nodeData) const
 {
-    if (_inNode) {
-        if (_converter) {
+    if (_inNode)
+    {
+        if (_converter)
+        {
             nodeData = _converter(nodeData);
         }
 
         _inNode->propagateData(nodeData, _inPortIndex);
     }
 }
-void
-Node::
-propagateData(std::shared_ptr<NodeData> nodeData,
-              PortIndex inPortIndex) const
+void Node::propagateData(std::shared_ptr<NodeData> nodeData, PortIndex inPortIndex) const
 {
-    //Recalculate the nodes visuals. A data change can result in the node taking more space than before, so this forces a recalculate+repaint on the affected node
+    // Recalculate the nodes visuals. A data change can result in the node taking
+    // more space than before, so this forces a recalculate+repaint on the affected
+    // node
     _nodeGraphicsObject->setGeometryChanged();
     _nodeGeometry.recalculateSize();
     _nodeGraphicsObject->update();
@@ -421,9 +316,7 @@ propagateData(std::shared_ptr<NodeData> nodeData,
     recalculateVisuals();
 }
 
-void
-Connection::
-propagateEmptyData() const
+void Connection::propagateEmptyData() const
 {
     std::shared_ptr<NodeData> emptyData;
     propagateData(emptyData);

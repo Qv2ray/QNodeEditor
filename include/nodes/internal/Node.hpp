@@ -1,21 +1,18 @@
 #pragma once
 
-
-#include <QtCore/QObject>
-#include <QtCore/QUuid>
-
-#include <QtCore/QJsonObject>
-
-#include "PortType.hpp"
-
-#include "Export.hpp"
-#include "NodeState.hpp"
-#include "NodeGeometry.hpp"
-#include "NodeData.hpp"
-#include "NodeGraphicsObject.hpp"
 #include "ConnectionGraphicsObject.hpp"
+#include "Export.hpp"
+#include "NodeData.hpp"
+#include "NodeGeometry.hpp"
+#include "NodeGraphicsObject.hpp"
+#include "NodeState.hpp"
+#include "PortType.hpp"
 #include "Serializable.hpp"
 #include "memory.hpp"
+
+#include <QtCore/QJsonObject>
+#include <QtCore/QObject>
+#include <QtCore/QUuid>
 
 namespace QtNodes
 {
@@ -29,123 +26,96 @@ namespace QtNodes
         : public QObject
         , public Serializable
     {
-            Q_OBJECT
+        Q_OBJECT
 
-        public:
+      public:
+        /// NodeDataModel should be an rvalue and is moved into the Node
+        Node(std::unique_ptr<NodeDataModel> &&dataModel);
 
-            /// NodeDataModel should be an rvalue and is moved into the Node
-            Node(std::unique_ptr<NodeDataModel> &&dataModel);
+        virtual ~Node();
 
-            virtual
-            ~Node();
+      public:
+        QJsonObject save() const override;
 
-        public:
+        void restore(QJsonObject const &json) override;
 
-            QJsonObject
-            save() const override;
+      public:
+        QUuid id() const;
 
-            void
-            restore(QJsonObject const &json) override;
+        void reactToPossibleConnection(PortType, NodeDataType const &, QPointF const &scenePoint);
 
-        public:
+        void resetReactionToConnection();
 
-            QUuid
-            id() const;
+      public:
+        NodeGraphicsObject const &nodeGraphicsObject() const;
 
-            void reactToPossibleConnection(PortType,
-                                           NodeDataType const &,
-                                           QPointF const &scenePoint);
+        NodeGraphicsObject &nodeGraphicsObject();
 
-            void
-            resetReactionToConnection();
+        void setGraphicsObject(std::unique_ptr<NodeGraphicsObject> &&graphics);
 
-        public:
+        NodeGeometry &nodeGeometry();
 
-            NodeGraphicsObject const &
-            nodeGraphicsObject() const;
+        NodeGeometry const &nodeGeometry() const;
 
-            NodeGraphicsObject &
-            nodeGraphicsObject();
+        NodeState const &nodeState() const;
 
-            void
-            setGraphicsObject(std::unique_ptr<NodeGraphicsObject> &&graphics);
+        NodeState &nodeState();
 
-            NodeGeometry &
-            nodeGeometry();
+        NodeDataModel *nodeDataModel() const;
 
-            NodeGeometry const &
-            nodeGeometry() const;
+      public Q_SLOTS: // data propagation
 
-            NodeState const &
-            nodeState() const;
+        /// Propagates incoming data to the underlying model.
+        void propagateData(PortIndex inPortIndex) const;
 
-            NodeState &
-            nodeState();
+        /// Fetches data from model's OUT #index port
+        /// and propagates it to the connection
+        void onDataUpdated(PortIndex index);
 
-            NodeDataModel *
-            nodeDataModel() const;
+        /// update the graphic part if the size of the embeddedwidget changes
+        void onNodeSizeUpdated();
 
-        public Q_SLOTS: // data propagation
+      public Q_SLOTS: // data propagation
 
-            /// Propagates incoming data to the underlying model.
-            void
-            propagateData(PortIndex inPortIndex) const;
+        /// Propagates incoming data to the underlying model.
+        void propagateData(std::shared_ptr<NodeData> nodeData, PortIndex inPortIndex) const;
 
-            /// Fetches data from model's OUT #index port
-            /// and propagates it to the connection
-            void
-            onDataUpdated(PortIndex index);
+        /// Reallocate NodeState's connection sets to account for the new number of
+        /// input/output ports
+        /// NB: There is no general way of knowing how to maintain connections when
+        /// port count changes, especially when the removed ones are not the last
+        /// one, resulting in port shift that may plug connections of the wrong data
+        /// type. For now, the best thing to do is to first remove all connections,
+        /// change port count and then rebuild the connections appropriately, all of
+        /// this from the node's data model. A more generic solution would be to
+        /// split this port into insertPorts(row, count) and removePorts(row, count)
+        void onPortCountChanged();
 
-            /// update the graphic part if the size of the embeddedwidget changes
-            void
-            onNodeSizeUpdated();
+      Q_SIGNALS:
+        /// Ask flow scene to remove this connection
+        void killConnection(Connection &connection);
 
-        public Q_SLOTS: // data propagation
+      private:
+        /// Recalculate the nodes visuals. A data change can result in the node
+        /// taking more space than before, so this forces a recalculate+repaint on
+        /// the affected node
+        void recalculateVisuals() const;
 
-            /// Propagates incoming data to the underlying model.
-            void
-            propagateData(std::shared_ptr<NodeData> nodeData,
-                          PortIndex inPortIndex) const;
+      private:
+        // addressing
 
-            /// Reallocate NodeState's connection sets to account for the new number of
-            /// input/output ports
-            /// NB: There is no general way of knowing how to maintain connections when
-            /// port count changes, especially when the removed ones are not the last
-            /// one, resulting in port shift that may plug connections of the wrong data
-            /// type. For now, the best thing to do is to first remove all connections,
-            /// change port count and then rebuild the connections appropriately, all of
-            /// this from the node's data model. A more generic solution would be to
-            /// split this port into insertPorts(row, count) and removePorts(row, count)
-            void
-            onPortCountChanged();
+        QUuid _uid;
 
-        Q_SIGNALS:
-            /// Ask flow scene to remove this connection
-            void
-            killConnection(Connection &connection);
+        // data
 
-        private:
-            /// Recalculate the nodes visuals. A data change can result in the node
-            /// taking more space than before, so this forces a recalculate+repaint on
-            /// the affected node
-            void recalculateVisuals() const;
+        std::unique_ptr<NodeDataModel> _nodeDataModel;
 
-        private:
+        NodeState _nodeState;
 
-            // addressing
+        // painting
 
-            QUuid _uid;
+        NodeGeometry _nodeGeometry;
 
-            // data
-
-            std::unique_ptr<NodeDataModel> _nodeDataModel;
-
-            NodeState _nodeState;
-
-            // painting
-
-            NodeGeometry _nodeGeometry;
-
-            std::unique_ptr<NodeGraphicsObject> _nodeGraphicsObject;
+        std::unique_ptr<NodeGraphicsObject> _nodeGraphicsObject;
     };
-}
+} // namespace QtNodes

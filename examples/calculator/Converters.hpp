@@ -3,39 +3,31 @@
 #include "DecimalData.hpp"
 #include "IntegerData.hpp"
 
-using QtNodes::PortType;
-using QtNodes::PortIndex;
 using QtNodes::NodeData;
-using QtNodes::NodeDataType;
 using QtNodes::NodeDataModel;
+using QtNodes::NodeDataType;
+using QtNodes::PortIndex;
+using QtNodes::PortType;
 
 class DecimalData;
 class IntegerData;
 
-
 class DecimalToIntegerConverter
 {
 
-    public:
+  public:
+    std::shared_ptr<NodeData> operator()(std::shared_ptr<NodeData> data);
 
-        std::shared_ptr<NodeData>
-        operator()(std::shared_ptr<NodeData> data);
-
-    private:
-
-        std::shared_ptr<NodeData> _integer;
+  private:
+    std::shared_ptr<NodeData> _integer;
 };
-
 
 class IntegerToDecimalConverter
 {
 
-    public:
+  public:
+    std::shared_ptr<NodeData> operator()(std::shared_ptr<NodeData> data);
 
-        std::shared_ptr<NodeData>
-        operator()(std::shared_ptr<NodeData> data);
-
-    private:
-
-        std::shared_ptr<NodeData> _decimal;
+  private:
+    std::shared_ptr<NodeData> _decimal;
 };

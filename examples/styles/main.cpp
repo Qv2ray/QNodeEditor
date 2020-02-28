@@ -1,34 +1,29 @@
-#include <QtWidgets/QApplication>
-
-#include <NodeData.hpp>
-#include <FlowScene.hpp>
-#include <FlowView.hpp>
-#include <DataModelRegistry.hpp>
-#include <NodeStyle.hpp>
-#include <FlowViewStyle.hpp>
-#include <ConnectionStyle.hpp>
-
 #include "models.hpp"
 
+#include <ConnectionStyle.hpp>
+#include <DataModelRegistry.hpp>
+#include <FlowScene.hpp>
+#include <FlowView.hpp>
+#include <FlowViewStyle.hpp>
+#include <NodeData.hpp>
+#include <NodeStyle.hpp>
+#include <QtWidgets/QApplication>
+
+using QtNodes::ConnectionStyle;
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
 using QtNodes::FlowView;
 using QtNodes::FlowViewStyle;
 using QtNodes::NodeStyle;
-using QtNodes::ConnectionStyle;
 
-static std::shared_ptr<DataModelRegistry>
-registerDataModels()
+static std::shared_ptr<DataModelRegistry> registerDataModels()
 {
     auto ret = std::make_shared<DataModelRegistry>();
     ret->registerModel<MyDataModel>();
     return ret;
 }
 
-
-static
-void
-setStyle()
+static void setStyle()
 {
     FlowViewStyle::setStyle(
         R"(
@@ -81,11 +76,9 @@ setStyle()
   )");
 }
 
-
 //------------------------------------------------------------------------------
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     setStyle();

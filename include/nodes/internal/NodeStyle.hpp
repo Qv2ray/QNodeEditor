@@ -1,60 +1,56 @@
 #pragma once
 
-#include <QtGui/QColor>
-
 #include "Export.hpp"
 #include "Style.hpp"
+
+#include <QtGui/QColor>
 
 namespace QtNodes
 {
 
     class NODE_EDITOR_PUBLIC NodeStyle : public Style
     {
-        public:
+      public:
+        NodeStyle();
 
-            NodeStyle();
+        NodeStyle(QString jsonText);
 
-            NodeStyle(QString jsonText);
+      public:
+        static void setNodeStyle(QString jsonText);
 
-        public:
+      private:
+        void loadJsonText(QString jsonText) override;
 
-            static void setNodeStyle(QString jsonText);
+        void loadJsonFile(QString fileName) override;
 
-        private:
+        void loadJsonFromByteArray(QByteArray const &byteArray) override;
 
-            void loadJsonText(QString jsonText) override;
+      public:
+        QColor NormalBoundaryColor;
+        QColor SelectedBoundaryColor;
+        QColor GradientColor0;
+        QColor GradientColor1;
+        QColor GradientColor2;
+        QColor GradientColor3;
+        QColor ShadowColor;
+        QColor FontColor;
+        QColor FontColorFaded;
 
-            void loadJsonFile(QString fileName) override;
+        QColor ConnectionPointColor;
+        QColor FilledConnectionPointColor;
 
-            void loadJsonFromByteArray(QByteArray const &byteArray) override;
+        QColor WarningColor;
+        QColor ErrorColor;
 
-        public:
+        float PenWidth;
+        float HoveredPenWidth;
 
-            QColor NormalBoundaryColor;
-            QColor SelectedBoundaryColor;
-            QColor GradientColor0;
-            QColor GradientColor1;
-            QColor GradientColor2;
-            QColor GradientColor3;
-            QColor ShadowColor;
-            QColor FontColor;
-            QColor FontColorFaded;
+        float ConnectionPointDiameter;
 
-            QColor ConnectionPointColor;
-            QColor FilledConnectionPointColor;
+        float Opacity;
 
-            QColor WarningColor;
-            QColor ErrorColor;
-
-            float PenWidth;
-            float HoveredPenWidth;
-
-            float ConnectionPointDiameter;
-
-            float Opacity;
-
-        public:
-            QString PortTextCss;
-            QString NodeCaptionCss;
+      public:
+        QString PortTextCss;
+        QString NodeCaptionCss;
     };
-}
+} // namespace QtNodes

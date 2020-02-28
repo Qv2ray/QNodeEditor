@@ -1,13 +1,14 @@
 #pragma once
 
-#include <QtCore/QString>
-
 #include "Export.hpp"
+
+#include <QtCore/QString>
 
 namespace QtNodes
 {
 
-    struct NodeDataType {
+    struct NodeDataType
+    {
         QString id;
         QString name;
     };
@@ -17,16 +18,12 @@ namespace QtNodes
     /// The actual data is stored in subtypes
     class NODE_EDITOR_PUBLIC NodeData
     {
-        public:
+      public:
+        virtual ~NodeData() = default;
 
-            virtual ~NodeData() = default;
+        virtual bool sameType(NodeData const &nodeData) const { return (this->type().id == nodeData.type().id); }
 
-            virtual bool sameType(NodeData const &nodeData) const
-            {
-                return (this->type().id == nodeData.type().id);
-            }
-
-            /// Type for inner use
-            virtual NodeDataType type() const = 0;
+        /// Type for inner use
+        virtual NodeDataType type() const = 0;
     };
-}
+} // namespace QtNodes

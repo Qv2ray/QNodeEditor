@@ -1,43 +1,38 @@
-#include <nodes/NodeData>
-#include <nodes/FlowScene>
-#include <nodes/FlowView>
+#include "TextDisplayDataModel.hpp"
+#include "TextSourceDataModel.hpp"
 
 #include <QtWidgets/QApplication>
-
 #include <nodes/DataModelRegistry>
-
-#include "TextSourceDataModel.hpp"
-#include "TextDisplayDataModel.hpp"
+#include <nodes/FlowScene>
+#include <nodes/FlowView>
+#include <nodes/NodeData>
 
 using QtNodes::DataModelRegistry;
-using QtNodes::FlowView;
 using QtNodes::FlowScene;
+using QtNodes::FlowView;
 
-static std::shared_ptr<DataModelRegistry>
-registerDataModels()
+static std::shared_ptr<DataModelRegistry> registerDataModels()
 {
-  auto ret = std::make_shared<DataModelRegistry>();
+    auto ret = std::make_shared<DataModelRegistry>();
 
-  ret->registerModel<TextSourceDataModel>();
+    ret->registerModel<TextSourceDataModel>();
 
-  ret->registerModel<TextDisplayDataModel>();
+    ret->registerModel<TextDisplayDataModel>();
 
-  return ret;
+    return ret;
 }
 
-
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-  QApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-  FlowScene scene(registerDataModels());
+    FlowScene scene(registerDataModels());
 
-  FlowView view(&scene);
+    FlowView view(&scene);
 
-  view.setWindowTitle("Node-based flow editor");
-  view.resize(800, 600);
-  view.show();
+    view.setWindowTitle("Node-based flow editor");
+    view.resize(800, 600);
+    view.show();
 
-  return app.exec();
+    return app.exec();
 }

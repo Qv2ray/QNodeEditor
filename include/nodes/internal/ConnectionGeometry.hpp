@@ -4,7 +4,6 @@
 
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>
-
 #include <iostream>
 
 namespace QtNodes
@@ -12,64 +11,37 @@ namespace QtNodes
 
     class ConnectionGeometry
     {
-        public:
+      public:
+        ConnectionGeometry();
 
-            ConnectionGeometry();
+      public:
+        QPointF const &getEndPoint(PortType portType) const;
 
-        public:
+        void setEndPoint(PortType portType, QPointF const &point);
 
-            QPointF const &
-            getEndPoint(PortType portType) const;
+        void moveEndPoint(PortType portType, QPointF const &offset);
 
-            void
-            setEndPoint(PortType portType, QPointF const &point);
+        QRectF boundingRect() const;
 
-            void
-            moveEndPoint(PortType portType, QPointF const &offset);
+        std::pair<QPointF, QPointF> pointsC1C2() const;
 
-            QRectF
-            boundingRect() const;
+        QPointF source() const { return _out; }
+        QPointF sink() const { return _in; }
 
-            std::pair<QPointF, QPointF>
-            pointsC1C2() const;
+        double lineWidth() const { return _lineWidth; }
 
-            QPointF
-            source() const
-            {
-                return _out;
-            }
-            QPointF
-            sink() const
-            {
-                return _in;
-            }
+        bool hovered() const { return _hovered; }
+        void setHovered(bool hovered) { _hovered = hovered; }
 
-            double
-            lineWidth() const
-            {
-                return _lineWidth;
-            }
+      private:
+        // local object coordinates
+        QPointF _in;
+        QPointF _out;
 
-            bool
-            hovered() const
-            {
-                return _hovered;
-            }
-            void
-            setHovered(bool hovered)
-            {
-                _hovered = hovered;
-            }
+        // int _animationPhase;
 
-        private:
-            // local object coordinates
-            QPointF _in;
-            QPointF _out;
+        double _lineWidth;
 
-            //int _animationPhase;
-
-            double _lineWidth;
-
-            bool _hovered;
+        bool _hovered;
     };
-}
+} // namespace QtNodes

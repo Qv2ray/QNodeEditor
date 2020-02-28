@@ -1,49 +1,37 @@
 #pragma once
 
-#include <unordered_map>
+#include "Export.hpp"
 
 #include <QtCore/QVariantMap>
-
-#include "Export.hpp"
+#include <unordered_map>
 
 namespace QtNodes
 {
 
     class NODE_EDITOR_PUBLIC Properties
     {
-        public:
+      public:
+        void put(QString const &name, QVariant const &v);
 
-            void
-            put(QString const &name, QVariant const &v);
+        template<typename T>
+        bool get(QString name, T *v) const
+        {
+            QVariant const &var = _values[name];
 
-            template <typename T>
-            bool
-            get(QString name, T *v) const
+            if (var.canConvert<T>())
             {
-                QVariant const &var = _values[name];
-
-                if (var.canConvert<T>()) {
-                    *v = _values[name].value<T>();
-                    return true;
-                }
-
-                return false;
+                *v = _values[name].value<T>();
+                return true;
             }
 
-            QVariantMap const &
-            values() const
-            {
-                return _values;
-            }
+            return false;
+        }
 
-            QVariantMap &
-            values()
-            {
-                return _values;
-            }
+        QVariantMap const &values() const { return _values; }
 
-        private:
+        QVariantMap &values() { return _values; }
 
-            QVariantMap _values;
+      private:
+        QVariantMap _values;
     };
-}
+} // namespace QtNodes

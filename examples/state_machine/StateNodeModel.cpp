@@ -1,86 +1,48 @@
 #include "StateNodeModel.hpp"
 
-QString
-StateNodeModel::
-caption() const
+QString StateNodeModel::caption() const { return QStringLiteral("State"); }
+
+QString StateNodeModel::name() const { return QStringLiteral("state_node"); }
+
+unsigned int StateNodeModel::nPorts(PortType portType) const
 {
-  return QStringLiteral("State");
+    std::ignore = portType;
+    return 1;
 }
 
-
-QString
-StateNodeModel::
-name() const
+NodeDataType StateNodeModel::dataType(PortType portType, PortIndex portIndex) const
 {
-  return QStringLiteral("state_node");
+    std::ignore = portType;
+    std::ignore = portIndex;
+    return getTranstitionType();
 }
 
+NodeDataType StateNodeModel::getTranstitionType() { return NodeDataType{ "transition_port", "" }; }
 
-unsigned int
-StateNodeModel::
-nPorts(PortType portType) const
+QtNodes::NodeDataModel::ConnectionPolicy StateNodeModel::portOutConnectionPolicy(PortIndex) const
 {
-  std::ignore = portType;
-  return 1;
+    return ConnectionPolicy::Many;
 }
 
-
-NodeDataType
-StateNodeModel::
-dataType(PortType portType, PortIndex portIndex) const
+QtNodes::NodeDataModel::ConnectionPolicy StateNodeModel::portInConnectionPolicy(PortIndex) const
 {
-  std::ignore = portType;
-  std::ignore = portIndex;
-  return getTranstitionType();
+    return ConnectionPolicy::Many;
 }
 
-
-NodeDataType
-StateNodeModel::
-getTranstitionType()
+void StateNodeModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex port)
 {
-  return NodeDataType{"transition_port", ""};
+    std::ignore = nodeData;
+    std::ignore = port;
 }
 
-
-QtNodes::NodeDataModel::ConnectionPolicy
-StateNodeModel::
-portOutConnectionPolicy(PortIndex) const
+void StateNodeModel::setInData(std::vector<std::shared_ptr<NodeData>> nodeData, PortIndex port)
 {
-  return ConnectionPolicy::Many;
+    std::ignore = nodeData;
+    std::ignore = port;
 }
 
-
-QtNodes::NodeDataModel::ConnectionPolicy
-StateNodeModel::
-portInConnectionPolicy(PortIndex) const
+std::shared_ptr<NodeData> StateNodeModel::outData(PortIndex port)
 {
-  return ConnectionPolicy::Many;
-}
-
-
-void
-StateNodeModel::
-setInData(std::shared_ptr<NodeData> nodeData, PortIndex port)
-{
-  std::ignore = nodeData;
-  std::ignore = port;
-}
-
-
-void
-StateNodeModel::
-setInData(std::vector<std::shared_ptr<NodeData> > nodeData, PortIndex port)
-{
-  std::ignore = nodeData;
-  std::ignore = port;
-}
-
-
-std::shared_ptr<NodeData>
-StateNodeModel::
-outData(PortIndex port)
-{
-  std::ignore = port;
-  return nullptr;
+    std::ignore = port;
+    return nullptr;
 }

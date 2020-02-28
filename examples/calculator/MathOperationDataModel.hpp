@@ -1,70 +1,52 @@
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QJsonObject>
-#include <QtWidgets/QLabel>
-
 #include <NodeDataModel.hpp>
-
+#include <QtCore/QJsonObject>
+#include <QtCore/QObject>
+#include <QtWidgets/QLabel>
 #include <iostream>
 
 class DecimalData;
 
-using QtNodes::PortType;
-using QtNodes::PortIndex;
 using QtNodes::NodeData;
-using QtNodes::NodeDataType;
 using QtNodes::NodeDataModel;
+using QtNodes::NodeDataType;
 using QtNodes::NodeValidationState;
+using QtNodes::PortIndex;
+using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
 class MathOperationModel : public NodeDataModel
 {
     Q_OBJECT
-public:
+  public:
+    virtual ~MathOperationModel() {}
 
-  virtual  ~MathOperationModel() {}
+  public:
+    unsigned int nPorts(PortType portType) const override;
 
-    public:
+    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
 
-        unsigned int
-        nPorts(PortType portType) const override;
+    std::shared_ptr<NodeData> outData(PortIndex port) override;
 
-        NodeDataType
-        dataType(PortType portType,
-                 PortIndex portIndex) const override;
+    void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
 
-        std::shared_ptr<NodeData>
-        outData(PortIndex port) override;
+    QWidget *embeddedWidget() override { return nullptr; }
 
-        void
-        setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
+    NodeValidationState validationState() const override;
 
-        QWidget *
-        embeddedWidget() override
-        {
-            return nullptr;
-        }
+    QString validationMessage() const override;
 
-        NodeValidationState
-        validationState() const override;
+  protected:
+    virtual void compute() = 0;
 
-        QString
-        validationMessage() const override;
+  protected:
+    std::weak_ptr<DecimalData> _number1;
+    std::weak_ptr<DecimalData> _number2;
 
-    protected:
+    std::shared_ptr<DecimalData> _result;
 
-        virtual void
-        compute() = 0;
-
-    protected:
-
-        std::weak_ptr<DecimalData> _number1;
-        std::weak_ptr<DecimalData> _number2;
-
-        std::shared_ptr<DecimalData> _result;
-
-        NodeValidationState modelValidationState = NodeValidationState::Warning;
-        QString modelValidationError = QString("Missing or incorrect inputs");
+    NodeValidationState modelValidationState = NodeValidationState::Warning;
+    QString modelValidationError = QString("Missing or incorrect inputs");
 };

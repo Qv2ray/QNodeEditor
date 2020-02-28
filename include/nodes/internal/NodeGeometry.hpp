@@ -1,14 +1,14 @@
 #pragma once
 
-#include <QtCore/QRectF>
+#include "Export.hpp"
+#include "PortType.hpp"
+#include "memory.hpp"
+
 #include <QtCore/QPointF>
-#include <QtGui/QTransform>
+#include <QtCore/QRectF>
 #include <QtGui/QFontMetrics>
 #include <QtGui/QTextDocument>
-
-#include "PortType.hpp"
-#include "Export.hpp"
-#include "memory.hpp"
+#include <QtGui/QTransform>
 
 namespace QtNodes
 {
@@ -19,216 +19,127 @@ namespace QtNodes
 
     class NODE_EDITOR_PUBLIC NodeGeometry
     {
-        public:
+      public:
+        NodeGeometry(std::unique_ptr<NodeDataModel> const &dataModel);
 
-            NodeGeometry(std::unique_ptr<NodeDataModel> const &dataModel);
+      public:
+        unsigned int height() const { return _height; }
 
-        public:
-            unsigned int
-            height() const
-            {
-                return _height;
-            }
+        void setHeight(unsigned int h) { _height = h; }
 
-            void
-            setHeight(unsigned int h)
-            {
-                _height = h;
-            }
+        unsigned int width() const { return _width; }
 
-            unsigned int
-            width() const
-            {
-                return _width;
-            }
+        void setWidth(unsigned int w) { _width = w; }
 
-            void
-            setWidth(unsigned int w)
-            {
-                _width = w;
-            }
+        unsigned int entryHeight() const { return _entryHeight; }
+        void setEntryHeight(unsigned int h) { _entryHeight = h; }
 
-            unsigned int
-            entryHeight() const
-            {
-                return _entryHeight;
-            }
-            void
-            setEntryHeight(unsigned int h)
-            {
-                _entryHeight = h;
-            }
+        unsigned int entryWidth() const { return _entryWidth; }
 
-            unsigned int
-            entryWidth() const
-            {
-                return _entryWidth;
-            }
+        void setEntryWidth(unsigned int w) { _entryWidth = w; }
 
-            void
-            setEntryWidth(unsigned int w)
-            {
-                _entryWidth = w;
-            }
+        unsigned int spacing() const { return _spacing; }
 
-            unsigned int
-            spacing() const
-            {
-                return _spacing;
-            }
+        void setSpacing(unsigned int s) { _spacing = s; }
 
-            void
-            setSpacing(unsigned int s)
-            {
-                _spacing = s;
-            }
+        bool hovered() const { return _hovered; }
 
-            bool
-            hovered() const
-            {
-                return _hovered;
-            }
+        void setHovered(unsigned int h) { _hovered = h; }
 
-            void
-            setHovered(unsigned int h)
-            {
-                _hovered = h;
-            }
+        unsigned int nSources() const;
 
-            unsigned int
-            nSources() const;
+        unsigned int nSinks() const;
 
-            unsigned int
-            nSinks() const;
+        void updatePortCount();
 
-            void
-            updatePortCount();
+        QPointF const &draggingPos() const { return _draggingPos; }
 
-            QPointF const &
-            draggingPos() const
-            {
-                return _draggingPos;
-            }
+        void setDraggingPosition(QPointF const &pos) { _draggingPos = pos; }
 
-            void
-            setDraggingPosition(QPointF const &pos)
-            {
-                _draggingPos = pos;
-            }
+        unsigned int portsXoffset() const { return _portsXoffset; }
 
+      public:
+        QRectF entryBoundingRect() const;
 
-            unsigned int portsXoffset() const
-            {
-                return _portsXoffset;
-            }
+        QRectF boundingRect() const;
 
-        public:
+        /// Updates size unconditionally
+        void recalculateSize() const;
 
-            QRectF
-            entryBoundingRect() const;
+        /// Updates size if the QFontMetrics is changed
+        void recalculateSize(QFont const &font) const;
 
-            QRectF
-            boundingRect() const;
+        // TODO removed default QTransform()
+        QPointF portScenePosition(PortIndex index, PortType portType, QTransform const &t = QTransform()) const;
 
-            /// Updates size unconditionally
-            void
-            recalculateSize() const;
+        PortIndex checkHitScenePoint(PortType portType, QPointF point, QTransform const &t = QTransform()) const;
 
-            /// Updates size if the QFontMetrics is changed
-            void
-            recalculateSize(QFont const &font) const;
+        QRect resizeRect() const;
 
-            // TODO removed default QTransform()
-            QPointF
-            portScenePosition(PortIndex index,
-                              PortType portType,
-                              QTransform const &t = QTransform()) const;
+        /// Returns the position of a widget on the Node surface
+        QPointF widgetPosition() const;
 
-            PortIndex
-            checkHitScenePoint(PortType portType,
-                               QPointF point,
-                               QTransform const &t = QTransform()) const;
+        /// Returns the maximum height a widget can be without causing the node to
+        /// grow.
+        int equivalentWidgetHeight() const;
 
-            QRect
-            resizeRect() const;
+        unsigned int validationHeight() const;
 
-            /// Returns the position of a widget on the Node surface
-            QPointF
-            widgetPosition() const;
+        unsigned int validationWidth() const;
 
-            /// Returns the maximum height a widget can be without causing the node to grow.
-            int
-            equivalentWidgetHeight() const;
+        static QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort,
+                                                             Node *targetNode, PortIndex sourcePortIndex,
+                                                             PortType sourcePort, Node *sourceNode, Node &newNode);
+        static QRectF calculateDocRect(const QTextDocument &td);
 
-            unsigned int
-            validationHeight() const;
+      private:
+        unsigned int captionHeight() const;
 
-            unsigned int
-            validationWidth() const;
+        unsigned int captionWidth() const;
 
-            static
-            QPointF
-            calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node *targetNode,
-                                                  PortIndex sourcePortIndex, PortType sourcePort, Node *sourceNode,
-                                                  Node &newNode);
-            static
-            QRectF
-            calculateDocRect(const QTextDocument &td);
-        private:
+        unsigned int portWidth(PortType portType) const;
 
-            unsigned int
-            captionHeight() const;
+      private:
+        // some variables are mutable because
+        // we need to change drawing metrics
+        // corresponding to fontMetrics
+        // but this doesn't change constness of Node
 
-            unsigned int
-            captionWidth() const;
+        mutable unsigned int _width;
+        mutable unsigned int _height;
+        unsigned int _entryWidth;
+        mutable unsigned int _inputPortWidth;
+        mutable unsigned int _outputPortWidth;
+        mutable unsigned int _entryHeight;
+        unsigned int _spacing;
 
-            unsigned int
-            portWidth(PortType portType) const;
+        bool _hovered;
 
-        private:
+        unsigned int _nSources;
+        unsigned int _nSinks;
 
-            // some variables are mutable because
-            // we need to change drawing metrics
-            // corresponding to fontMetrics
-            // but this doesn't change constness of Node
+        QPointF _draggingPos;
 
-            mutable unsigned int _width;
-            mutable unsigned int _height;
-            unsigned int _entryWidth;
-            mutable unsigned int _inputPortWidth;
-            mutable unsigned int _outputPortWidth;
-            mutable unsigned int _entryHeight;
-            unsigned int _spacing;
+        std::unique_ptr<NodeDataModel> const &_dataModel;
 
-            bool _hovered;
+        mutable QFontMetrics _fontMetrics;
+        mutable QFontMetrics _boldFontMetrics;
 
-            unsigned int _nSources;
-            unsigned int _nSinks;
+      private:
+        QRectF portRect(PortType portType, const PortIndex &index) const;
 
-            QPointF _draggingPos;
+      private:
+        unsigned int _portsXoffset;
 
-            std::unique_ptr<NodeDataModel> const &_dataModel;
+        mutable qreal _captionHeight;
+        mutable qreal _captionWidth;
 
-            mutable QFontMetrics _fontMetrics;
-            mutable QFontMetrics _boldFontMetrics;
+        mutable QMap<PortIndex, QRectF> _cachedPortRects[2];
 
+        mutable bool _entryHeightCalculated;
+        mutable bool _portsWidthCalculated;
 
-        private:
-            QRectF portRect(PortType portType, const PortIndex &index) const;
-
-        private:
-
-            unsigned int _portsXoffset;
-
-            mutable qreal _captionHeight;
-            mutable qreal _captionWidth;
-
-            mutable QMap<PortIndex, QRectF> _cachedPortRects[2];
-
-            mutable bool _entryHeightCalculated;
-            mutable bool _portsWidthCalculated;
-
-            mutable bool _captionHeightCalculated;
-            mutable bool _captionWidthCalculated;
+        mutable bool _captionHeightCalculated;
+        mutable bool _captionWidthCalculated;
     };
-}
+} // namespace QtNodes

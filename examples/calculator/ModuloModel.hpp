@@ -1,118 +1,83 @@
 #pragma once
 
+#include <NodeDataModel.hpp>
 #include <QtCore/QObject>
 #include <QtWidgets/QLineEdit>
-
-#include <NodeDataModel.hpp>
-
 #include <iostream>
 
-using QtNodes::PortType;
-using QtNodes::PortIndex;
 using QtNodes::NodeData;
-using QtNodes::NodeDataType;
 using QtNodes::NodeDataModel;
+using QtNodes::NodeDataType;
 using QtNodes::NodeValidationState;
+using QtNodes::PortIndex;
+using QtNodes::PortType;
 
 class IntegerData;
 
-class ModuloModel
-    : public NodeDataModel
+class ModuloModel : public NodeDataModel
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        ModuloModel() = default;
+  public:
+    ModuloModel() = default;
 
-        virtual
-        ~ModuloModel() = default;
+    virtual ~ModuloModel() = default;
 
-    public:
+  public:
+    QString caption() const override { return QStringLiteral("Modulo"); }
 
-        QString
-        caption() const override
+    bool captionVisible() const override { return true; }
+
+    bool portCaptionVisible(PortType, PortIndex) const override { return true; }
+
+    QString portCaption(PortType portType, PortIndex portIndex) const override
+    {
+        switch (portType)
         {
-            return QStringLiteral("Modulo");
+            case PortType::In:
+                if (portIndex == 0)
+                    return QStringLiteral("Dividend");
+                else if (portIndex == 1)
+                    return QStringLiteral("Divisor");
+
+                break;
+
+            case PortType::Out:
+                return QStringLiteral("Result");
+
+            default:
+                break;
         }
 
-        bool
-        captionVisible() const override
-        {
-            return true;
-        }
+        return QString();
+    }
 
-        bool
-        portCaptionVisible(PortType, PortIndex) const override
-        {
-            return true;
-        }
+    QString name() const override { return QStringLiteral("Modulo"); }
 
-        QString
-        portCaption(PortType portType, PortIndex portIndex) const override
-        {
-            switch (portType) {
-                case PortType::In:
-                    if (portIndex == 0)
-                        return QStringLiteral("Dividend");
-                    else if (portIndex == 1)
-                        return QStringLiteral("Divisor");
+  public:
+    QJsonObject save() const override;
 
-                    break;
+  public:
+    unsigned int nPorts(PortType portType) const override;
 
-                case PortType::Out:
-                    return QStringLiteral("Result");
+    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
 
-                default:
-                    break;
-            }
+    std::shared_ptr<NodeData> outData(PortIndex port) override;
 
-            return QString();
-        }
+    void setInData(std::shared_ptr<NodeData>, int) override;
 
-        QString
-        name() const override
-        {
-            return QStringLiteral("Modulo");
-        }
+    QWidget *embeddedWidget() override { return nullptr; }
 
-    public:
+    NodeValidationState validationState() const override;
 
-        QJsonObject
-        save() const override;
+    QString validationMessage() const override;
 
-    public:
+  private:
+    std::weak_ptr<IntegerData> _number1;
+    std::weak_ptr<IntegerData> _number2;
 
-        unsigned int
-        nPorts(PortType portType) const override;
+    std::shared_ptr<IntegerData> _result;
 
-        NodeDataType
-        dataType(PortType portType, PortIndex portIndex) const override;
-
-        std::shared_ptr<NodeData>
-        outData(PortIndex port) override;
-
-        void
-        setInData(std::shared_ptr<NodeData>, int) override;
-
-        QWidget *
-        embeddedWidget() override
-        {
-            return nullptr;
-        }
-
-        NodeValidationState
-        validationState() const override;
-
-        QString
-        validationMessage() const override;
-
-    private:
-
-        std::weak_ptr<IntegerData> _number1;
-        std::weak_ptr<IntegerData> _number2;
-
-        std::shared_ptr<IntegerData> _result;
-
-        NodeValidationState modelValidationState = NodeValidationState::Warning;
-        QString modelValidationError = QStringLiteral("Missing or incorrect inputs");
+    NodeValidationState modelValidationState = NodeValidationState::Warning;
+    QString modelValidationError = QStringLiteral("Missing or incorrect inputs");
 };
