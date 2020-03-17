@@ -30,6 +30,9 @@ public:
     return true;
   }
 
+  std::unique_ptr<NodeDataModel>
+    clone() const override
+    { return std::make_unique<DivisionModel>(); }
   QString
   portCaption(PortType portType, PortIndex portIndex) const override
   {

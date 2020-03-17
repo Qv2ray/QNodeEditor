@@ -54,7 +54,7 @@ public:
   { return QStringLiteral("Bool Function"); }
 
   std::unique_ptr<NodeDataModel>
-  clone() const override
+  clone() const
   { return std::make_unique<BoolFunctionModel>(); }
 
 public:

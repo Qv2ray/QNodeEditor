@@ -68,6 +68,8 @@ public:
 
   virtual
   unsigned int nPorts(PortType portType) const = 0;
+  virtual std::unique_ptr<NodeDataModel> clone() const = 0;
+
 
   virtual
   NodeDataType dataType(PortType portType, PortIndex portIndex) const = 0;

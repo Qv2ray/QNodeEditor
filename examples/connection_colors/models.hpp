@@ -135,6 +135,11 @@ public:
     //
   }
 
+  std::unique_ptr<NodeDataModel>
+    clone() const override
+    { return std::make_unique<NaiveDataModel>(); }
+
+
   QWidget *
   embeddedWidget() override { return nullptr; }
 };

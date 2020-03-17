@@ -68,6 +68,9 @@ public:
 
   QWidget *
   embeddedWidget() override { return _lineEdit; }
+  std::unique_ptr<NodeDataModel>
+    clone() const override
+    { return std::make_unique<NumberSourceDataModel>(); }
 
 private Q_SLOTS:
 
