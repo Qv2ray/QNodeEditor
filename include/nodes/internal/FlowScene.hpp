@@ -77,7 +77,6 @@ public:
   void setNodePosition(Node& node, QPointF const& pos) const;
 
   QSizeF getNodeSize(Node const& node) const;
-
 public:
 
   std::unordered_map<QUuid, std::unique_ptr<Node> > const & nodes() const;
@@ -146,7 +145,6 @@ private:
 private Q_SLOTS:
 
   void setupConnectionSignals(Connection const& c);
-
   void sendConnectionCreatedToNodes(Connection const& c);
   void sendConnectionDeletedToNodes(Connection const& c);
 
