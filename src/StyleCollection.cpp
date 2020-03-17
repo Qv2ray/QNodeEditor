@@ -1,64 +1,34 @@
 #include "StyleCollection.hpp"
-
-using QtNodes::StyleCollection;
-using QtNodes::NodeStyle;
 using QtNodes::ConnectionStyle;
 using QtNodes::FlowViewStyle;
-
-NodeStyle const&
-StyleCollection::
-nodeStyle()
+using QtNodes::NodeStyle;
+using QtNodes::StyleCollection;
+NodeStyle const &StyleCollection::nodeStyle()
 {
-  return instance()._nodeStyle;
+    return instance()._nodeStyle;
 }
-
-
-ConnectionStyle const&
-StyleCollection::
-connectionStyle()
+ConnectionStyle const &StyleCollection::connectionStyle()
 {
-  return instance()._connectionStyle;
+    return instance()._connectionStyle;
 }
-
-
-FlowViewStyle const&
-StyleCollection::
-flowViewStyle()
+FlowViewStyle const &StyleCollection::flowViewStyle()
 {
-  return instance()._flowViewStyle;
+    return instance()._flowViewStyle;
 }
-
-
-void
-StyleCollection::
-setNodeStyle(NodeStyle nodeStyle)
+void StyleCollection::setNodeStyle(NodeStyle nodeStyle)
 {
-  instance()._nodeStyle = nodeStyle;
+    instance()._nodeStyle = nodeStyle;
 }
-
-
-void
-StyleCollection::
-setConnectionStyle(ConnectionStyle connectionStyle)
+void StyleCollection::setConnectionStyle(ConnectionStyle connectionStyle)
 {
-  instance()._connectionStyle = connectionStyle;
+    instance()._connectionStyle = connectionStyle;
 }
-
-
-void
-StyleCollection::
-setFlowViewStyle(FlowViewStyle flowViewStyle)
+void StyleCollection::setFlowViewStyle(FlowViewStyle flowViewStyle)
 {
-  instance()._flowViewStyle = flowViewStyle;
+    instance()._flowViewStyle = flowViewStyle;
 }
-
-
-
-StyleCollection&
-StyleCollection::
-instance()
+StyleCollection &StyleCollection::instance()
 {
-  static StyleCollection collection;
-
-  return collection;
+    static StyleCollection collection;
+    return collection;
 }

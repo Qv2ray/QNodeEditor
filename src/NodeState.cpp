@@ -1,135 +1,72 @@
 #include "NodeState.hpp"
-
-#include "NodeDataModel.hpp"
-
 #include "Connection.hpp"
-
-using QtNodes::NodeState;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDataModel;
-using QtNodes::PortType;
-using QtNodes::PortIndex;
+#include "NodeDataModel.hpp"
 using QtNodes::Connection;
-
-NodeState::
-NodeState(std::unique_ptr<NodeDataModel> const &model)
-  : _inConnections(model->nPorts(PortType::In))
-  , _outConnections(model->nPorts(PortType::Out))
-  , _reaction(NOT_REACTING)
-  , _reactingPortType(PortType::None)
-  , _resizing(false)
-{}
-
-std::vector<NodeState::ConnectionPtrSet> const &
-NodeState::
-getEntries(PortType portType) const
+using QtNodes::NodeDataModel;
+using QtNodes::NodeDataType;
+using QtNodes::NodeState;
+using QtNodes::PortIndex;
+using QtNodes::PortType;
+NodeState::NodeState(std::unique_ptr<NodeDataModel> const &model)
+    : _inConnections(model->nPorts(PortType::In)), _outConnections(model->nPorts(PortType::Out)), _reaction(NOT_REACTING),
+      _reactingPortType(PortType::None), _resizing(false)
 {
-  if (portType == PortType::In)
-    return _inConnections;
-  else
-    return _outConnections;
 }
-
-
-std::vector<NodeState::ConnectionPtrSet> &
-NodeState::
-getEntries(PortType portType)
+std::vector<NodeState::ConnectionPtrSet> const &NodeState::getEntries(PortType portType) const
 {
-  if (portType == PortType::In)
-    return _inConnections;
-  else
-    return _outConnections;
+    if (portType == PortType::In)
+        return _inConnections;
+    else
+        return _outConnections;
 }
-
-
-NodeState::ConnectionPtrSet
-NodeState::
-connections(PortType portType, PortIndex portIndex) const
+std::vector<NodeState::ConnectionPtrSet> &NodeState::getEntries(PortType portType)
 {
-  auto const &connections = getEntries(portType);
-
-  return connections[portIndex];
+    if (portType == PortType::In)
+        return _inConnections;
+    else
+        return _outConnections;
 }
-
-
-void
-NodeState::
-setConnection(PortType portType,
-              PortIndex portIndex,
-              Connection& connection)
+NodeState::ConnectionPtrSet NodeState::connections(PortType portType, PortIndex portIndex) const
 {
-  auto &connections = getEntries(portType);
-
-  connections.at(portIndex).insert(std::make_pair(connection.id(),
-                                                  &connection));
+    auto const &connections = getEntries(portType);
+    return connections[portIndex];
 }
-
-
-void
-NodeState::
-eraseConnection(PortType portType,
-                PortIndex portIndex,
-                QUuid id)
+void NodeState::setConnection(PortType portType, PortIndex portIndex, Connection &connection)
 {
-  getEntries(portType)[portIndex].erase(id);
+    auto &connections = getEntries(portType);
+    connections.at(portIndex).insert(std::make_pair(connection.id(), &connection));
 }
-
-
-NodeState::ReactToConnectionState
-NodeState::
-reaction() const
+void NodeState::eraseConnection(PortType portType, PortIndex portIndex, QUuid id)
 {
-  return _reaction;
+    getEntries(portType)[portIndex].erase(id);
 }
-
-
-PortType
-NodeState::
-reactingPortType() const
+NodeState::ReactToConnectionState NodeState::reaction() const
 {
-  return _reactingPortType;
+    return _reaction;
 }
-
-
+PortType NodeState::reactingPortType() const
+{
+    return _reactingPortType;
+}
 std::shared_ptr<QtNodes::NodeDataType> NodeState::reactingDataType() const
 {
-  return _reactingDataType;
+    return _reactingDataType;
 }
-
-
-void
-NodeState::
-setReaction(ReactToConnectionState reaction,
-            PortType reactingPortType,
-            std::shared_ptr<NodeDataType> reactingDataType)
+void NodeState::setReaction(ReactToConnectionState reaction, PortType reactingPortType, std::shared_ptr<NodeDataType> reactingDataType)
 {
-  _reaction = reaction;
-
-  _reactingPortType = reactingPortType;
-
-  _reactingDataType = std::move(reactingDataType);
+    _reaction = reaction;
+    _reactingPortType = reactingPortType;
+    _reactingDataType = std::move(reactingDataType);
 }
-
-
-bool
-NodeState::
-isReacting() const
+bool NodeState::isReacting() const
 {
-  return _reaction == REACTING;
+    return _reaction == REACTING;
 }
-
-
-void
-NodeState::
-setResizing(bool resizing)
+void NodeState::setResizing(bool resizing)
 {
-  _resizing = resizing;
+    _resizing = resizing;
 }
-
-
-bool
-NodeState::
-resizing() const
+bool NodeState::resizing() const
 {
-  return _resizing;
+    return _resizing;
 }
