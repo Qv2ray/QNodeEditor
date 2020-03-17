@@ -144,6 +144,9 @@ public:
     return modelValidationError;
   }
 
+  std::unique_ptr<NodeDataModel>
+    clone() const override
+    { return std::make_unique<MultiAdditionModel>(); }
   ConnectionPolicy
   portInConnectionPolicy(PortIndex) const override { return QtNodes::NodeDataModel::ConnectionPolicy::Many; }
 

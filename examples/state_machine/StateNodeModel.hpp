@@ -24,5 +24,9 @@ public:
   void setInData(std::vector<std::shared_ptr<NodeData> > nodeData, PortIndex port) override;
   std::shared_ptr<NodeData> outData(PortIndex port) override;
 
+  std::unique_ptr<NodeDataModel>
+    clone() const override
+    { return std::make_unique<StateNodeModel>(); }
+
   QWidget* embeddedWidget() override { return nullptr; }
 };
