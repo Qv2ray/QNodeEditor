@@ -140,6 +140,40 @@ recalculateSize(QFont const & font) const
 }
 
 
+QSize
+NodeGeometry::
+minimumEmbeddedSize() const
+{
+  const unsigned int maxNumOfEntries = std::max(_nSinks, _nSources);
+  const unsigned int step = _fontMetrics.height() + _spacing;
+  unsigned int height = step * maxNumOfEntries;
+  unsigned int width = 0;
+
+  if (auto w = _dataModel->embeddedWidget())
+  {
+    height = std::max(height, static_cast<unsigned>(w->minimumHeight()));
+    width = std::max(width, static_cast<unsigned>(w->minimumHeight()));
+  }
+
+  width = std::max(width, captionWidth());
+
+  if (_dataModel->validationState() != NodeValidationState::Valid)
+    width = std::max(width, validationWidth());
+
+  return QSize(width, height);
+}
+
+
+QSize
+NodeGeometry::
+maximumEmbeddedSize() const
+{
+  if (auto w = _dataModel->embeddedWidget())
+    return w->maximumSize();
+  return QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+}
+
+
 QPointF
 NodeGeometry::
 portScenePosition(PortIndex index,

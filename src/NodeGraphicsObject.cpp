@@ -105,14 +105,22 @@ embedQWidget()
 
     _proxyWidget->setPreferredWidth(5);
 
-    geom.recalculateSize();
+    QSize size = w->size();
+    QSize correct = size;
+    correct = correct.expandedTo(geom.minimumEmbeddedSize());
+    correct = correct.boundedTo(geom.maximumEmbeddedSize());
+    if (size != correct)
+    {
+      size = correct;
+      w->resize(size);
+    }
 
+    geom.recalculateSize();
     if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
     {
       // If the widget wants to use as much vertical space as possible, set it to have the geom's equivalentWidgetHeight.
       _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
     }
-
     _proxyWidget->setPos(geom.widgetPosition());
 
     update();
@@ -285,21 +293,40 @@ mouseMoveEvent(QGraphicsSceneMouseEvent * event)
   {
     auto diff = event->pos() - event->lastPos();
 
+    if (qAbs(diff.x()) < 1 && qAbs(diff.y()) < 1)
+    {
+      event->ignore();
+      return;
+    }
+
     if (auto w = _node.nodeDataModel()->embeddedWidget())
     {
       prepareGeometryChange();
 
-      auto oldSize = w->size();
+      const QSize size = w->size();
+      QSize newSize = size + QSize(diff.x(), diff.y());
 
-      oldSize += QSize(diff.x(), diff.y());
+      const QSize minSize = geom.minimumEmbeddedSize();
+      const QSize maxSize = geom.maximumEmbeddedSize();
+      if ((newSize.width() < minSize.width() &&
+           newSize.height() < minSize.height()) ||
+          (newSize.width() > maxSize.width() &&
+           newSize.height() > maxSize.height()))
+      {
+        event->ignore();
+        return;
+      }
 
-      w->setFixedSize(oldSize);
+      newSize = newSize.expandedTo(minSize);
+      newSize = newSize.boundedTo(maxSize);
 
-      _proxyWidget->setMinimumSize(oldSize);
-      _proxyWidget->setMaximumSize(oldSize);
+      w->resize(newSize);
+      geom.recalculateSize();
+
+      _proxyWidget->setMinimumSize(newSize);
+      _proxyWidget->setMaximumSize(newSize);
       _proxyWidget->setPos(geom.widgetPosition());
 
-      geom.recalculateSize();
       update();
 
       moveConnections();

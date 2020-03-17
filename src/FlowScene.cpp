@@ -501,10 +501,6 @@ void
 FlowScene::
 load()
 {
-  clearScene();
-
-  //-------------
-
   QString fileName =
     QFileDialog::getOpenFileName(nullptr,
                                  tr("Open Flow Scene"),
@@ -521,6 +517,7 @@ load()
 
   QByteArray wholeFile = file.readAll();
 
+  clearScene();
   loadFromMemory(wholeFile);
 }
 
