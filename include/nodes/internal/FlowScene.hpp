@@ -4,6 +4,7 @@
 #include "QUuidStdHash.hpp"
 #include "TypeConverter.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsScene>
 #include <functional>
@@ -26,6 +27,7 @@ namespace QtNodes
         FlowScene(std::shared_ptr<DataModelRegistry> registry, QObject *parent = Q_NULLPTR);
         FlowScene(QObject *parent = Q_NULLPTR);
         ~FlowScene();
+
       public:
         std::shared_ptr<Connection> createConnection(PortType connectedPort, Node &node, PortIndex portIndex);
         std::shared_ptr<Connection> createConnection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut, PortIndex portIndexOut,
@@ -43,11 +45,13 @@ namespace QtNodes
         QPointF getNodePosition(Node const &node) const;
         void setNodePosition(Node &node, QPointF const &pos) const;
         QSizeF getNodeSize(Node const &node) const;
+
       public:
         std::unordered_map<QUuid, std::unique_ptr<Node>> const &nodes() const;
         std::unordered_map<QUuid, std::shared_ptr<Connection>> const &connections() const;
         std::vector<Node *> allNodes() const;
         std::vector<Node *> selectedNodes() const;
+
       public:
         void clearScene();
         void save() const;
@@ -77,6 +81,7 @@ namespace QtNodes
         void connectionHoverLeft(Connection &c);
         void nodeHoverLeft(Node &n);
         void nodeContextMenu(Node &n, const QPointF &pos);
+
       private:
         using SharedConnection = std::shared_ptr<Connection>;
         using UniqueNode = std::unique_ptr<Node>;

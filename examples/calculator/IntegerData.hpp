@@ -25,6 +25,7 @@ class IntegerData : public NodeData
     {
         return QString::number(_number);
     }
+
   private:
     int _number;
 };

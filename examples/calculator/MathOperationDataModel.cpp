@@ -1,4 +1,5 @@
 #include "MathOperationDataModel.hpp"
+
 #include "DecimalData.hpp"
 unsigned int MathOperationDataModel::nPorts(PortType portType) const
 {

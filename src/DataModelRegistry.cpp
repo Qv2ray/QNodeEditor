@@ -1,4 +1,5 @@
 #include "DataModelRegistry.hpp"
+
 #include <QtCore/QFile>
 #include <QtWidgets/QMessageBox>
 using QtNodes::DataModelRegistry;

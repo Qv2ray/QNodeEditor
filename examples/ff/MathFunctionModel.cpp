@@ -1,5 +1,7 @@
 #include "MathFunctionModel.hpp"
+
 #include "ExpressionRangeData.hpp"
+
 #include <QtCore/QDebug>
 #include <QtCore/QJsonValue>
 #include <QtGui/QDoubleValidator>

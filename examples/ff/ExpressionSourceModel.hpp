@@ -21,6 +21,7 @@ class ExpressionSourceModel : public NodeDataModel
     virtual ~ExpressionSourceModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -38,9 +39,11 @@ class ExpressionSourceModel : public NodeDataModel
     {
         return std::make_unique<ExpressionSourceModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -53,8 +56,10 @@ class ExpressionSourceModel : public NodeDataModel
     void onVariableEdited(QString const &string);
     void onRangeEdited(QString const &string);
     void processChangedData();
+
   private:
     std::vector<double> processRangeText(QString const &rangeText) const;
+
   private:
     std::shared_ptr<ExpressionRangeData> _expression;
     QWidget *_widget;

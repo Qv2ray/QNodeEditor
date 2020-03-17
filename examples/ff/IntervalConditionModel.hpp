@@ -25,6 +25,7 @@ class IntervalConditionModel : public NodeDataModel
     virtual ~IntervalConditionModel()
     {
     }
+
   public:
     bool portCaptionVisible(PortType, PortIndex) const override
     {
@@ -61,9 +62,11 @@ class IntervalConditionModel : public NodeDataModel
     {
         return std::make_unique<IntervalConditionModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -79,6 +82,7 @@ class IntervalConditionModel : public NodeDataModel
     QString convertRangeToText(std::vector<double> const &range) const;
     void onIntervalEdited(QString const &string);
     bool processIntervals();
+
   private:
     std::weak_ptr<ExpressionRangeData> _controlInput;
     std::weak_ptr<ExpressionRangeData> _input1;

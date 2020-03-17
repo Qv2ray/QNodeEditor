@@ -36,6 +36,7 @@ class NaiveDataModel : public NodeDataModel
     virtual ~NaiveDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -45,6 +46,7 @@ class NaiveDataModel : public NodeDataModel
     {
         return QString("NaiveDataModel");
     }
+
   public:
     unsigned int nPorts(PortType portType) const override
     {

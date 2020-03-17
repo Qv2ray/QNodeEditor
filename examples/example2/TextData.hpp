@@ -21,6 +21,7 @@ class TextData : public NodeData
     {
         return _text;
     }
+
   private:
     QString _text;
 };

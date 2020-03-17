@@ -1,4 +1,5 @@
 #include "ConnectionGraphicsObject.hpp"
+
 #include "Connection.hpp"
 #include "ConnectionBlurEffect.hpp"
 #include "ConnectionGeometry.hpp"
@@ -8,6 +9,7 @@
 #include "Node.hpp"
 #include "NodeConnectionInteraction.hpp"
 #include "NodeGraphicsObject.hpp"
+
 #include <QtWidgets/QGraphicsBlurEffect>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QtWidgets/QGraphicsSceneMouseEvent>

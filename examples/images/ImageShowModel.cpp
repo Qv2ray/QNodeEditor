@@ -1,5 +1,7 @@
 #include "ImageShowModel.hpp"
+
 #include "PixmapData.hpp"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtWidgets/QFileDialog>

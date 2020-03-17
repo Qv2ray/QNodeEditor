@@ -24,6 +24,7 @@ class ExpressionRangeData : public NodeData
     {
         return _range;
     }
+
   private:
     QString _expression;
     std::vector<double> _range;

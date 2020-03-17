@@ -20,6 +20,7 @@ class MathOperationDataModel : public NodeDataModel
     virtual ~MathOperationDataModel()
     {
     }
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -31,8 +32,10 @@ class MathOperationDataModel : public NodeDataModel
     }
     NodeValidationState validationState() const override;
     QString validationMessage() const override;
+
   protected:
     virtual void compute() = 0;
+
   protected:
     std::weak_ptr<DecimalData> _number1;
     std::weak_ptr<DecimalData> _number2;

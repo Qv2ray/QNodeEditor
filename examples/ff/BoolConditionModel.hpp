@@ -27,6 +27,7 @@ class BoolConditionModel : public NodeDataModel
     virtual ~BoolConditionModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -44,15 +45,18 @@ class BoolConditionModel : public NodeDataModel
     {
         return std::make_unique<BoolConditionModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
     std::shared_ptr<NodeData> outData(PortIndex port) override;
     void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
     QWidget *embeddedWidget() override;
+
   private:
     void createNameAndBoolFunctions();
   private slots:
@@ -60,6 +64,7 @@ class BoolConditionModel : public NodeDataModel
     void processData();
     std::vector<bool> applyFunction(std::vector<double> const &range1, std::vector<double> const &range2) const;
     QString convertRangeToText(std::vector<bool> const &range) const;
+
   private:
     std::weak_ptr<ExpressionRangeData> _input1;
     std::weak_ptr<ExpressionRangeData> _input2;

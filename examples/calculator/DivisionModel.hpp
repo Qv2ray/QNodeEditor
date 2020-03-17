@@ -1,6 +1,7 @@
 #pragma once
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
+
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 #include <nodes/NodeDataModel>
@@ -12,6 +13,7 @@ class DivisionModel : public MathOperationDataModel
     virtual ~DivisionModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -46,6 +48,7 @@ class DivisionModel : public MathOperationDataModel
     {
         return QStringLiteral("Division");
     }
+
   private:
     void compute() override
     {

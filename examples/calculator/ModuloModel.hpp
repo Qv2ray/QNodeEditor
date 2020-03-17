@@ -16,6 +16,7 @@ class ModuloModel : public NodeDataModel
   public:
     ModuloModel() = default;
     virtual ~ModuloModel() = default;
+
   public:
     QString caption() const override
     {
@@ -52,8 +53,10 @@ class ModuloModel : public NodeDataModel
     {
         return QStringLiteral("Modulo");
     }
+
   public:
     QJsonObject save() const override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -65,6 +68,7 @@ class ModuloModel : public NodeDataModel
     }
     NodeValidationState validationState() const override;
     QString validationMessage() const override;
+
   private:
     std::weak_ptr<IntegerData> _number1;
     std::weak_ptr<IntegerData> _number2;

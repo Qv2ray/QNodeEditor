@@ -1,10 +1,12 @@
 #include "FlowView.hpp"
+
 #include "ConnectionGraphicsObject.hpp"
 #include "DataModelRegistry.hpp"
 #include "FlowScene.hpp"
 #include "Node.hpp"
 #include "NodeGraphicsObject.hpp"
 #include "StyleCollection.hpp"
+
 #include <QDebug>
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>

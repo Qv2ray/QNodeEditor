@@ -3,6 +3,7 @@
 #include "Export.hpp"
 #include "NodeGeometry.hpp"
 #include "NodeState.hpp"
+
 #include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsObject>
 class QGraphicsProxyWidget;
@@ -35,6 +36,7 @@ namespace QtNodes
         }
         void lock(bool locked);
         void embedQWidget(bool embed = true);
+
       protected:
         void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget = 0) override;
         QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
@@ -46,6 +48,7 @@ namespace QtNodes
         void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
         void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+
       private:
         FlowScene &_scene;
         Node &_node;

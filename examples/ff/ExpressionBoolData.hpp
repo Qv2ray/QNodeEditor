@@ -24,6 +24,7 @@ class ExpressionBoolData : public NodeData
     {
         return _range;
     }
+
   private:
     QString _expression;
     std::vector<bool> _range;

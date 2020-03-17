@@ -1,10 +1,12 @@
 #include "NodeGeometry.hpp"
+
 #include "Node.hpp"
 #include "NodeDataModel.hpp"
 #include "NodeGraphicsObject.hpp"
 #include "NodeState.hpp"
 #include "PortType.hpp"
 #include "StyleCollection.hpp"
+
 #include <cmath>
 #include <iostream>
 using QtNodes::Node;

@@ -1,5 +1,6 @@
 #pragma once
 #include "PixmapData.hpp"
+
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 #include <iostream>
@@ -21,6 +22,7 @@ class ImageLoaderModel : public NodeDataModel
     virtual ~ImageLoaderModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -30,6 +32,7 @@ class ImageLoaderModel : public NodeDataModel
     {
         return QString("ImageLoaderModel");
     }
+
   public:
     virtual QString modelName() const
     {
@@ -53,8 +56,10 @@ class ImageLoaderModel : public NodeDataModel
     {
         return std::make_unique<ImageLoaderModel>();
     }
+
   protected:
     bool eventFilter(QObject *object, QEvent *event) override;
+
   private:
     QLabel *_label;
     QPixmap _pixmap;

@@ -26,6 +26,7 @@ class IfConditionModel : public NodeDataModel
     virtual ~IfConditionModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -43,9 +44,11 @@ class IfConditionModel : public NodeDataModel
     {
         return std::make_unique<IfConditionModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -59,6 +62,7 @@ class IfConditionModel : public NodeDataModel
                                       std::vector<double> const &range2) const;
     QString convertBoolRangeToText(std::vector<bool> const &range) const;
     QString convertRangeToText(std::vector<double> const &range) const;
+
   private:
     std::weak_ptr<ExpressionBoolData> _input0;
     std::weak_ptr<ExpressionRangeData> _input1;

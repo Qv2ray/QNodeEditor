@@ -20,6 +20,7 @@ class NumberSourceDataModel : public NodeDataModel
     virtual ~NumberSourceDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -33,9 +34,11 @@ class NumberSourceDataModel : public NodeDataModel
     {
         return QStringLiteral("NumberSource");
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -53,6 +56,7 @@ class NumberSourceDataModel : public NodeDataModel
     }
   private Q_SLOTS:
     void onTextEdited(QString const &string);
+
   private:
     std::shared_ptr<DecimalData> _number;
     QLineEdit *_lineEdit;

@@ -19,6 +19,7 @@ class NumberDisplayDataModel : public NodeDataModel
     virtual ~NumberDisplayDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -32,6 +33,7 @@ class NumberDisplayDataModel : public NodeDataModel
     {
         return QStringLiteral("Result");
     }
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -47,6 +49,7 @@ class NumberDisplayDataModel : public NodeDataModel
     {
         return std::make_unique<NumberDisplayDataModel>();
     }
+
   private:
     NodeValidationState modelValidationState = NodeValidationState::Warning;
     QString modelValidationError = QStringLiteral("Missing or incorrect inputs");

@@ -1,5 +1,6 @@
 #pragma once
 #include "Export.hpp"
+
 #include <QtWidgets/QGraphicsView>
 namespace QtNodes
 {
@@ -19,6 +20,7 @@ namespace QtNodes
         virtual void scaleUp();
         virtual void scaleDown();
         virtual void deleteSelectedNodes();
+
       protected:
         void contextMenuEvent(QContextMenuEvent *event) override;
         void wheelEvent(QWheelEvent *event) override;
@@ -28,8 +30,10 @@ namespace QtNodes
         void mouseMoveEvent(QMouseEvent *event) override;
         void drawBackground(QPainter *painter, const QRectF &r) override;
         void showEvent(QShowEvent *event) override;
+
       protected:
         FlowScene *scene();
+
       private:
         QAction *_clearSelectionAction;
         QAction *_deleteSelectionAction;

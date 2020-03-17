@@ -20,6 +20,7 @@ class ImageShowModel : public NodeDataModel
     virtual ~ImageShowModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -29,6 +30,7 @@ class ImageShowModel : public NodeDataModel
     {
         return QString("ImageShowModel");
     }
+
   public:
     virtual QString modelName() const
     {
@@ -50,8 +52,10 @@ class ImageShowModel : public NodeDataModel
     {
         return std::make_unique<ImageShowModel>();
     }
+
   protected:
     bool eventFilter(QObject *object, QEvent *event) override;
+
   private:
     QLabel *_label;
     std::shared_ptr<NodeData> _nodeData;

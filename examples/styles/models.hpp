@@ -29,6 +29,7 @@ class MyDataModel : public NodeDataModel
     virtual ~MyDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -38,6 +39,7 @@ class MyDataModel : public NodeDataModel
     {
         return QString("MyDataModel");
     }
+
   public:
     QJsonObject save() const override
     {
@@ -45,6 +47,7 @@ class MyDataModel : public NodeDataModel
         modelJson["name"] = name();
         return modelJson;
     }
+
   public:
     unsigned int nPorts(PortType) const override
     {

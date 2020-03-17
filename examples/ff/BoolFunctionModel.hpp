@@ -22,11 +22,13 @@ class BoolFunctionModel : public NodeDataModel
   public:
     using BoolFunctionPtr = std::function<bool(bool, bool)>;
     using NameAndBoolFunction = std::tuple<QString, QString, BoolFunctionPtr>;
+
   public:
     BoolFunctionModel();
     virtual ~BoolFunctionModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -44,15 +46,18 @@ class BoolFunctionModel : public NodeDataModel
     {
         return std::make_unique<BoolFunctionModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
     std::shared_ptr<NodeData> outData(PortIndex port) override;
     void setInData(std::shared_ptr<NodeData>, PortIndex) override;
     QWidget *embeddedWidget() override;
+
   private:
     QString convertBoolRangeToText(std::vector<bool> const &range) const;
     std::vector<bool> applyFunction(std::vector<bool> const &range1, std::vector<bool> const &range2) const;
@@ -60,6 +65,7 @@ class BoolFunctionModel : public NodeDataModel
     void createNameAndBoolFunctions();
   private slots:
     void onFunctionIndexChanged(int index);
+
   private:
     std::weak_ptr<ExpressionBoolData> _input1;
     std::weak_ptr<ExpressionBoolData> _input2;

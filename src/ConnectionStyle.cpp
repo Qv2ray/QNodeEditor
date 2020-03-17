@@ -1,5 +1,7 @@
 #include "ConnectionStyle.hpp"
+
 #include "StyleCollection.hpp"
+
 #include <QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QJsonArray>

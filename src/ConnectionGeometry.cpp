@@ -1,5 +1,7 @@
 #include "ConnectionGeometry.hpp"
+
 #include "StyleCollection.hpp"
+
 #include <cmath>
 using QtNodes::ConnectionGeometry;
 using QtNodes::PortType;

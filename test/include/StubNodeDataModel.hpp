@@ -39,6 +39,7 @@ class StubNodeDataModel : public QtNodes::NodeDataModel
     {
         _caption = std::move(caption);
     }
+
   private:
     QString _name = "name";
     QString _caption = "caption";

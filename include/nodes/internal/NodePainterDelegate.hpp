@@ -2,6 +2,7 @@
 #include "Export.hpp"
 #include "NodeDataModel.hpp"
 #include "NodeGeometry.hpp"
+
 #include <QPainter>
 namespace QtNodes
 {

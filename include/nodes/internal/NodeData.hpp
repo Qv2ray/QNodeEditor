@@ -1,5 +1,6 @@
 #pragma once
 #include "Export.hpp"
+
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <memory>
@@ -34,6 +35,7 @@ namespace QtNodes
         {
             return _name;
         }
+
       private:
         NodeDataTypeId _id;
         QString _name;

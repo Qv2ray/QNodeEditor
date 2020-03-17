@@ -1,4 +1,5 @@
 #include "NodeConnectionInteraction.hpp"
+
 #include "ConnectionGraphicsObject.hpp"
 #include "DataModelRegistry.hpp"
 #include "FlowScene.hpp"

@@ -1,4 +1,5 @@
 #include "NodeDataModel.hpp"
+
 #include "StyleCollection.hpp"
 using QtNodes::NodeData;
 using QtNodes::NodeDataModel;

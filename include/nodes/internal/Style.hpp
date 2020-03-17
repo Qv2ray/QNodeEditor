@@ -6,6 +6,7 @@ namespace QtNodes
     {
       public:
         virtual ~Style() = default;
+
       private:
         virtual void loadJsonText(QString jsonText) = 0;
         virtual void loadJsonFile(QString fileName) = 0;

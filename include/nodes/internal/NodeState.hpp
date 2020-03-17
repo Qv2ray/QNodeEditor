@@ -3,6 +3,7 @@
 #include "NodeData.hpp"
 #include "PortType.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QUuid>
 #include <unordered_map>
 #include <vector>
@@ -20,8 +21,10 @@ namespace QtNodes
             REACTING,
             NOT_REACTING
         };
+
       public:
         NodeState(std::unique_ptr<NodeDataModel> const &model);
+
       public:
         using ConnectionPtrSet = std::unordered_map<QUuid, Connection *>;
         /// Returns vector of connections ID.
@@ -39,6 +42,7 @@ namespace QtNodes
         bool isReacting() const;
         void setResizing(bool resizing);
         bool resizing() const;
+
       private:
         std::vector<ConnectionPtrSet> _inConnections;
         std::vector<ConnectionPtrSet> _outConnections;

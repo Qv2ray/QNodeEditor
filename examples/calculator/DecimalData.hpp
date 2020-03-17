@@ -25,6 +25,7 @@ class DecimalData : public NodeData
     {
         return QString::number(_number, 'f');
     }
+
   private:
     double _number;
 };

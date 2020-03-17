@@ -1,5 +1,7 @@
 #include "PlotModel.hpp"
+
 #include "ExpressionRangeData.hpp"
+
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>

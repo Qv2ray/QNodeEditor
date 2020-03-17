@@ -1,4 +1,5 @@
 #include "NumberDisplayDataModel.hpp"
+
 #include "DecimalData.hpp"
 NumberDisplayDataModel::NumberDisplayDataModel() : _label(new QLabel())
 {

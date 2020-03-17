@@ -1,5 +1,6 @@
 #pragma once
 #include "Export.hpp"
+
 #include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsObject>
 class QGraphicsSceneMouseEvent;
@@ -24,6 +25,7 @@ namespace QtNodes
         {
             return Type;
         }
+
       public:
         Connection &connection();
         QRectF boundingRect() const override;
@@ -32,6 +34,7 @@ namespace QtNodes
         /// Updates the position of both ends
         void move();
         void lock(bool locked);
+
       protected:
         void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget = 0) override;
         void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -39,8 +42,10 @@ namespace QtNodes
         void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
         void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+
       private:
         void addGraphicsEffect();
+
       private:
         FlowScene &_scene;
         Connection &_connection;

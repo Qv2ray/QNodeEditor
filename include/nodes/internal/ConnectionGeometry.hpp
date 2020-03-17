@@ -1,5 +1,6 @@
 #pragma once
 #include "PortType.hpp"
+
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>
 #include <iostream>
@@ -9,6 +10,7 @@ namespace QtNodes
     {
       public:
         ConnectionGeometry();
+
       public:
         QPointF const &getEndPoint(PortType portType) const;
         void setEndPoint(PortType portType, QPointF const &point);
@@ -35,6 +37,7 @@ namespace QtNodes
         {
             _hovered = hovered;
         }
+
       private:
         // local object coordinates
         QPointF _in;

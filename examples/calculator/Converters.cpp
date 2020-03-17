@@ -1,6 +1,8 @@
 #include "Converters.hpp"
+
 #include "DecimalData.hpp"
 #include "IntegerData.hpp"
+
 #include <QtGui/QDoubleValidator>
 std::shared_ptr<NodeData> DecimalToIntegerConverter::operator()(std::shared_ptr<NodeData> data)
 {

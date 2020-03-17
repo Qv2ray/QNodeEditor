@@ -23,6 +23,7 @@ class PixmapData : public NodeData
     {
         return _pixmap;
     }
+
   private:
     QPixmap _pixmap;
 };

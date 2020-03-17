@@ -1,4 +1,5 @@
 #include "models.hpp"
+
 #include <QtWidgets/QApplication>
 #include <nodes/ConnectionStyle>
 #include <nodes/DataModelRegistry>

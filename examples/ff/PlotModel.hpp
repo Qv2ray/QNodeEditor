@@ -31,6 +31,7 @@ class PlotModel : public NodeDataModel
     virtual ~PlotModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -48,9 +49,11 @@ class PlotModel : public NodeDataModel
     {
         return std::make_unique<PlotModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -61,12 +64,15 @@ class PlotModel : public NodeDataModel
     {
         return true;
     }
+
   protected:
     bool eventFilter(QObject *object, QEvent *event) override;
+
   private:
     void processData();
   private slots:
     void onFunctionIndexChanged(int index);
+
   private:
     std::weak_ptr<ExpressionRangeData> _input1;
     std::weak_ptr<ExpressionRangeData> _input2;

@@ -1,5 +1,6 @@
 #pragma once
 #include "TextData.hpp"
+
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 #include <iostream>
@@ -18,6 +19,7 @@ class TextDisplayDataModel : public NodeDataModel
     virtual ~TextDisplayDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -39,6 +41,7 @@ class TextDisplayDataModel : public NodeDataModel
     {
         return std::make_unique<TextDisplayDataModel>();
     }
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -60,6 +63,7 @@ class TextDisplayDataModel : public NodeDataModel
     {
         return _label;
     }
+
   private:
     QLabel *_label;
 };

@@ -1,5 +1,7 @@
 #include "ModuloModel.hpp"
+
 #include "IntegerData.hpp"
+
 #include <QtGui/QDoubleValidator>
 QJsonObject ModuloModel::save() const
 {

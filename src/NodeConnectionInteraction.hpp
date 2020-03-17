@@ -32,12 +32,14 @@ namespace QtNodes
         /// 3) Propagate invalid data to IN node
         /// 4) Set Connection end to 'requiring a port'
         bool disconnect(PortType portToDisconnect) const;
+
       private:
         PortType connectionRequiredPort() const;
         QPointF connectionEndScenePosition(PortType) const;
         QPointF nodePortScenePosition(PortType portType, PortIndex portIndex) const;
         PortIndex nodePortIndexUnderScenePoint(PortType portType, QPointF const &p) const;
         bool nodePortIsEmpty(PortType portType, PortIndex portIndex) const;
+
       private:
         Node *_node;
         Connection *_connection;

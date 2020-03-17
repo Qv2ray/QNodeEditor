@@ -1,4 +1,5 @@
 #include "Connection.hpp"
+
 #include "ConnectionGeometry.hpp"
 #include "ConnectionGraphicsObject.hpp"
 #include "ConnectionState.hpp"
@@ -8,6 +9,7 @@
 #include "NodeDataModel.hpp"
 #include "NodeGeometry.hpp"
 #include "NodeGraphicsObject.hpp"
+
 #include <QtGlobal>
 #include <QtWidgets/QtWidgets>
 #include <cmath>

@@ -2,6 +2,7 @@
 #include "Export.hpp"
 #include "PortType.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>
 #include <QtGui/QFontMetrics>
@@ -15,6 +16,7 @@ namespace QtNodes
     {
       public:
         NodeGeometry(std::unique_ptr<NodeDataModel> const &dataModel);
+
       public:
         unsigned int height() const
         {
@@ -74,6 +76,7 @@ namespace QtNodes
         {
             _draggingPos = pos;
         }
+
       public:
         QRectF entryBoundingRect() const;
         QRectF boundingRect() const;
@@ -96,10 +99,12 @@ namespace QtNodes
         unsigned int validationWidth() const;
         static QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node *targetNode,
                                                              PortIndex sourcePortIndex, PortType sourcePort, Node *sourceNode, Node &newNode);
+
       private:
         unsigned int captionHeight() const;
         unsigned int captionWidth() const;
         unsigned int portWidth(PortType portType) const;
+
       private:
         // some variables are mutable because
         // we need to change drawing metrics

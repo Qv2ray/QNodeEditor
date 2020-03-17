@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.hpp"
 #include "Style.hpp"
+
 #include <QtGui/QColor>
 namespace QtNodes
 {
@@ -9,12 +10,15 @@ namespace QtNodes
       public:
         NodeStyle();
         NodeStyle(QString jsonText);
+
       public:
         static void setNodeStyle(QString jsonText);
+
       private:
         void loadJsonText(QString jsonText) override;
         void loadJsonFile(QString fileName) override;
         void loadJsonFromByteArray(QByteArray const &byteArray) override;
+
       public:
         QColor NormalBoundaryColor;
         QColor SelectedBoundaryColor;

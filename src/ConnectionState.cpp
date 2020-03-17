@@ -1,6 +1,8 @@
 #include "ConnectionState.hpp"
+
 #include "FlowScene.hpp"
 #include "Node.hpp"
+
 #include <QtCore/QPointF>
 #include <iostream>
 using QtNodes::ConnectionState;

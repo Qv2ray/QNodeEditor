@@ -8,6 +8,7 @@
 #include "PortType.hpp"
 #include "Serializable.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QJsonObject>
 #include <QtCore/QObject>
 #include <QtCore/QUuid>
@@ -26,13 +27,16 @@ namespace QtNodes
         /// NodeDataModel should be an rvalue and is moved into the Node
         Node(std::unique_ptr<NodeDataModel> &&dataModel);
         virtual ~Node();
+
       public:
         QJsonObject save() const override;
         void restore(QJsonObject const &json) override;
+
       public:
         QUuid id() const;
         void reactToPossibleConnection(PortType, std::shared_ptr<NodeDataType>, QPointF const &scenePoint);
         void resetReactionToConnection();
+
       public:
         NodeGraphicsObject const &nodeGraphicsObject() const;
         NodeGraphicsObject &nodeGraphicsObject();
@@ -50,6 +54,7 @@ namespace QtNodes
         void onDataUpdated(PortIndex index);
         /// update the graphic part if the size of the embeddedwidget changes
         void onNodeSizeUpdated();
+
       private:
         // addressing
         QUuid _uid;

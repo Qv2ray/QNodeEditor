@@ -1,10 +1,12 @@
 #include "FlowScene.hpp"
+
 #include "Connection.hpp"
 #include "ConnectionGraphicsObject.hpp"
 #include "DataModelRegistry.hpp"
 #include "FlowView.hpp"
 #include "Node.hpp"
 #include "NodeGraphicsObject.hpp"
+
 #include <QMenu>
 #include <QtCore/QBuffer>
 #include <QtCore/QByteArray>

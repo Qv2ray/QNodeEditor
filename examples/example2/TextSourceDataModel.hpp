@@ -1,5 +1,6 @@
 #pragma once
 #include "TextData.hpp"
+
 #include <QtCore/QObject>
 #include <QtWidgets/QLineEdit>
 #include <iostream>
@@ -18,6 +19,7 @@ class TextSourceDataModel : public NodeDataModel
     virtual ~TextSourceDataModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -39,6 +41,7 @@ class TextSourceDataModel : public NodeDataModel
     {
         return std::make_unique<TextSourceDataModel>();
     }
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -52,6 +55,7 @@ class TextSourceDataModel : public NodeDataModel
     }
   private Q_SLOTS:
     void onTextEdited(QString const &string);
+
   private:
     QLineEdit *_lineEdit;
 };

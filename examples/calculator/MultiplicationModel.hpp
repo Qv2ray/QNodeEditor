@@ -1,6 +1,7 @@
 #pragma once
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
+
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 #include <nodes/NodeDataModel>
@@ -12,6 +13,7 @@ class MultiplicationModel : public MathOperationDataModel
     virtual ~MultiplicationModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -25,6 +27,7 @@ class MultiplicationModel : public MathOperationDataModel
     {
         return std::make_unique<MultiplicationModel>();
     }
+
   private:
     void compute() override
     {

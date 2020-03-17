@@ -1,5 +1,6 @@
 #pragma once
 #include "PortType.hpp"
+
 #include <QtCore/QUuid>
 class QPointF;
 namespace QtNodes
@@ -16,6 +17,7 @@ namespace QtNodes
         ConnectionState(const ConnectionState &) = delete;
         ConnectionState operator=(const ConnectionState &) = delete;
         ~ConnectionState();
+
       public:
         void setRequiredPort(PortType end)
         {
@@ -33,6 +35,7 @@ namespace QtNodes
         {
             _requiredPort = PortType::None;
         }
+
       public:
         void interactWithNode(Node *node);
         void setLastHoveredNode(Node *node);
@@ -41,6 +44,7 @@ namespace QtNodes
             return _lastHoveredNode;
         }
         void resetLastHoveredNode();
+
       private:
         PortType _requiredPort;
         Node *_lastHoveredNode{ nullptr };

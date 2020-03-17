@@ -1,4 +1,5 @@
 #include "NodeState.hpp"
+
 #include "Connection.hpp"
 #include "NodeDataModel.hpp"
 using QtNodes::Connection;

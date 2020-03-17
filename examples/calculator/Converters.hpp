@@ -12,6 +12,7 @@ class DecimalToIntegerConverter
 {
   public:
     std::shared_ptr<NodeData> operator()(std::shared_ptr<NodeData> data);
+
   private:
     std::shared_ptr<NodeData> _integer;
 };
@@ -19,6 +20,7 @@ class IntegerToDecimalConverter
 {
   public:
     std::shared_ptr<NodeData> operator()(std::shared_ptr<NodeData> data);
+
   private:
     std::shared_ptr<NodeData> _decimal;
 };

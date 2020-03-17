@@ -1,9 +1,11 @@
 #include "Node.hpp"
+
 #include "ConnectionGraphicsObject.hpp"
 #include "ConnectionState.hpp"
 #include "FlowScene.hpp"
 #include "NodeDataModel.hpp"
 #include "NodeGraphicsObject.hpp"
+
 #include <QtCore/QObject>
 #include <iostream>
 #include <utility>

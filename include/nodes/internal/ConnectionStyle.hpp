@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.hpp"
 #include "Style.hpp"
+
 #include <QtGui/QColor>
 namespace QtNodes
 {
@@ -9,12 +10,15 @@ namespace QtNodes
       public:
         ConnectionStyle();
         ConnectionStyle(QString jsonText);
+
       public:
         static void setConnectionStyle(QString jsonText);
+
       private:
         void loadJsonText(QString jsonText) override;
         void loadJsonFile(QString fileName) override;
         void loadJsonFromByteArray(QByteArray const &byteArray) override;
+
       public:
         QColor constructionColor() const;
         QColor normalColor() const;
@@ -26,6 +30,7 @@ namespace QtNodes
         float constructionLineWidth() const;
         float pointDiameter() const;
         bool useDataDefinedColors() const;
+
       private:
         QColor ConstructionColor;
         QColor NormalColor;

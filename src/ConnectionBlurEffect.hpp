@@ -8,6 +8,7 @@ namespace QtNodes
       public:
         ConnectionBlurEffect(ConnectionGraphicsObject *item);
         void draw(QPainter *painter) override;
+
       private:
     };
 } // namespace QtNodes

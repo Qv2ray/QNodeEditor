@@ -20,6 +20,7 @@ class ExpressionStepRangeModel : public NodeDataModel
     virtual ~ExpressionStepRangeModel()
     {
     }
+
   public:
     QString caption() const override
     {
@@ -37,9 +38,11 @@ class ExpressionStepRangeModel : public NodeDataModel
     {
         return std::make_unique<ExpressionStepRangeModel>();
     }
+
   public:
     QJsonObject save() const override;
     void restore(QJsonObject const &p) override;
+
   public:
     unsigned int nPorts(PortType portType) const override;
     std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
@@ -52,9 +55,11 @@ class ExpressionStepRangeModel : public NodeDataModel
     void onVariableEdited(QString const &string);
     void onRangeEdited(QString const &string);
     void processData();
+
   private:
     std::vector<double> processRangeText(QString const &numberText, QString const &stepText, int times) const;
     QString convertRangeToText(std::vector<double> const &range) const;
+
   private:
     std::shared_ptr<ExpressionRangeData> _expression;
     QWidget *_widget;

@@ -1,6 +1,7 @@
 #include "ApplicationSetup.hpp"
 #include "Stringify.hpp"
 #include "StubNodeDataModel.hpp"
+
 #include <catch2/catch.hpp>
 #include <functional>
 #include <memory>

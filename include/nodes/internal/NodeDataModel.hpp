@@ -7,6 +7,7 @@
 #include "PortType.hpp"
 #include "Serializable.hpp"
 #include "memory.hpp"
+
 #include <QtWidgets/QWidget>
 namespace QtNodes
 {
@@ -45,12 +46,15 @@ namespace QtNodes
         }
         /// Name makes this model unique
         virtual QString name() const = 0;
+
       public:
         QJsonObject save() const override;
+
       public:
         virtual unsigned int nPorts(PortType portType) const = 0;
         virtual std::unique_ptr<NodeDataModel> clone() const = 0;
         virtual std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const = 0;
+
       public:
         enum class ConnectionPolicy
         {
@@ -68,6 +72,7 @@ namespace QtNodes
         }
         NodeStyle const &nodeStyle() const;
         void setNodeStyle(NodeStyle const &style);
+
       public:
         /// Triggers the algorithm
         virtual void setInData(std::shared_ptr<NodeData> nodeData, PortIndex port) = 0;
@@ -111,8 +116,10 @@ namespace QtNodes
         void computingStarted();
         void computingFinished();
         void embeddedWidgetSizeUpdated();
+
       protected:
         bool m_wembed;
+
       private:
         NodeStyle _nodeStyle;
     };

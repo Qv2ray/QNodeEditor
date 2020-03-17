@@ -1,4 +1,5 @@
 #include "StateNodeModel.hpp"
+
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QMenuBar>

@@ -1,4 +1,5 @@
 #include "NodePainter.hpp"
+
 #include "FlowScene.hpp"
 #include "Node.hpp"
 #include "NodeDataModel.hpp"
@@ -7,6 +8,7 @@
 #include "NodeState.hpp"
 #include "PortType.hpp"
 #include "StyleCollection.hpp"
+
 #include <QtCore/QMargins>
 #include <cmath>
 using QtNodes::FlowScene;

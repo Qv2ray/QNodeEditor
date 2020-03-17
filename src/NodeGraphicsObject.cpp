@@ -1,4 +1,5 @@
 #include "NodeGraphicsObject.hpp"
+
 #include "ConnectionGraphicsObject.hpp"
 #include "ConnectionState.hpp"
 #include "FlowScene.hpp"
@@ -7,6 +8,7 @@
 #include "NodeDataModel.hpp"
 #include "NodePainter.hpp"
 #include "StyleCollection.hpp"
+
 #include <QtWidgets/QGraphicsEffect>
 #include <QtWidgets/QtWidgets>
 #include <cstdlib>

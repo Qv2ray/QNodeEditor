@@ -4,6 +4,7 @@
 #include "QStringStdHash.hpp"
 #include "TypeConverter.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QString>
 #include <functional>
 #include <memory>
@@ -28,6 +29,7 @@ namespace QtNodes
         DataModelRegistry(DataModelRegistry &&) = default;
         DataModelRegistry &operator=(DataModelRegistry const &) = delete;
         DataModelRegistry &operator=(DataModelRegistry &&) = default;
+
       public:
         template<typename ModelType>
         void registerModel(RegistryItemCreator creator, QString const &category = "Nodes")
@@ -56,11 +58,13 @@ namespace QtNodes
         RegisteredModelsCategoryMap const &registeredModelsCategoryAssociation() const;
         CategoriesSet const &categories() const;
         TypeConverter getTypeConverter(NodeDataTypeId const &d1, NodeDataTypeId const &d2) const;
+
       private:
         RegisteredModelsCategoryMap _registeredModelsCategory;
         CategoriesSet _categories;
         RegisteredModelCreatorsMap _registeredItemCreators;
         RegisteredTypeConvertersMap _registeredTypeConverters;
+
       private:
         // If the registered ModelType class has the static member method
         //

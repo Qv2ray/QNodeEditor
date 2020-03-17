@@ -1,5 +1,6 @@
 #include "TextDisplayDataModel.hpp"
 #include "TextSourceDataModel.hpp"
+
 #include <QtWidgets/QApplication>
 #include <nodes/DataModelRegistry>
 #include <nodes/FlowScene>

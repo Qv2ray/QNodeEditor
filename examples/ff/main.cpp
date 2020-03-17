@@ -8,6 +8,7 @@
 #include "IntervalConditionModel.hpp"
 #include "MathFunctionModel.hpp"
 #include "PlotModel.hpp"
+
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QVBoxLayout>

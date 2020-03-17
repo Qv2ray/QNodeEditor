@@ -1,6 +1,7 @@
 #include "ApplicationSetup.hpp"
 #include "Stringify.hpp"
 #include "StubNodeDataModel.hpp"
+
 #include <QtTest>
 #include <QtWidgets/QApplication>
 #include <catch2/catch.hpp>

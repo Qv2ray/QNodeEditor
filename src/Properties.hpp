@@ -1,5 +1,6 @@
 #pragma once
 #include "Export.hpp"
+
 #include <QtCore/QVariantMap>
 #include <unordered_map>
 namespace QtNodes
@@ -27,6 +28,7 @@ namespace QtNodes
         {
             return _values;
         }
+
       private:
         QVariantMap _values;
     };

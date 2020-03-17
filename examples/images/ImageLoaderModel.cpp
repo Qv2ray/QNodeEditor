@@ -1,4 +1,5 @@
 #include "ImageLoaderModel.hpp"
+
 #include <QtCore/QDir>
 #include <QtCore/QEvent>
 #include <QtWidgets/QFileDialog>

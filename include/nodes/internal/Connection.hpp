@@ -8,6 +8,7 @@
 #include "Serializable.hpp"
 #include "TypeConverter.hpp"
 #include "memory.hpp"
+
 #include <QtCore/QObject>
 #include <QtCore/QUuid>
 #include <QtCore/QVariant>
@@ -32,8 +33,10 @@ namespace QtNodes
         Connection(const Connection &) = delete;
         Connection operator=(const Connection &) = delete;
         ~Connection();
+
       public:
         QJsonObject save() const override;
+
       public:
         QUuid id() const;
         /// Remembers the end being dragged.
@@ -46,6 +49,7 @@ namespace QtNodes
         /// It is assumed that there is a required port, no extra checks
         void setNodeToPort(Node &node, PortType portType, PortIndex portIndex);
         void removeFromNodes() const;
+
       public:
         ConnectionGraphicsObject &getConnectionGraphicsObject() const;
         ConnectionState const &connectionState() const;
@@ -60,19 +64,23 @@ namespace QtNodes
         TypeConverter getTypeConverter() const;
         void setTypeConverter(TypeConverter converter);
         bool complete() const;
+
       public: // data propagation
         void propagateData() const;
         void propagateEmptyData() const;
       Q_SIGNALS:
         void connectionCompleted(Connection const &) const;
         void connectionMadeIncomplete(Connection const &) const;
+
       private:
         QUuid _uid;
+
       private:
         Node *_outNode = nullptr;
         Node *_inNode = nullptr;
         PortIndex _outPortIndex;
         PortIndex _inPortIndex;
+
       private:
         ConnectionState _connectionState;
         ConnectionGeometry _connectionGeometry;

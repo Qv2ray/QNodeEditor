@@ -1,4 +1,5 @@
 #include "StubNodeDataModel.hpp"
+
 #include <catch2/catch.hpp>
 #include <nodes/DataModelRegistry>
 using QtNodes::DataModelRegistry;

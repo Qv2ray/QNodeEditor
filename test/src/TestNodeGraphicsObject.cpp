@@ -1,5 +1,6 @@
 #include "ApplicationSetup.hpp"
 #include "StubNodeDataModel.hpp"
+
 #include <QtTest>
 #include <catch2/catch.hpp>
 #include <nodes/FlowScene>
