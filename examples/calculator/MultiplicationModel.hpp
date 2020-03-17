@@ -1,15 +1,13 @@
 #pragma once
-
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
 
-#include <NodeDataModel.hpp>
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
-
+#include <nodes/NodeDataModel>
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class MultiplicationModel : public MathOperationModel
+class MultiplicationModel : public MathOperationDataModel
 {
   public:
     virtual ~MultiplicationModel()
@@ -21,10 +19,13 @@ class MultiplicationModel : public MathOperationModel
     {
         return QStringLiteral("Multiplication");
     }
-
     QString name() const override
     {
         return QStringLiteral("Multiplication");
+    }
+    std::unique_ptr<NodeDataModel> clone() const override
+    {
+        return std::make_unique<MultiplicationModel>();
     }
 
   private:
@@ -33,7 +34,6 @@ class MultiplicationModel : public MathOperationModel
         PortIndex const outPortIndex = 0;
         auto n1 = _number1.lock();
         auto n2 = _number2.lock();
-
         if (n1 && n2)
         {
             modelValidationState = NodeValidationState::Valid;
@@ -46,7 +46,6 @@ class MultiplicationModel : public MathOperationModel
             modelValidationError = QStringLiteral("Missing or incorrect inputs");
             _result.reset();
         }
-
         Q_EMIT dataUpdated(outPortIndex);
     }
 };

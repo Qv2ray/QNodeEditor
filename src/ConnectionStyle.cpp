@@ -9,14 +9,11 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonValueRef>
 #include <iostream>
-
 using QtNodes::ConnectionStyle;
-
 inline void initResources()
 {
-    Q_INIT_RESOURCE(QNodeEditor_resources);
+    Q_INIT_RESOURCE(resources);
 }
-
 ConnectionStyle::ConnectionStyle()
 {
     // Explicit resources inialization for preventing the static initialization
@@ -26,19 +23,16 @@ ConnectionStyle::ConnectionStyle()
     // statically
     loadJsonFile(":DefaultStyle.json");
 }
-
 ConnectionStyle::ConnectionStyle(QString jsonText)
 {
     loadJsonFile(":DefaultStyle.json");
     loadJsonText(jsonText);
 }
-
 void ConnectionStyle::setConnectionStyle(QString jsonText)
 {
     ConnectionStyle style(jsonText);
     StyleCollection::setConnectionStyle(style);
 }
-
 #ifdef STYLE_DEBUG
     #define CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(v, variable)                                                                                 \
         {                                                                                                                                       \
@@ -48,9 +42,7 @@ void ConnectionStyle::setConnectionStyle(QString jsonText)
 #else
     #define CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
 #endif
-
 #define CONNECTION_VALUE_EXISTS(v) (v.type() != QJsonValue::Undefined && v.type() != QJsonValue::Null)
-
 #define CONNECTION_STYLE_READ_COLOR(values, variable)                                                                                           \
     {                                                                                                                                           \
         auto valueRef = values[#variable];                                                                                                      \
@@ -74,7 +66,6 @@ void ConnectionStyle::setConnectionStyle(QString jsonText)
             }                                                                                                                                   \
         }                                                                                                                                       \
     }
-
 #define CONNECTION_STYLE_READ_FLOAT(values, variable)                                                                                           \
     {                                                                                                                                           \
         auto valueRef = values[#variable];                                                                                                      \
@@ -82,7 +73,6 @@ void ConnectionStyle::setConnectionStyle(QString jsonText)
         if (CONNECTION_VALUE_EXISTS(valueRef))                                                                                                  \
             variable = valueRef.toDouble();                                                                                                     \
     }
-
 #define CONNECTION_STYLE_READ_BOOL(values, variable)                                                                                            \
     {                                                                                                                                           \
         auto valueRef = values[#variable];                                                                                                      \
@@ -90,25 +80,20 @@ void ConnectionStyle::setConnectionStyle(QString jsonText)
         if (CONNECTION_VALUE_EXISTS(valueRef))                                                                                                  \
             variable = valueRef.toBool();                                                                                                       \
     }
-
 void ConnectionStyle::loadJsonFile(QString styleFile)
 {
     QFile file(styleFile);
-
     if (!file.open(QIODevice::ReadOnly))
     {
         qWarning() << "Couldn't open file " << styleFile;
         return;
     }
-
     loadJsonFromByteArray(file.readAll());
 }
-
 void ConnectionStyle::loadJsonText(QString jsonText)
 {
     loadJsonFromByteArray(jsonText.toUtf8());
 }
-
 void ConnectionStyle::loadJsonFromByteArray(QByteArray const &byteArray)
 {
     QJsonDocument json(QJsonDocument::fromJson(byteArray));
@@ -125,17 +110,14 @@ void ConnectionStyle::loadJsonFromByteArray(QByteArray const &byteArray)
     CONNECTION_STYLE_READ_FLOAT(obj, PointDiameter);
     CONNECTION_STYLE_READ_BOOL(obj, UseDataDefinedColors);
 }
-
 QColor ConnectionStyle::constructionColor() const
 {
     return ConstructionColor;
 }
-
 QColor ConnectionStyle::normalColor() const
 {
     return NormalColor;
 }
-
 QColor ConnectionStyle::normalColor(QString typeId) const
 {
     std::size_t hash = qHash(typeId);
@@ -145,37 +127,26 @@ QColor ConnectionStyle::normalColor(QString typeId) const
     std::size_t sat = 120 + hash % 129;
     return QColor::fromHsl(hue, sat, 160);
 }
-
 QColor ConnectionStyle::selectedColor() const
 {
     return SelectedColor;
 }
-
 QColor ConnectionStyle::selectedHaloColor() const
 {
     return SelectedHaloColor;
 }
-
 QColor ConnectionStyle::hoveredColor() const
 {
     return HoveredColor;
 }
-
 float ConnectionStyle::lineWidth() const
 {
     return LineWidth;
 }
-
-float ConnectionStyle::constructionLineWidth() const
-{
-    return ConstructionLineWidth;
-}
-
 float ConnectionStyle::pointDiameter() const
 {
     return PointDiameter;
 }
-
 bool ConnectionStyle::useDataDefinedColors() const
 {
     return UseDataDefinedColors;

@@ -1,15 +1,13 @@
 #pragma once
-
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
 
-#include <NodeDataModel.hpp>
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
-
+#include <nodes/NodeDataModel>
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class SubtractionModel : public MathOperationModel
+class SubtractionModel : public MathOperationDataModel
 {
   public:
     virtual ~SubtractionModel()
@@ -21,14 +19,12 @@ class SubtractionModel : public MathOperationModel
     {
         return QStringLiteral("Subtraction");
     }
-
     virtual bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
         Q_UNUSED(portType);
         Q_UNUSED(portIndex);
         return true;
     }
-
     virtual QString portCaption(PortType portType, PortIndex portIndex) const override
     {
         switch (portType)
@@ -38,20 +34,19 @@ class SubtractionModel : public MathOperationModel
                     return QStringLiteral("Minuend");
                 else if (portIndex == 1)
                     return QStringLiteral("Subtrahend");
-
                 break;
-
             case PortType::Out: return QStringLiteral("Result");
-
             default: break;
         }
-
         return QString();
     }
-
     QString name() const override
     {
         return QStringLiteral("Subtraction");
+    }
+    std::unique_ptr<NodeDataModel> clone() const override
+    {
+        return std::make_unique<SubtractionModel>();
     }
 
   private:
@@ -60,7 +55,6 @@ class SubtractionModel : public MathOperationModel
         PortIndex const outPortIndex = 0;
         auto n1 = _number1.lock();
         auto n2 = _number2.lock();
-
         if (n1 && n2)
         {
             modelValidationState = NodeValidationState::Valid;
@@ -73,7 +67,6 @@ class SubtractionModel : public MathOperationModel
             modelValidationError = QStringLiteral("Missing or incorrect inputs");
             _result.reset();
         }
-
         Q_EMIT dataUpdated(outPortIndex);
     }
 };

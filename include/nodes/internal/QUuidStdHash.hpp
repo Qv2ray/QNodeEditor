@@ -1,9 +1,7 @@
 #pragma once
-
 #include <QtCore/QUuid>
 #include <QtCore/QVariant>
 #include <functional>
-
 namespace std
 {
     template<>

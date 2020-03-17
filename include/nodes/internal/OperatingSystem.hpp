@@ -1,5 +1,4 @@
 #pragma once
-
 #if defined(__CYGWIN__) || defined(__CYGWIN32__)
     #define NODE_EDITOR_PLATFORM "Cygwin"
     #define NODE_EDITOR_PLATFORM_CYGWIN
@@ -40,7 +39,6 @@
     #define NODE_EDITOR_PLATFORM "Unix"
     #define NODE_EDITOR_PLATFORM_UNIX
 #endif
-
 #ifndef NODE_EDITOR_PLATFORM
     #error "Current platform is not supported."
 #endif

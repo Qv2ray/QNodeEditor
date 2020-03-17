@@ -1,5 +1,4 @@
 #pragma once
-
 #if defined(__MINGW32__) || defined(__MINGW64__)
     #define NODE_EDITOR_COMPILER "MinGW"
     #define NODE_EDITOR_COMPILER_MINGW
@@ -34,7 +33,6 @@
     #define NODE_EDITOR_COMPILER "Watcom C++"
     #define NODE_EDITOR_COMPILER_WATCOM
 #endif
-
 #ifndef NODE_EDITOR_COMPILER
     #error "Current compiler is not supported."
 #endif

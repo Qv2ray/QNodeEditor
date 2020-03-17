@@ -1,12 +1,12 @@
 #pragma once
-
-#include <QtCore/QString>
-#include <QtCore/QVariant>
-#include <functional>
-
+#include <QtGlobal>
+#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
+// As of 5.14 there is a specialization std::hash<QString>
+    #include <QtCore/QString>
+    #include <QtCore/QVariant>
+    #include <functional>
 namespace std
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     template<>
     struct hash<QString>
     {
@@ -15,5 +15,5 @@ namespace std
             return qHash(s);
         }
     };
-#endif
 } // namespace std
+#endif

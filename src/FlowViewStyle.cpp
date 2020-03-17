@@ -8,14 +8,11 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonValueRef>
-
 using QtNodes::FlowViewStyle;
-
 inline void initResources()
 {
-    Q_INIT_RESOURCE(QNodeEditor_resources);
+    Q_INIT_RESOURCE(resources);
 }
-
 FlowViewStyle::FlowViewStyle()
 {
     // Explicit resources inialization for preventing the static initialization
@@ -25,18 +22,15 @@ FlowViewStyle::FlowViewStyle()
     // statically
     loadJsonFile(":DefaultStyle.json");
 }
-
 FlowViewStyle::FlowViewStyle(QString jsonText)
 {
     loadJsonText(jsonText);
 }
-
 void FlowViewStyle::setStyle(QString jsonText)
 {
     FlowViewStyle style(jsonText);
     StyleCollection::setFlowViewStyle(style);
 }
-
 #ifdef STYLE_DEBUG
     #define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable)                                                                                  \
         {                                                                                                                                       \
@@ -46,7 +40,6 @@ void FlowViewStyle::setStyle(QString jsonText)
 #else
     #define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
 #endif
-
 #define FLOW_VIEW_STYLE_READ_COLOR(values, variable)                                                                                            \
     {                                                                                                                                           \
         auto valueRef = values[#variable];                                                                                                      \
@@ -67,25 +60,20 @@ void FlowViewStyle::setStyle(QString jsonText)
             variable = QColor(valueRef.toString());                                                                                             \
         }                                                                                                                                       \
     }
-
 void FlowViewStyle::loadJsonFile(QString styleFile)
 {
     QFile file(styleFile);
-
     if (!file.open(QIODevice::ReadOnly))
     {
         qWarning() << "Couldn't open file " << styleFile;
         return;
     }
-
     loadJsonFromByteArray(file.readAll());
 }
-
 void FlowViewStyle::loadJsonText(QString jsonText)
 {
     loadJsonFromByteArray(jsonText.toUtf8());
 }
-
 void FlowViewStyle::loadJsonFromByteArray(QByteArray const &byteArray)
 {
     QJsonDocument json(QJsonDocument::fromJson(byteArray));

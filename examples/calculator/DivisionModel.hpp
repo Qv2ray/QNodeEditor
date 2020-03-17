@@ -1,15 +1,13 @@
 #pragma once
-
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
 
-#include <NodeDataModel.hpp>
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
-
+#include <nodes/NodeDataModel>
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class DivisionModel : public MathOperationModel
+class DivisionModel : public MathOperationDataModel
 {
   public:
     virtual ~DivisionModel()
@@ -21,14 +19,16 @@ class DivisionModel : public MathOperationModel
     {
         return QStringLiteral("Division");
     }
-
     bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
         Q_UNUSED(portType);
         Q_UNUSED(portIndex);
         return true;
     }
-
+    std::unique_ptr<NodeDataModel> clone() const override
+    {
+        return std::make_unique<DivisionModel>();
+    }
     QString portCaption(PortType portType, PortIndex portIndex) const override
     {
         switch (portType)
@@ -38,17 +38,12 @@ class DivisionModel : public MathOperationModel
                     return QStringLiteral("Dividend");
                 else if (portIndex == 1)
                     return QStringLiteral("Divisor");
-
                 break;
-
             case PortType::Out: return QStringLiteral("Result");
-
             default: break;
         }
-
         return QString();
     }
-
     QString name() const override
     {
         return QStringLiteral("Division");
@@ -60,7 +55,6 @@ class DivisionModel : public MathOperationModel
         PortIndex const outPortIndex = 0;
         auto n1 = _number1.lock();
         auto n2 = _number2.lock();
-
         if (n2 && (n2->number() == 0.0))
         {
             modelValidationState = NodeValidationState::Error;
@@ -79,7 +73,6 @@ class DivisionModel : public MathOperationModel
             modelValidationError = QStringLiteral("Missing or incorrect inputs");
             _result.reset();
         }
-
         Q_EMIT dataUpdated(outPortIndex);
     }
 };

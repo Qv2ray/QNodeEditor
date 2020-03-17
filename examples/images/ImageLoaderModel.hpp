@@ -1,5 +1,4 @@
 #pragma once
-
 #include "PixmapData.hpp"
 
 #include <QtCore/QObject>
@@ -7,23 +6,19 @@
 #include <iostream>
 #include <nodes/DataModelRegistry>
 #include <nodes/NodeDataModel>
-
 using QtNodes::NodeData;
 using QtNodes::NodeDataModel;
 using QtNodes::NodeDataType;
 using QtNodes::NodeValidationState;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
-
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
 class ImageLoaderModel : public NodeDataModel
 {
     Q_OBJECT
-
   public:
     ImageLoaderModel();
-
     virtual ~ImageLoaderModel()
     {
     }
@@ -33,7 +28,6 @@ class ImageLoaderModel : public NodeDataModel
     {
         return QString("Image Source");
     }
-
     QString name() const override
     {
         return QString("ImageLoaderModel");
@@ -44,25 +38,23 @@ class ImageLoaderModel : public NodeDataModel
     {
         return QString("Source Image");
     }
-
     unsigned int nPorts(PortType portType) const override;
-
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
-
+    std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
     std::shared_ptr<NodeData> outData(PortIndex port) override;
-
     void setInData(std::shared_ptr<NodeData>, int) override
     {
     }
-
     QWidget *embeddedWidget() override
     {
         return _label;
     }
-
     bool resizable() const override
     {
         return true;
+    }
+    std::unique_ptr<NodeDataModel> clone() const override
+    {
+        return std::make_unique<ImageLoaderModel>();
     }
 
   protected:
@@ -70,6 +62,5 @@ class ImageLoaderModel : public NodeDataModel
 
   private:
     QLabel *_label;
-
     QPixmap _pixmap;
 };
