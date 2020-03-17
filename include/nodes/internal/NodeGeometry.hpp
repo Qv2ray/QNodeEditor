@@ -46,6 +46,10 @@ namespace QtNodes
         {
             _entryWidth = w;
         }
+        unsigned int entryHeight() const
+        {
+            return _entryHeight;
+        }
         unsigned int spacing() const
         {
             return _spacing;

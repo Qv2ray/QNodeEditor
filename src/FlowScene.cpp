@@ -247,6 +247,10 @@ std::unordered_map<QUuid, std::unique_ptr<Node>> const &FlowScene::nodes() const
 {
     return _nodes;
 }
+std::unordered_map<QUuid, std::shared_ptr<Connection>> const &FlowScene::connections() const
+{
+    return _connections;
+}
 std::vector<Node *> FlowScene::allNodes() const
 {
     std::vector<Node *> nodes;

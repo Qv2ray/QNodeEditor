@@ -67,3 +67,8 @@ bool NodeState::resizing() const
 {
     return _resizing;
 }
+
+void NodeState::setResizing(bool resizing)
+{
+    _resizing = resizing;
+}

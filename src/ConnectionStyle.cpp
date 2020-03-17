@@ -12,7 +12,7 @@
 using QtNodes::ConnectionStyle;
 inline void initResources()
 {
-    Q_INIT_RESOURCE(resources);
+    // Q_INIT_RESOURCE(resources);
 }
 ConnectionStyle::ConnectionStyle()
 {
@@ -142,6 +142,10 @@ QColor ConnectionStyle::hoveredColor() const
 float ConnectionStyle::lineWidth() const
 {
     return LineWidth;
+}
+float ConnectionStyle::constructionLineWidth() const
+{
+    return ConstructionLineWidth;
 }
 float ConnectionStyle::pointDiameter() const
 {
