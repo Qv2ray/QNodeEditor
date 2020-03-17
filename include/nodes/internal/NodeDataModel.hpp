@@ -72,7 +72,8 @@ public:
 
 
   virtual
-  NodeDataType dataType(PortType portType, PortIndex portIndex) const = 0;
+  std::shared_ptr<NodeDataType>
+  dataType(PortType portType, PortIndex portIndex) const = 0;
 
 public:
 
