@@ -12,7 +12,7 @@
 using QtNodes::NodeStyle;
 inline void initResources()
 {
-    Q_INIT_RESOURCE(resources);
+    // Q_INIT_RESOURCE(resources);
 }
 NodeStyle::NodeStyle()
 {

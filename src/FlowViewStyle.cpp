@@ -11,7 +11,7 @@
 using QtNodes::FlowViewStyle;
 inline void initResources()
 {
-    Q_INIT_RESOURCE(resources);
+    // Q_INIT_RESOURCE(resources);
 }
 FlowViewStyle::FlowViewStyle()
 {
