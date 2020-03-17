@@ -33,7 +33,8 @@ bool NodeConnectionInteraction::canConnect(PortIndex &portIndex, TypeConverter &
     // 1.5) Forbid connecting the node to itself
     Node *node = _connection->getNode(oppositePort(requiredPort));
 
-    if (node == _node) return false;
+    if (node == _node)
+        return false;
 
     // 2) connection point is on top of the node port
     QPointF connectionPoint = connectionEndScenePosition(requiredPort);
@@ -47,7 +48,8 @@ bool NodeConnectionInteraction::canConnect(PortIndex &portIndex, TypeConverter &
     // 3) Node port is vacant
 
     // port should be empty
-    if (!nodePortIsEmpty(requiredPort, portIndex)) return false;
+    if (!nodePortIsEmpty(requiredPort, portIndex))
+        return false;
 
     // 4) Connection type equals node port type, or there is a registered type
     // conversion that can translate between the two
@@ -171,7 +173,8 @@ bool NodeConnectionInteraction::nodePortIsEmpty(PortType portType, PortIndex por
     NodeState const &nodeState = _node->nodeState();
     auto const &entries = nodeState.getEntries(portType);
 
-    if (entries[portIndex].empty()) return true;
+    if (entries[portIndex].empty())
+        return true;
 
     if (portType == PortType::In)
         return _node->nodeDataModel()->portInConnectionPolicy(portIndex) == NodeDataModel::ConnectionPolicy::Many;

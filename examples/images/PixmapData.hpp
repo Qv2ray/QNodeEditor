@@ -11,9 +11,13 @@ using QtNodes::NodeDataType;
 class PixmapData : public NodeData
 {
   public:
-    PixmapData() {}
+    PixmapData()
+    {
+    }
 
-    PixmapData(QPixmap const &pixmap) : _pixmap(pixmap) {}
+    PixmapData(QPixmap const &pixmap) : _pixmap(pixmap)
+    {
+    }
 
     NodeDataType type() const override
     {
@@ -21,7 +25,10 @@ class PixmapData : public NodeData
         return { "pixmap", "P" };
     }
 
-    QPixmap pixmap() const { return _pixmap; }
+    QPixmap pixmap() const
+    {
+        return _pixmap;
+    }
 
   private:
     QPixmap _pixmap;

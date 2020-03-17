@@ -16,13 +16,19 @@ using QtNodes::PortType;
 class MyNodeData : public NodeData
 {
   public:
-    NodeDataType type() const override { return NodeDataType{ "MyNodeData", "My Node Data" }; }
+    NodeDataType type() const override
+    {
+        return NodeDataType{ "MyNodeData", "My Node Data" };
+    }
 };
 
 class SimpleNodeData : public NodeData
 {
   public:
-    NodeDataType type() const override { return NodeDataType{ "SimpleData", "Simple Data" }; }
+    NodeDataType type() const override
+    {
+        return NodeDataType{ "SimpleData", "Simple Data" };
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -34,12 +40,20 @@ class NaiveDataModel : public NodeDataModel
     Q_OBJECT
 
   public:
-    virtual ~NaiveDataModel() {}
+    virtual ~NaiveDataModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QString("Naive Data Model"); }
+    QString caption() const override
+    {
+        return QString("Naive Data Model");
+    }
 
-    QString name() const override { return QString("NaiveDataModel"); }
+    QString name() const override
+    {
+        return QString("NaiveDataModel");
+    }
 
   public:
     unsigned int nPorts(PortType portType) const override
@@ -48,16 +62,11 @@ class NaiveDataModel : public NodeDataModel
 
         switch (portType)
         {
-            case PortType::In:
-                result = 2;
-                break;
+            case PortType::In: result = 2; break;
 
-            case PortType::Out:
-                result = 2;
-                break;
+            case PortType::Out: result = 2; break;
 
-            case PortType::None:
-                break;
+            case PortType::None: break;
         }
 
         return result;
@@ -70,11 +79,9 @@ class NaiveDataModel : public NodeDataModel
             case PortType::In:
                 switch (portIndex)
                 {
-                    case 0:
-                        return MyNodeData().type();
+                    case 0: return MyNodeData().type();
 
-                    case 1:
-                        return SimpleNodeData().type();
+                    case 1: return SimpleNodeData().type();
                 }
 
                 break;
@@ -82,17 +89,14 @@ class NaiveDataModel : public NodeDataModel
             case PortType::Out:
                 switch (portIndex)
                 {
-                    case 0:
-                        return MyNodeData().type();
+                    case 0: return MyNodeData().type();
 
-                    case 1:
-                        return SimpleNodeData().type();
+                    case 1: return SimpleNodeData().type();
                 }
 
                 break;
 
-            case PortType::None:
-                break;
+            case PortType::None: break;
         }
 
         // FIXME: control may reach end of non-void function [-Wreturn-type]
@@ -101,7 +105,8 @@ class NaiveDataModel : public NodeDataModel
 
     std::shared_ptr<NodeData> outData(PortIndex port) override
     {
-        if (port < 1) return std::make_shared<MyNodeData>();
+        if (port < 1)
+            return std::make_shared<MyNodeData>();
 
         return std::make_shared<SimpleNodeData>();
     }
@@ -111,5 +116,8 @@ class NaiveDataModel : public NodeDataModel
         //
     }
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 };

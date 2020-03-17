@@ -12,12 +12,20 @@
 class MultiplicationModel : public MathOperationModel
 {
   public:
-    virtual ~MultiplicationModel() {}
+    virtual ~MultiplicationModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Multiplication"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Multiplication");
+    }
 
-    QString name() const override { return QStringLiteral("Multiplication"); }
+    QString name() const override
+    {
+        return QStringLiteral("Multiplication");
+    }
 
   private:
     void compute() override

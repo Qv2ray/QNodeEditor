@@ -17,7 +17,10 @@ using QtNodes::PortType;
 class MyNodeData : public NodeData
 {
   public:
-    NodeDataType type() const override { return NodeDataType{ "MyNodeData", "My Node Data" }; }
+    NodeDataType type() const override
+    {
+        return NodeDataType{ "MyNodeData", "My Node Data" };
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -29,12 +32,20 @@ class MyDataModel : public NodeDataModel
     Q_OBJECT
 
   public:
-    virtual ~MyDataModel() {}
+    virtual ~MyDataModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QString("My Data Model"); }
+    QString caption() const override
+    {
+        return QString("My Data Model");
+    }
 
-    QString name() const override { return QString("MyDataModel"); }
+    QString name() const override
+    {
+        return QString("MyDataModel");
+    }
 
   public:
     QJsonObject save() const override
@@ -45,16 +56,28 @@ class MyDataModel : public NodeDataModel
     }
 
   public:
-    unsigned int nPorts(PortType) const override { return 3; }
+    unsigned int nPorts(PortType) const override
+    {
+        return 3;
+    }
 
-    NodeDataType dataType(PortType, PortIndex) const override { return MyNodeData().type(); }
+    NodeDataType dataType(PortType, PortIndex) const override
+    {
+        return MyNodeData().type();
+    }
 
-    std::shared_ptr<NodeData> outData(PortIndex) override { return std::make_shared<MyNodeData>(); }
+    std::shared_ptr<NodeData> outData(PortIndex) override
+    {
+        return std::make_shared<MyNodeData>();
+    }
 
     void setInData(std::shared_ptr<NodeData>, int) override
     {
         //
     }
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 };

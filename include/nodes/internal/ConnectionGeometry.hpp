@@ -25,13 +25,28 @@ namespace QtNodes
 
         std::pair<QPointF, QPointF> pointsC1C2() const;
 
-        QPointF source() const { return _out; }
-        QPointF sink() const { return _in; }
+        QPointF source() const
+        {
+            return _out;
+        }
+        QPointF sink() const
+        {
+            return _in;
+        }
 
-        double lineWidth() const { return _lineWidth; }
+        double lineWidth() const
+        {
+            return _lineWidth;
+        }
 
-        bool hovered() const { return _hovered; }
-        void setHovered(bool hovered) { _hovered = hovered; }
+        bool hovered() const
+        {
+            return _hovered;
+        }
+        void setHovered(bool hovered)
+        {
+            _hovered = hovered;
+        }
 
       private:
         // local object coordinates

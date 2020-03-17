@@ -11,8 +11,8 @@ using QtNodes::PortIndex;
 using QtNodes::PortType;
 
 NodeState::NodeState(std::unique_ptr<NodeDataModel> const &model)
-    : _inConnections(model->nPorts(PortType::In)), _outConnections(model->nPorts(PortType::Out)),
-      _reaction(NOT_REACTING), _reactingPortType(PortType::None), _resizing(false)
+    : _inConnections(model->nPorts(PortType::In)), _outConnections(model->nPorts(PortType::Out)), _reaction(NOT_REACTING),
+      _reactingPortType(PortType::None), _resizing(false)
 {
 }
 
@@ -49,11 +49,20 @@ void NodeState::eraseConnection(PortType portType, PortIndex portIndex, QUuid id
     getEntries(portType)[portIndex].erase(id);
 }
 
-NodeState::ReactToConnectionState NodeState::reaction() const { return _reaction; }
+NodeState::ReactToConnectionState NodeState::reaction() const
+{
+    return _reaction;
+}
 
-PortType NodeState::reactingPortType() const { return _reactingPortType; }
+PortType NodeState::reactingPortType() const
+{
+    return _reactingPortType;
+}
 
-NodeDataType NodeState::reactingDataType() const { return _reactingDataType; }
+NodeDataType NodeState::reactingDataType() const
+{
+    return _reactingDataType;
+}
 
 void NodeState::setReaction(ReactToConnectionState reaction, PortType reactingPortType, NodeDataType reactingDataType)
 {
@@ -62,11 +71,20 @@ void NodeState::setReaction(ReactToConnectionState reaction, PortType reactingPo
     _reactingDataType = std::move(reactingDataType);
 }
 
-bool NodeState::isReacting() const { return _reaction == REACTING; }
+bool NodeState::isReacting() const
+{
+    return _reaction == REACTING;
+}
 
-void NodeState::setResizing(bool resizing) { _resizing = resizing; }
+void NodeState::setResizing(bool resizing)
+{
+    _resizing = resizing;
+}
 
-bool NodeState::resizing() const { return _resizing; }
+bool NodeState::resizing() const
+{
+    return _resizing;
+}
 
 void NodeState::updatePortCount(int inPorts, int outPorts)
 {

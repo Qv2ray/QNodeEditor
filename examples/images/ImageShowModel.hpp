@@ -22,15 +22,26 @@ class ImageShowModel : public NodeDataModel
   public:
     ImageShowModel();
 
-    virtual ~ImageShowModel() {}
+    virtual ~ImageShowModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QString("Image Display"); }
+    QString caption() const override
+    {
+        return QString("Image Display");
+    }
 
-    QString name() const override { return QString("ImageShowModel"); }
+    QString name() const override
+    {
+        return QString("ImageShowModel");
+    }
 
   public:
-    virtual QString modelName() const { return QString("Resulting Image"); }
+    virtual QString modelName() const
+    {
+        return QString("Resulting Image");
+    }
 
     unsigned int nPorts(PortType portType) const override;
 
@@ -40,9 +51,15 @@ class ImageShowModel : public NodeDataModel
 
     void setInData(std::shared_ptr<NodeData> nodeData, PortIndex port) override;
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override
+    {
+        return _label;
+    }
 
-    bool resizable() const override { return true; }
+    bool resizable() const override
+    {
+        return true;
+    }
 
   protected:
     bool eventFilter(QObject *object, QEvent *event) override;

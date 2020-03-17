@@ -27,9 +27,15 @@ namespace QtNodes
             return false;
         }
 
-        QVariantMap const &values() const { return _values; }
+        QVariantMap const &values() const
+        {
+            return _values;
+        }
 
-        QVariantMap &values() { return _values; }
+        QVariantMap &values()
+        {
+            return _values;
+        }
 
       private:
         QVariantMap _values;

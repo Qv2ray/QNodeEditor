@@ -10,15 +10,28 @@ using QtNodes::NodeDataType;
 class IntegerData : public NodeData
 {
   public:
-    IntegerData() : _number(0.0) {}
+    IntegerData() : _number(0.0)
+    {
+    }
 
-    IntegerData(int const number) : _number(number) {}
+    IntegerData(int const number) : _number(number)
+    {
+    }
 
-    NodeDataType type() const override { return NodeDataType{ "integer", "Integer" }; }
+    NodeDataType type() const override
+    {
+        return NodeDataType{ "integer", "Integer" };
+    }
 
-    int number() const { return _number; }
+    int number() const
+    {
+        return _number;
+    }
 
-    QString numberAsText() const { return QString::number(_number); }
+    QString numberAsText() const
+    {
+        return QString::number(_number);
+    }
 
   private:
     int _number;

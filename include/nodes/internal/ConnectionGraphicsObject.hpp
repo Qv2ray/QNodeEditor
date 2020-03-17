@@ -29,7 +29,10 @@ namespace QtNodes
         {
             Type = UserType + 2
         };
-        int type() const override { return Type; }
+        int type() const override
+        {
+            return Type;
+        }
 
       public:
         Connection &connection();

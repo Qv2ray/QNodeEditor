@@ -30,7 +30,10 @@ DataModelRegistry::RegisteredModelsCategoryMap const &DataModelRegistry::registe
     return _registeredModelsCategory;
 }
 
-DataModelRegistry::CategoriesSet const &DataModelRegistry::categories() const { return _categories; }
+DataModelRegistry::CategoriesSet const &DataModelRegistry::categories() const
+{
+    return _categories;
+}
 
 TypeConverter DataModelRegistry::getTypeConverter(NodeDataType const &d1, NodeDataType const &d2) const
 {

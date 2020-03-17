@@ -37,11 +37,20 @@ FlowView::FlowView(QWidget *parent)
     // setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 }
 
-FlowView::FlowView(FlowScene *scene, QWidget *parent) : FlowView(parent) { setScene(scene); }
+FlowView::FlowView(FlowScene *scene, QWidget *parent) : FlowView(parent)
+{
+    setScene(scene);
+}
 
-QAction *FlowView::clearSelectionAction() const { return _clearSelectionAction; }
+QAction *FlowView::clearSelectionAction() const
+{
+    return _clearSelectionAction;
+}
 
-QAction *FlowView::deleteSelectionAction() const { return _deleteSelectionAction; }
+QAction *FlowView::deleteSelectionAction() const
+{
+    return _deleteSelectionAction;
+}
 
 void FlowView::setScene(FlowScene *scene)
 {
@@ -169,7 +178,8 @@ void FlowView::scaleUp()
     double const factor = std::pow(step, 1.0);
     QTransform t = transform();
 
-    if (t.m11() > 2.0) return;
+    if (t.m11() > 2.0)
+        return;
 
     scale(factor, factor);
 }
@@ -188,7 +198,8 @@ void FlowView::deleteSelectedNodes()
     // deletes some connections as well)
     for (QGraphicsItem *item : _scene->selectedItems())
     {
-        if (auto c = qgraphicsitem_cast<ConnectionGraphicsObject *>(item)) _scene->deleteConnection(c->connection());
+        if (auto c = qgraphicsitem_cast<ConnectionGraphicsObject *>(item))
+            _scene->deleteConnection(c->connection());
     }
 
     // Delete the nodes; this will delete many of the connections.
@@ -197,7 +208,8 @@ void FlowView::deleteSelectedNodes()
     // when a selected connection is deleted by deleting the node.
     for (QGraphicsItem *item : _scene->selectedItems())
     {
-        if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) _scene->removeNode(n->node());
+        if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item))
+            _scene->removeNode(n->node());
     }
 }
 
@@ -205,12 +217,9 @@ void FlowView::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key())
     {
-        case Qt::Key_Shift:
-            setDragMode(QGraphicsView::RubberBandDrag);
-            break;
+        case Qt::Key_Shift: setDragMode(QGraphicsView::RubberBandDrag); break;
 
-        default:
-            break;
+        default: break;
     }
 
     QGraphicsView::keyPressEvent(event);
@@ -220,12 +229,9 @@ void FlowView::keyReleaseEvent(QKeyEvent *event)
 {
     switch (event->key())
     {
-        case Qt::Key_Shift:
-            setDragMode(QGraphicsView::ScrollHandDrag);
-            break;
+        case Qt::Key_Shift: setDragMode(QGraphicsView::ScrollHandDrag); break;
 
-        default:
-            break;
+        default: break;
     }
 
     QGraphicsView::keyReleaseEvent(event);
@@ -298,4 +304,7 @@ void FlowView::showEvent(QShowEvent *event)
     QGraphicsView::showEvent(event);
 }
 
-FlowScene *FlowView::scene() { return _scene; }
+FlowScene *FlowView::scene()
+{
+    return _scene;
+}

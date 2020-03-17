@@ -37,8 +37,7 @@ namespace QtNodes
         /// The opposite connection end will require anothre port.
         Connection(PortType portType, Node &node, PortIndex portIndex);
 
-        Connection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut, PortIndex portIndexOut,
-                   TypeConverter converter = TypeConverter{});
+        Connection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut, PortIndex portIndexOut, TypeConverter converter = TypeConverter{});
 
         Connection(const Connection &) = delete;
         Connection operator=(const Connection &) = delete;

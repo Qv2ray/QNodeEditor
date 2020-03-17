@@ -12,10 +12,15 @@
 class DivisionModel : public MathOperationModel
 {
   public:
-    virtual ~DivisionModel() {}
+    virtual ~DivisionModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Division"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Division");
+    }
 
     bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
@@ -36,17 +41,18 @@ class DivisionModel : public MathOperationModel
 
                 break;
 
-            case PortType::Out:
-                return QStringLiteral("Result");
+            case PortType::Out: return QStringLiteral("Result");
 
-            default:
-                break;
+            default: break;
         }
 
         return QString();
     }
 
-    QString name() const override { return QStringLiteral("Division"); }
+    QString name() const override
+    {
+        return QStringLiteral("Division");
+    }
 
   private:
     void compute() override

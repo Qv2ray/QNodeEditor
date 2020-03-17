@@ -17,23 +17,25 @@ unsigned int ModuloModel::nPorts(PortType portType) const
 
     switch (portType)
     {
-        case PortType::In:
-            result = 2;
-            break;
+        case PortType::In: result = 2; break;
 
-        case PortType::Out:
-            result = 1;
+        case PortType::Out: result = 1;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
 }
 
-NodeDataType ModuloModel::dataType(PortType, PortIndex) const { return IntegerData().type(); }
+NodeDataType ModuloModel::dataType(PortType, PortIndex) const
+{
+    return IntegerData().type();
+}
 
-std::shared_ptr<NodeData> ModuloModel::outData(PortIndex) { return _result; }
+std::shared_ptr<NodeData> ModuloModel::outData(PortIndex)
+{
+    return _result;
+}
 
 void ModuloModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
 {
@@ -76,6 +78,12 @@ void ModuloModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
     }
 }
 
-NodeValidationState ModuloModel::validationState() const { return modelValidationState; }
+NodeValidationState ModuloModel::validationState() const
+{
+    return modelValidationState;
+}
 
-QString ModuloModel::validationMessage() const { return modelValidationError; }
+QString ModuloModel::validationMessage() const
+{
+    return modelValidationError;
+}

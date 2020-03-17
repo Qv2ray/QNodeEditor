@@ -39,13 +39,22 @@ namespace QtNodes
         virtual QString caption() const = 0;
 
         /// It is possible to hide caption in GUI
-        virtual bool captionVisible() const { return true; }
+        virtual bool captionVisible() const
+        {
+            return true;
+        }
 
         /// Port caption is used in GUI to label individual ports
-        virtual QString portCaption(PortType, PortIndex) const { return QString(); }
+        virtual QString portCaption(PortType, PortIndex) const
+        {
+            return QString();
+        }
 
         /// It is possible to hide port caption in GUI
-        virtual bool portCaptionVisible(PortType, PortIndex) const { return false; }
+        virtual bool portCaptionVisible(PortType, PortIndex) const
+        {
+            return false;
+        }
 
         /// Name makes this model unique
         virtual QString name() const = 0;
@@ -67,9 +76,15 @@ namespace QtNodes
 
         ConnectionPolicy portConnectionPolicy(PortType portType, PortIndex portIndex) const;
 
-        virtual ConnectionPolicy portOutConnectionPolicy(PortIndex) const { return ConnectionPolicy::Many; }
+        virtual ConnectionPolicy portOutConnectionPolicy(PortIndex) const
+        {
+            return ConnectionPolicy::Many;
+        }
 
-        virtual ConnectionPolicy portInConnectionPolicy(PortIndex) const { return ConnectionPolicy::One; }
+        virtual ConnectionPolicy portInConnectionPolicy(PortIndex) const
+        {
+            return ConnectionPolicy::One;
+        }
 
         NodeStyle const &nodeStyle() const;
 
@@ -85,23 +100,43 @@ namespace QtNodes
 
         virtual QWidget *embeddedWidget() = 0;
 
-        virtual bool resizable() const { return false; }
+        virtual bool resizable() const
+        {
+            return false;
+        }
 
-        virtual NodeValidationState validationState() const { return NodeValidationState::Valid; }
+        virtual NodeValidationState validationState() const
+        {
+            return NodeValidationState::Valid;
+        }
 
-        virtual QString validationMessage() const { return QString(""); }
+        virtual QString validationMessage() const
+        {
+            return QString("");
+        }
 
-        virtual NodePainterDelegate *painterDelegate() const { return nullptr; }
+        virtual NodePainterDelegate *painterDelegate() const
+        {
+            return nullptr;
+        }
 
       public Q_SLOTS:
 
-        virtual void inputConnectionCreated(Connection const &) {}
+        virtual void inputConnectionCreated(Connection const &)
+        {
+        }
 
-        virtual void inputConnectionDeleted(Connection const &) {}
+        virtual void inputConnectionDeleted(Connection const &)
+        {
+        }
 
-        virtual void outputConnectionCreated(Connection const &) {}
+        virtual void outputConnectionCreated(Connection const &)
+        {
+        }
 
-        virtual void outputConnectionDeleted(Connection const &) {}
+        virtual void outputConnectionDeleted(Connection const &)
+        {
+        }
 
       Q_SIGNALS:
 

@@ -23,28 +23,64 @@ namespace QtNodes
         NodeGeometry(std::unique_ptr<NodeDataModel> const &dataModel);
 
       public:
-        unsigned int height() const { return _height; }
+        unsigned int height() const
+        {
+            return _height;
+        }
 
-        void setHeight(unsigned int h) { _height = h; }
+        void setHeight(unsigned int h)
+        {
+            _height = h;
+        }
 
-        unsigned int width() const { return _width; }
+        unsigned int width() const
+        {
+            return _width;
+        }
 
-        void setWidth(unsigned int w) { _width = w; }
+        void setWidth(unsigned int w)
+        {
+            _width = w;
+        }
 
-        unsigned int entryHeight() const { return _entryHeight; }
-        void setEntryHeight(unsigned int h) { _entryHeight = h; }
+        unsigned int entryHeight() const
+        {
+            return _entryHeight;
+        }
+        void setEntryHeight(unsigned int h)
+        {
+            _entryHeight = h;
+        }
 
-        unsigned int entryWidth() const { return _entryWidth; }
+        unsigned int entryWidth() const
+        {
+            return _entryWidth;
+        }
 
-        void setEntryWidth(unsigned int w) { _entryWidth = w; }
+        void setEntryWidth(unsigned int w)
+        {
+            _entryWidth = w;
+        }
 
-        unsigned int spacing() const { return _spacing; }
+        unsigned int spacing() const
+        {
+            return _spacing;
+        }
 
-        void setSpacing(unsigned int s) { _spacing = s; }
+        void setSpacing(unsigned int s)
+        {
+            _spacing = s;
+        }
 
-        bool hovered() const { return _hovered; }
+        bool hovered() const
+        {
+            return _hovered;
+        }
 
-        void setHovered(unsigned int h) { _hovered = h; }
+        void setHovered(unsigned int h)
+        {
+            _hovered = h;
+        }
 
         unsigned int nSources() const;
 
@@ -52,11 +88,20 @@ namespace QtNodes
 
         void updatePortCount();
 
-        QPointF const &draggingPos() const { return _draggingPos; }
+        QPointF const &draggingPos() const
+        {
+            return _draggingPos;
+        }
 
-        void setDraggingPosition(QPointF const &pos) { _draggingPos = pos; }
+        void setDraggingPosition(QPointF const &pos)
+        {
+            _draggingPos = pos;
+        }
 
-        unsigned int portsXoffset() const { return _portsXoffset; }
+        unsigned int portsXoffset() const
+        {
+            return _portsXoffset;
+        }
 
       public:
         QRectF entryBoundingRect() const;
@@ -87,9 +132,8 @@ namespace QtNodes
 
         unsigned int validationWidth() const;
 
-        static QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort,
-                                                             Node *targetNode, PortIndex sourcePortIndex,
-                                                             PortType sourcePort, Node *sourceNode, Node &newNode);
+        static QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node *targetNode,
+                                                             PortIndex sourcePortIndex, PortType sourcePort, Node *sourceNode, Node &newNode);
         static QRectF calculateDocRect(const QTextDocument &td);
 
       private:

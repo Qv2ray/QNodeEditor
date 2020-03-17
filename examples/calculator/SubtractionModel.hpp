@@ -12,10 +12,15 @@
 class SubtractionModel : public MathOperationModel
 {
   public:
-    virtual ~SubtractionModel() {}
+    virtual ~SubtractionModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Subtraction"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Subtraction");
+    }
 
     virtual bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
     {
@@ -36,17 +41,18 @@ class SubtractionModel : public MathOperationModel
 
                 break;
 
-            case PortType::Out:
-                return QStringLiteral("Result");
+            case PortType::Out: return QStringLiteral("Result");
 
-            default:
-                break;
+            default: break;
         }
 
         return QString();
     }
 
-    QString name() const override { return QStringLiteral("Subtraction"); }
+    QString name() const override
+    {
+        return QStringLiteral("Subtraction");
+    }
 
   private:
     void compute() override

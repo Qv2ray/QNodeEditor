@@ -20,20 +20,25 @@ using QtNodes::PortIndex;
 using QtNodes::PortType;
 
 NodeGeometry::NodeGeometry(std::unique_ptr<NodeDataModel> const &dataModel)
-    : _width(100), _height(150), _inputPortWidth(70), _outputPortWidth(70), _entryHeight(20), _spacing(20),
-      _hovered(false), _nSources(dataModel->nPorts(PortType::Out)), _nSinks(dataModel->nPorts(PortType::In)),
-      _draggingPos(-1000, -1000), _dataModel(dataModel), _fontMetrics(QFont()), _boldFontMetrics(QFont()),
-      _portsXoffset(5), _entryHeightCalculated(false), _portsWidthCalculated(false), _captionHeightCalculated(false),
-      _captionWidthCalculated(false)
+    : _width(100), _height(150), _inputPortWidth(70), _outputPortWidth(70), _entryHeight(20), _spacing(20), _hovered(false),
+      _nSources(dataModel->nPorts(PortType::Out)), _nSinks(dataModel->nPorts(PortType::In)), _draggingPos(-1000, -1000), _dataModel(dataModel),
+      _fontMetrics(QFont()), _boldFontMetrics(QFont()), _portsXoffset(5), _entryHeightCalculated(false), _portsWidthCalculated(false),
+      _captionHeightCalculated(false), _captionWidthCalculated(false)
 {
     QFont f;
     f.setBold(true);
     _boldFontMetrics = QFontMetrics(f);
 }
 
-unsigned int NodeGeometry::nSources() const { return _dataModel->nPorts(PortType::Out); }
+unsigned int NodeGeometry::nSources() const
+{
+    return _dataModel->nPorts(PortType::Out);
+}
 
-unsigned int NodeGeometry::nSinks() const { return _dataModel->nPorts(PortType::In); }
+unsigned int NodeGeometry::nSinks() const
+{
+    return _dataModel->nPorts(PortType::In);
+}
 
 void NodeGeometry::updatePortCount()
 {
@@ -148,20 +153,19 @@ QPointF NodeGeometry::portScenePosition(PortIndex index, PortType portType, QTra
             break;
         }
 
-        default:
-            break;
+        default: break;
     }
 
     return t.map(result);
 }
 
-PortIndex NodeGeometry::checkHitScenePoint(PortType portType, QPointF const scenePoint,
-                                           QTransform const &sceneTransform) const
+PortIndex NodeGeometry::checkHitScenePoint(PortType portType, QPointF const scenePoint, QTransform const &sceneTransform) const
 {
     auto const &nodeStyle = StyleCollection::nodeStyle();
     PortIndex result = INVALID;
 
-    if (portType == PortType::None) return result;
+    if (portType == PortType::None)
+        return result;
 
     double const tolerance = 2.0 * nodeStyle.ConnectionPointDiameter;
     size_t const nItems = _dataModel->nPorts(portType);
@@ -225,7 +229,8 @@ int NodeGeometry::equivalentWidgetHeight() const
 
 unsigned int NodeGeometry::captionHeight() const
 {
-    if (!_dataModel->captionVisible()) return 0;
+    if (!_dataModel->captionVisible())
+        return 0;
 
     if (!_captionHeightCalculated)
     {
@@ -244,7 +249,8 @@ unsigned int NodeGeometry::captionHeight() const
 
 unsigned int NodeGeometry::captionWidth() const
 {
-    if (!_dataModel->captionVisible()) return 0;
+    if (!_dataModel->captionVisible())
+        return 0;
 
     if (!_captionWidthCalculated)
     {
@@ -273,9 +279,8 @@ unsigned int NodeGeometry::validationWidth() const
     return _boldFontMetrics.boundingRect(msg).width();
 }
 
-QPointF NodeGeometry::calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort,
-                                                            Node *targetNode, PortIndex sourcePortIndex,
-                                                            PortType sourcePort, Node *sourceNode, Node &newNode)
+QPointF NodeGeometry::calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node *targetNode,
+                                                            PortIndex sourcePortIndex, PortType sourcePort, Node *sourceNode, Node &newNode)
 {
     // Calculating the nodes position in the scene. It'll be positioned half way
     // between the two ports that it "connects". The first line calculates the
@@ -283,11 +288,10 @@ QPointF NodeGeometry::calculateNodePositionBetweenNodePorts(PortIndex targetPort
     // for both nodes averaged). The second line offsets this coordinate with the
     // size of the new node, so that the new nodes center falls on the originally
     // calculated coordinate, instead of it's upper left corner.
-    auto converterNodePos = (sourceNode->nodeGraphicsObject().pos() +
-                             sourceNode->nodeGeometry().portScenePosition(sourcePortIndex, sourcePort) +
-                             targetNode->nodeGraphicsObject().pos() +
-                             targetNode->nodeGeometry().portScenePosition(targetPortIndex, targetPort)) /
-                            2.0f;
+    auto converterNodePos =
+        (sourceNode->nodeGraphicsObject().pos() + sourceNode->nodeGeometry().portScenePosition(sourcePortIndex, sourcePort) +
+         targetNode->nodeGraphicsObject().pos() + targetNode->nodeGeometry().portScenePosition(targetPortIndex, targetPort)) /
+        2.0f;
     converterNodePos.setX(converterNodePos.x() - newNode.nodeGeometry().width() / 2.0f);
     converterNodePos.setY(converterNodePos.y() - newNode.nodeGeometry().height() / 2.0f);
     return converterNodePos;

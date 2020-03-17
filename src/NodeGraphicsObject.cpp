@@ -18,8 +18,7 @@ using QtNodes::FlowScene;
 using QtNodes::Node;
 using QtNodes::NodeGraphicsObject;
 
-NodeGraphicsObject::NodeGraphicsObject(FlowScene &scene, Node &node)
-    : _scene(scene), _node(node), _locked(false), _proxyWidget(nullptr)
+NodeGraphicsObject::NodeGraphicsObject(FlowScene &scene, Node &node) : _scene(scene), _node(node), _locked(false), _proxyWidget(nullptr)
 {
     _scene.addItem(this);
     setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
@@ -48,11 +47,20 @@ NodeGraphicsObject::NodeGraphicsObject(FlowScene &scene, Node &node)
     connect(this, &QGraphicsObject::yChanged, this, onMoveSlot);
 }
 
-NodeGraphicsObject::~NodeGraphicsObject() { _scene.removeItem(this); }
+NodeGraphicsObject::~NodeGraphicsObject()
+{
+    _scene.removeItem(this);
+}
 
-Node &NodeGraphicsObject::node() { return _node; }
+Node &NodeGraphicsObject::node()
+{
+    return _node;
+}
 
-Node const &NodeGraphicsObject::node() const { return _node; }
+Node const &NodeGraphicsObject::node() const
+{
+    return _node;
+}
 
 void NodeGraphicsObject::embedQWidget()
 {
@@ -79,9 +87,15 @@ void NodeGraphicsObject::embedQWidget()
     }
 }
 
-QRectF NodeGraphicsObject::boundingRect() const { return _node.nodeGeometry().boundingRect(); }
+QRectF NodeGraphicsObject::boundingRect() const
+{
+    return _node.nodeGeometry().boundingRect();
+}
 
-void NodeGraphicsObject::setGeometryChanged() { prepareGeometryChange(); }
+void NodeGraphicsObject::setGeometryChanged()
+{
+    prepareGeometryChange();
+}
 
 void NodeGraphicsObject::moveConnections() const
 {
@@ -124,7 +138,8 @@ QVariant NodeGraphicsObject::itemChange(GraphicsItemChange change, const QVarian
 
 void NodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (_locked) return;
+    if (_locked)
+        return;
 
     // deselect all other items after this one is selected
     if (!isSelected() && !(event->modifiers() & Qt::ControlModifier))
@@ -207,7 +222,8 @@ void NodeGraphicsObject::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
         QGraphicsObject::mouseMoveEvent(event);
 
-        if (event->lastPos() != event->pos()) moveConnections();
+        if (event->lastPos() != event->pos())
+            moveConnections();
 
         event->ignore();
     }

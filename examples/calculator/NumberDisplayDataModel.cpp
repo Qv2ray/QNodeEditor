@@ -2,7 +2,10 @@
 
 #include "DecimalData.hpp"
 
-NumberDisplayDataModel::NumberDisplayDataModel() : _label(new QLabel()) { _label->setMargin(3); }
+NumberDisplayDataModel::NumberDisplayDataModel() : _label(new QLabel())
+{
+    _label->setMargin(3);
+}
 
 unsigned int NumberDisplayDataModel::nPorts(PortType portType) const
 {
@@ -10,21 +13,20 @@ unsigned int NumberDisplayDataModel::nPorts(PortType portType) const
 
     switch (portType)
     {
-        case PortType::In:
-            result = 1;
-            break;
+        case PortType::In: result = 1; break;
 
-        case PortType::Out:
-            result = 0;
+        case PortType::Out: result = 0;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
 }
 
-NodeDataType NumberDisplayDataModel::dataType(PortType, PortIndex) const { return DecimalData().type(); }
+NodeDataType NumberDisplayDataModel::dataType(PortType, PortIndex) const
+{
+    return DecimalData().type();
+}
 
 std::shared_ptr<NodeData> NumberDisplayDataModel::outData(PortIndex)
 {
@@ -52,6 +54,12 @@ void NumberDisplayDataModel::setInData(std::shared_ptr<NodeData> data, int)
     _label->adjustSize();
 }
 
-NodeValidationState NumberDisplayDataModel::validationState() const { return modelValidationState; }
+NodeValidationState NumberDisplayDataModel::validationState() const
+{
+    return modelValidationState;
+}
 
-QString NumberDisplayDataModel::validationMessage() const { return modelValidationError; }
+QString NumberDisplayDataModel::validationMessage() const
+{
+    return modelValidationError;
+}

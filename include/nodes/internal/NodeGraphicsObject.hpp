@@ -44,7 +44,10 @@ namespace QtNodes
             Type = UserType + 1
         };
 
-        int type() const override { return Type; }
+        int type() const override
+        {
+            return Type;
+        }
 
         void lock(bool locked);
 

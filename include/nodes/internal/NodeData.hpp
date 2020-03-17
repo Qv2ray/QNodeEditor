@@ -21,7 +21,10 @@ namespace QtNodes
       public:
         virtual ~NodeData() = default;
 
-        virtual bool sameType(NodeData const &nodeData) const { return (this->type().id == nodeData.type().id); }
+        virtual bool sameType(NodeData const &nodeData) const
+        {
+            return (this->type().id == nodeData.type().id);
+        }
 
         /// Type for inner use
         virtual NodeDataType type() const = 0;

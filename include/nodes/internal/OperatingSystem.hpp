@@ -5,8 +5,7 @@
     #define NODE_EDITOR_PLATFORM_CYGWIN
     #define NODE_EDITOR_PLATFORM_UNIX
     #define NODE_EDITOR_PLATFORM_WINDOWS
-#elif defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) ||           \
-    defined(__WINDOWS__)
+#elif defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
     #define NODE_EDITOR_PLATFORM "Windows"
     #define NODE_EDITOR_PLATFORM_WINDOWS
 #elif defined(macintosh) || defined(Macintosh) || defined(__TOS_MACOS__) || (defined(__APPLE__) && defined(__MACH__))

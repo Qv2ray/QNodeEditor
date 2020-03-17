@@ -23,13 +23,23 @@ namespace QtNodes
 
         PortIndex index;
 
-        Port() : type(PortType::None), index(INVALID) {}
+        Port() : type(PortType::None), index(INVALID)
+        {
+        }
 
-        Port(PortType t, PortIndex i) : type(t), index(i) {}
+        Port(PortType t, PortIndex i) : type(t), index(i)
+        {
+        }
 
-        bool indexIsValid() { return index != INVALID; }
+        bool indexIsValid()
+        {
+            return index != INVALID;
+        }
 
-        bool portTypeIsValid() { return type != PortType::None; }
+        bool portTypeIsValid()
+        {
+            return type != PortType::None;
+        }
     };
 
     // using PortAddress = std::pair<QUuid, PortIndex>;
@@ -40,16 +50,11 @@ namespace QtNodes
 
         switch (port)
         {
-            case PortType::In:
-                result = PortType::Out;
-                break;
+            case PortType::In: result = PortType::Out; break;
 
-            case PortType::Out:
-                result = PortType::In;
-                break;
+            case PortType::Out: result = PortType::In; break;
 
-            default:
-                break;
+            default: break;
         }
 
         return result;

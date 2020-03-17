@@ -5,20 +5,35 @@ using QtNodes::FlowViewStyle;
 using QtNodes::NodeStyle;
 using QtNodes::StyleCollection;
 
-NodeStyle const &StyleCollection::nodeStyle() { return instance()._nodeStyle; }
+NodeStyle const &StyleCollection::nodeStyle()
+{
+    return instance()._nodeStyle;
+}
 
-ConnectionStyle const &StyleCollection::connectionStyle() { return instance()._connectionStyle; }
+ConnectionStyle const &StyleCollection::connectionStyle()
+{
+    return instance()._connectionStyle;
+}
 
-FlowViewStyle const &StyleCollection::flowViewStyle() { return instance()._flowViewStyle; }
+FlowViewStyle const &StyleCollection::flowViewStyle()
+{
+    return instance()._flowViewStyle;
+}
 
-void StyleCollection::setNodeStyle(NodeStyle nodeStyle) { instance()._nodeStyle = nodeStyle; }
+void StyleCollection::setNodeStyle(NodeStyle nodeStyle)
+{
+    instance()._nodeStyle = nodeStyle;
+}
 
 void StyleCollection::setConnectionStyle(ConnectionStyle connectionStyle)
 {
     instance()._connectionStyle = connectionStyle;
 }
 
-void StyleCollection::setFlowViewStyle(FlowViewStyle flowViewStyle) { instance()._flowViewStyle = flowViewStyle; }
+void StyleCollection::setFlowViewStyle(FlowViewStyle flowViewStyle)
+{
+    instance()._flowViewStyle = flowViewStyle;
+}
 
 StyleCollection &StyleCollection::instance()
 {

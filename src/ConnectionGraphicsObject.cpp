@@ -20,8 +20,7 @@ using QtNodes::Connection;
 using QtNodes::ConnectionGraphicsObject;
 using QtNodes::FlowScene;
 
-ConnectionGraphicsObject::ConnectionGraphicsObject(FlowScene &scene, Connection &connection)
-    : _scene(scene), _connection(connection)
+ConnectionGraphicsObject::ConnectionGraphicsObject(FlowScene &scene, Connection &connection) : _scene(scene), _connection(connection)
 {
     _scene.addItem(this);
     setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -32,11 +31,20 @@ ConnectionGraphicsObject::ConnectionGraphicsObject(FlowScene &scene, Connection 
     setZValue(-1.0);
 }
 
-ConnectionGraphicsObject::~ConnectionGraphicsObject() { _scene.removeItem(this); }
+ConnectionGraphicsObject::~ConnectionGraphicsObject()
+{
+    _scene.removeItem(this);
+}
 
-QtNodes::Connection &ConnectionGraphicsObject::connection() { return _connection; }
+QtNodes::Connection &ConnectionGraphicsObject::connection()
+{
+    return _connection;
+}
 
-QRectF ConnectionGraphicsObject::boundingRect() const { return _connection.connectionGeometry().boundingRect(); }
+QRectF ConnectionGraphicsObject::boundingRect() const
+{
+    return _connection.connectionGeometry().boundingRect();
+}
 
 QPainterPath ConnectionGraphicsObject::shape() const
 {
@@ -50,7 +58,10 @@ QPainterPath ConnectionGraphicsObject::shape() const
 #endif
 }
 
-void ConnectionGraphicsObject::setGeometryChanged() { prepareGeometryChange(); }
+void ConnectionGraphicsObject::setGeometryChanged()
+{
+    prepareGeometryChange();
+}
 
 void ConnectionGraphicsObject::move()
 {
@@ -60,8 +71,7 @@ void ConnectionGraphicsObject::move()
         {
             auto const &nodeGraphics = node->nodeGraphicsObject();
             auto const &nodeGeom = node->nodeGeometry();
-            QPointF scenePos =
-                nodeGeom.portScenePosition(_connection.getPortIndex(portType), portType, nodeGraphics.sceneTransform());
+            QPointF scenePos = nodeGeom.portScenePosition(_connection.getPortIndex(portType), portType, nodeGraphics.sceneTransform());
             QTransform sceneTransform = this->sceneTransform();
             QPointF connectionPos = sceneTransform.inverted().map(scenePos);
             _connection.connectionGeometry().setEndPoint(portType, connectionPos);
@@ -101,8 +111,7 @@ void ConnectionGraphicsObject::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if (node)
     {
         auto oppPort = oppositePort(connectionState.requiredPort());
-        node->reactToPossibleConnection(connectionState.requiredPort(), _connection.dataType(oppPort),
-                                        event->scenePos());
+        node->reactToPossibleConnection(connectionState.requiredPort(), _connection.dataType(oppPort), event->scenePos());
     }
 
     //-------------------

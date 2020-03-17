@@ -12,12 +12,20 @@
 class AdditionModel : public MathOperationModel
 {
   public:
-    virtual ~AdditionModel() {}
+    virtual ~AdditionModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Addition"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Addition");
+    }
 
-    QString name() const override { return QStringLiteral("Addition"); }
+    QString name() const override
+    {
+        return QStringLiteral("Addition");
+    }
 
   private:
     void compute() override
@@ -46,17 +54,34 @@ class AdditionModel : public MathOperationModel
 class MultiAdditionModel : public NodeDataModel
 {
   public:
-    QString caption() const override { return QStringLiteral("Multi Addition"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Multi Addition");
+    }
 
-    QString name() const override { return QStringLiteral("Multi Addition"); }
+    QString name() const override
+    {
+        return QStringLiteral("Multi Addition");
+    }
 
-    unsigned int nPorts(PortType portType) const override { return 1; }
+    unsigned int nPorts(PortType portType) const override
+    {
+        return 1;
+    }
 
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const { return DecimalData().type(); }
+    NodeDataType dataType(PortType portType, PortIndex portIndex) const
+    {
+        return DecimalData().type();
+    }
 
-    std::shared_ptr<NodeData> outData(PortIndex port) override { return _result; }
+    std::shared_ptr<NodeData> outData(PortIndex port) override
+    {
+        return _result;
+    }
 
-    void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override {}
+    void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override
+    {
+    }
 
     void setInData(std::vector<std::shared_ptr<NodeData>> data, PortIndex portIndex) override
     {
@@ -67,7 +92,8 @@ class MultiAdditionModel : public NodeDataModel
         {
             std::shared_ptr<DecimalData> decimalData = std::dynamic_pointer_cast<DecimalData>(node);
 
-            if (decimalData != nullptr) _input.push_back(decimalData);
+            if (decimalData != nullptr)
+                _input.push_back(decimalData);
         }
 
         if (_input.empty())
@@ -91,11 +117,20 @@ class MultiAdditionModel : public NodeDataModel
         dataUpdated(0);
     }
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 
-    NodeValidationState validationState() const override { return modelValidationState; }
+    NodeValidationState validationState() const override
+    {
+        return modelValidationState;
+    }
 
-    QString validationMessage() const override { return modelValidationError; }
+    QString validationMessage() const override
+    {
+        return modelValidationError;
+    }
 
     ConnectionPolicy portInConnectionPolicy(PortIndex) const override
     {

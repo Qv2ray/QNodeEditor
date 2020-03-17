@@ -21,8 +21,8 @@ using QtNodes::PortIndex;
 using QtNodes::PortType;
 
 Node::Node(std::unique_ptr<NodeDataModel> &&dataModel)
-    : _uid(QUuid::createUuid()), _nodeDataModel(std::move(dataModel)), _nodeState(_nodeDataModel),
-      _nodeGeometry(_nodeDataModel), _nodeGraphicsObject(nullptr)
+    : _uid(QUuid::createUuid()), _nodeDataModel(std::move(dataModel)), _nodeState(_nodeDataModel), _nodeGeometry(_nodeDataModel),
+      _nodeGraphicsObject(nullptr)
 {
     _nodeGeometry.recalculateSize();
     // propagate data: model => node
@@ -55,10 +55,12 @@ void Node::restore(QJsonObject const &json)
     _nodeDataModel->restore(json["model"].toObject());
 }
 
-QUuid Node::id() const { return _uid; }
+QUuid Node::id() const
+{
+    return _uid;
+}
 
-void Node::reactToPossibleConnection(PortType reactingPortType, NodeDataType const &reactingDataType,
-                                     QPointF const &scenePoint)
+void Node::reactToPossibleConnection(PortType reactingPortType, NodeDataType const &reactingDataType, QPointF const &scenePoint)
 {
     QTransform const t = _nodeGraphicsObject->sceneTransform();
     //
@@ -75,9 +77,15 @@ void Node::resetReactionToConnection()
     _nodeGraphicsObject->update();
 }
 
-NodeGraphicsObject const &Node::nodeGraphicsObject() const { return *_nodeGraphicsObject.get(); }
+NodeGraphicsObject const &Node::nodeGraphicsObject() const
+{
+    return *_nodeGraphicsObject.get();
+}
 
-NodeGraphicsObject &Node::nodeGraphicsObject() { return *_nodeGraphicsObject.get(); }
+NodeGraphicsObject &Node::nodeGraphicsObject()
+{
+    return *_nodeGraphicsObject.get();
+}
 
 void Node::setGraphicsObject(std::unique_ptr<NodeGraphicsObject> &&graphics)
 {
@@ -85,15 +93,30 @@ void Node::setGraphicsObject(std::unique_ptr<NodeGraphicsObject> &&graphics)
     _nodeGeometry.recalculateSize();
 }
 
-NodeGeometry &Node::nodeGeometry() { return _nodeGeometry; }
+NodeGeometry &Node::nodeGeometry()
+{
+    return _nodeGeometry;
+}
 
-NodeGeometry const &Node::nodeGeometry() const { return _nodeGeometry; }
+NodeGeometry const &Node::nodeGeometry() const
+{
+    return _nodeGeometry;
+}
 
-NodeState const &Node::nodeState() const { return _nodeState; }
+NodeState const &Node::nodeState() const
+{
+    return _nodeState;
+}
 
-NodeState &Node::nodeState() { return _nodeState; }
+NodeState &Node::nodeState()
+{
+    return _nodeState;
+}
 
-NodeDataModel *Node::nodeDataModel() const { return _nodeDataModel.get(); }
+NodeDataModel *Node::nodeDataModel() const
+{
+    return _nodeDataModel.get();
+}
 
 void Node::propagateData(PortIndex inPortIndex) const
 {

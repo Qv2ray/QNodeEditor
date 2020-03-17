@@ -21,14 +21,25 @@ class NumberDisplayDataModel : public NodeDataModel
   public:
     NumberDisplayDataModel();
 
-    virtual ~NumberDisplayDataModel() {}
+    virtual ~NumberDisplayDataModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Result"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Result");
+    }
 
-    bool captionVisible() const override { return false; }
+    bool captionVisible() const override
+    {
+        return false;
+    }
 
-    QString name() const override { return QStringLiteral("Result"); }
+    QString name() const override
+    {
+        return QStringLiteral("Result");
+    }
 
   public:
     unsigned int nPorts(PortType portType) const override;
@@ -39,7 +50,10 @@ class NumberDisplayDataModel : public NodeDataModel
 
     void setInData(std::shared_ptr<NodeData> data, int) override;
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override
+    {
+        return _label;
+    }
 
     NodeValidationState validationState() const override;
 

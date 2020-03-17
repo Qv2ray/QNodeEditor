@@ -17,7 +17,8 @@ QJsonObject NumberSourceDataModel::save() const
 {
     QJsonObject modelJson = NodeDataModel::save();
 
-    if (_number) modelJson["number"] = QString::number(_number->number());
+    if (_number)
+        modelJson["number"] = QString::number(_number->number());
 
     return modelJson;
 }
@@ -46,15 +47,11 @@ unsigned int NumberSourceDataModel::nPorts(PortType portType) const
 
     switch (portType)
     {
-        case PortType::In:
-            result = 0;
-            break;
+        case PortType::In: result = 0; break;
 
-        case PortType::Out:
-            result = 1;
+        case PortType::Out: result = 1;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
@@ -77,6 +74,12 @@ void NumberSourceDataModel::onTextEdited(QString const &string)
     }
 }
 
-NodeDataType NumberSourceDataModel::dataType(PortType, PortIndex) const { return DecimalData().type(); }
+NodeDataType NumberSourceDataModel::dataType(PortType, PortIndex) const
+{
+    return DecimalData().type();
+}
 
-std::shared_ptr<NodeData> NumberSourceDataModel::outData(PortIndex) { return _number; }
+std::shared_ptr<NodeData> NumberSourceDataModel::outData(PortIndex)
+{
+    return _number;
+}

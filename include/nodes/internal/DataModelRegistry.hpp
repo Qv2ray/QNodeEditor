@@ -16,7 +16,10 @@
 namespace QtNodes
 {
 
-    inline bool operator<(QtNodes::NodeDataType const &d1, QtNodes::NodeDataType const &d2) { return d1.id < d2.id; }
+    inline bool operator<(QtNodes::NodeDataType const &d1, QtNodes::NodeDataType const &d2)
+    {
+        return d1.id < d2.id;
+    }
 
     /// Class uses map for storing models (name, model)
     class NODE_EDITOR_PUBLIC DataModelRegistry
@@ -101,14 +104,13 @@ namespace QtNodes
         };
 
         template<typename T>
-        struct HasStaticMethodName<T, typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type>
-            : std::true_type
+        struct HasStaticMethodName<T, typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type> : std::true_type
         {
         };
 
         template<typename ModelType>
-        typename std::enable_if<HasStaticMethodName<ModelType>::value>::type registerModelImpl(
-            RegistryItemCreator creator, QString const &category)
+        typename std::enable_if<HasStaticMethodName<ModelType>::value>::type registerModelImpl(RegistryItemCreator creator,
+                                                                                               QString const &category)
         {
             const QString name = ModelType::Name();
 
@@ -137,8 +139,8 @@ namespace QtNodes
         //       virtual QString name() const;
 
         template<typename ModelType>
-        typename std::enable_if<!HasStaticMethodName<ModelType>::value>::type registerModelImpl(
-            RegistryItemCreator creator, QString const &category)
+        typename std::enable_if<!HasStaticMethodName<ModelType>::value>::type registerModelImpl(RegistryItemCreator creator,
+                                                                                                QString const &category)
         {
             const QString name = creator()->name();
 

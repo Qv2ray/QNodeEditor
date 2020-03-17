@@ -24,11 +24,20 @@ class ModuloModel : public NodeDataModel
     virtual ~ModuloModel() = default;
 
   public:
-    QString caption() const override { return QStringLiteral("Modulo"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Modulo");
+    }
 
-    bool captionVisible() const override { return true; }
+    bool captionVisible() const override
+    {
+        return true;
+    }
 
-    bool portCaptionVisible(PortType, PortIndex) const override { return true; }
+    bool portCaptionVisible(PortType, PortIndex) const override
+    {
+        return true;
+    }
 
     QString portCaption(PortType portType, PortIndex portIndex) const override
     {
@@ -42,17 +51,18 @@ class ModuloModel : public NodeDataModel
 
                 break;
 
-            case PortType::Out:
-                return QStringLiteral("Result");
+            case PortType::Out: return QStringLiteral("Result");
 
-            default:
-                break;
+            default: break;
         }
 
         return QString();
     }
 
-    QString name() const override { return QStringLiteral("Modulo"); }
+    QString name() const override
+    {
+        return QStringLiteral("Modulo");
+    }
 
   public:
     QJsonObject save() const override;
@@ -66,7 +76,10 @@ class ModuloModel : public NodeDataModel
 
     void setInData(std::shared_ptr<NodeData>, int) override;
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 
     NodeValidationState validationState() const override;
 

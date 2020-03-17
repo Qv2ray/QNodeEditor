@@ -25,15 +25,11 @@ unsigned int ImageLoaderModel::nPorts(PortType portType) const
 
     switch (portType)
     {
-        case PortType::In:
-            result = 0;
-            break;
+        case PortType::In: result = 0; break;
 
-        case PortType::Out:
-            result = 1;
+        case PortType::Out: result = 1;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
@@ -49,8 +45,7 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress)
         {
 
-            QString fileName = QFileDialog::getOpenFileName(nullptr, tr("Open Image"), QDir::homePath(),
-                                                            tr("Image Files (*.png *.jpg *.bmp)"));
+            QString fileName = QFileDialog::getOpenFileName(nullptr, tr("Open Image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
 
             _pixmap = QPixmap(fileName);
 
@@ -62,13 +57,20 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
         }
         else if (event->type() == QEvent::Resize)
         {
-            if (!_pixmap.isNull()) _label->setPixmap(_pixmap.scaled(w, h, Qt::KeepAspectRatio));
+            if (!_pixmap.isNull())
+                _label->setPixmap(_pixmap.scaled(w, h, Qt::KeepAspectRatio));
         }
     }
 
     return false;
 }
 
-NodeDataType ImageLoaderModel::dataType(PortType, PortIndex) const { return PixmapData().type(); }
+NodeDataType ImageLoaderModel::dataType(PortType, PortIndex) const
+{
+    return PixmapData().type();
+}
 
-std::shared_ptr<NodeData> ImageLoaderModel::outData(PortIndex) { return std::make_shared<PixmapData>(_pixmap); }
+std::shared_ptr<NodeData> ImageLoaderModel::outData(PortIndex)
+{
+    return std::make_shared<PixmapData>(_pixmap);
+}

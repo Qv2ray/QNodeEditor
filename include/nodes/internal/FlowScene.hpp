@@ -37,8 +37,7 @@ namespace QtNodes
       public:
         std::shared_ptr<Connection> createConnection(PortType connectedPort, Node &node, PortIndex portIndex);
 
-        std::shared_ptr<Connection> createConnection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut,
-                                                     PortIndex portIndexOut,
+        std::shared_ptr<Connection> createConnection(Node &nodeIn, PortIndex portIndexIn, Node &nodeOut, PortIndex portIndexOut,
                                                      TypeConverter const &converter = TypeConverter{});
 
         std::shared_ptr<Connection> restoreConnection(QJsonObject const &connectionJson);

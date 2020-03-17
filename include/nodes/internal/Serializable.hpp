@@ -12,6 +12,8 @@ namespace QtNodes
 
         virtual QJsonObject save() const = 0;
 
-        virtual void restore(QJsonObject const & /*p*/) {}
+        virtual void restore(QJsonObject const & /*p*/)
+        {
+        }
     };
 } // namespace QtNodes

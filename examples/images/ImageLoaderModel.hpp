@@ -24,15 +24,26 @@ class ImageLoaderModel : public NodeDataModel
   public:
     ImageLoaderModel();
 
-    virtual ~ImageLoaderModel() {}
+    virtual ~ImageLoaderModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QString("Image Source"); }
+    QString caption() const override
+    {
+        return QString("Image Source");
+    }
 
-    QString name() const override { return QString("ImageLoaderModel"); }
+    QString name() const override
+    {
+        return QString("ImageLoaderModel");
+    }
 
   public:
-    virtual QString modelName() const { return QString("Source Image"); }
+    virtual QString modelName() const
+    {
+        return QString("Source Image");
+    }
 
     unsigned int nPorts(PortType portType) const override;
 
@@ -40,11 +51,19 @@ class ImageLoaderModel : public NodeDataModel
 
     std::shared_ptr<NodeData> outData(PortIndex port) override;
 
-    void setInData(std::shared_ptr<NodeData>, int) override {}
+    void setInData(std::shared_ptr<NodeData>, int) override
+    {
+    }
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override
+    {
+        return _label;
+    }
 
-    bool resizable() const override { return true; }
+    bool resizable() const override
+    {
+        return true;
+    }
 
   protected:
     bool eventFilter(QObject *object, QEvent *event) override;

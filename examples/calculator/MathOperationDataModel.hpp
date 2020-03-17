@@ -21,7 +21,9 @@ class MathOperationModel : public NodeDataModel
 {
     Q_OBJECT
   public:
-    virtual ~MathOperationModel() {}
+    virtual ~MathOperationModel()
+    {
+    }
 
   public:
     unsigned int nPorts(PortType portType) const override;
@@ -32,7 +34,10 @@ class MathOperationModel : public NodeDataModel
 
     void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 
     NodeValidationState validationState() const override;
 

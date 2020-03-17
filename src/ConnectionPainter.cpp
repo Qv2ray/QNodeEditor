@@ -120,7 +120,8 @@ static void drawNormalLine(QPainter *painter, Connection const &connection)
     using QtNodes::ConnectionState;
     ConnectionState const &state = connection.connectionState();
 
-    if (state.requiresPort()) return;
+    if (state.requiresPort())
+        return;
 
     // colors
     auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
@@ -155,7 +156,8 @@ static void drawNormalLine(QPainter *painter, Connection const &connection)
         painter->setBrush(Qt::NoBrush);
         QColor c = normalColorOut;
 
-        if (selected) c = c.darker(200);
+        if (selected)
+            c = c.darker(200);
 
         p.setColor(c);
         painter->setPen(p);
@@ -170,7 +172,8 @@ static void drawNormalLine(QPainter *painter, Connection const &connection)
             {
                 QColor c = normalColorIn;
 
-                if (selected) c = c.darker(200);
+                if (selected)
+                    c = c.darker(200);
 
                 p.setColor(c);
                 painter->setPen(p);

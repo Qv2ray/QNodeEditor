@@ -14,9 +14,15 @@ unsigned int MathOperationModel::nPorts(PortType portType) const
     return result;
 }
 
-NodeDataType MathOperationModel::dataType(PortType, PortIndex) const { return DecimalData().type(); }
+NodeDataType MathOperationModel::dataType(PortType, PortIndex) const
+{
+    return DecimalData().type();
+}
 
-std::shared_ptr<NodeData> MathOperationModel::outData(PortIndex) { return std::static_pointer_cast<NodeData>(_result); }
+std::shared_ptr<NodeData> MathOperationModel::outData(PortIndex)
+{
+    return std::static_pointer_cast<NodeData>(_result);
+}
 
 void MathOperationModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
 {
@@ -34,6 +40,12 @@ void MathOperationModel::setInData(std::shared_ptr<NodeData> data, PortIndex por
     compute();
 }
 
-NodeValidationState MathOperationModel::validationState() const { return modelValidationState; }
+NodeValidationState MathOperationModel::validationState() const
+{
+    return modelValidationState;
+}
 
-QString MathOperationModel::validationMessage() const { return modelValidationError; }
+QString MathOperationModel::validationMessage() const
+{
+    return modelValidationError;
+}

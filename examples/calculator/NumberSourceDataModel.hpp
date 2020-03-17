@@ -23,14 +23,25 @@ class NumberSourceDataModel : public NodeDataModel
   public:
     NumberSourceDataModel();
 
-    virtual ~NumberSourceDataModel() {}
+    virtual ~NumberSourceDataModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QStringLiteral("Number Source"); }
+    QString caption() const override
+    {
+        return QStringLiteral("Number Source");
+    }
 
-    bool captionVisible() const override { return false; }
+    bool captionVisible() const override
+    {
+        return false;
+    }
 
-    QString name() const override { return QStringLiteral("NumberSource"); }
+    QString name() const override
+    {
+        return QStringLiteral("NumberSource");
+    }
 
   public:
     QJsonObject save() const override;
@@ -44,9 +55,14 @@ class NumberSourceDataModel : public NodeDataModel
 
     std::shared_ptr<NodeData> outData(PortIndex port) override;
 
-    void setInData(std::shared_ptr<NodeData>, int) override {}
+    void setInData(std::shared_ptr<NodeData>, int) override
+    {
+    }
 
-    QWidget *embeddedWidget() override { return _lineEdit; }
+    QWidget *embeddedWidget() override
+    {
+        return _lineEdit;
+    }
 
   private Q_SLOTS:
 

@@ -26,24 +26,25 @@ NodeDataModel::ConnectionPolicy NodeDataModel::portConnectionPolicy(PortType por
 
     switch (portType)
     {
-        case PortType::In:
-            result = portInConnectionPolicy(portIndex);
-            break;
+        case PortType::In: result = portInConnectionPolicy(portIndex); break;
 
-        case PortType::Out:
-            result = portOutConnectionPolicy(portIndex);
-            break;
+        case PortType::Out: result = portOutConnectionPolicy(portIndex); break;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
 }
 
-NodeStyle const &NodeDataModel::nodeStyle() const { return _nodeStyle; }
+NodeStyle const &NodeDataModel::nodeStyle() const
+{
+    return _nodeStyle;
+}
 
-void NodeDataModel::setNodeStyle(NodeStyle const &style) { _nodeStyle = style; }
+void NodeDataModel::setNodeStyle(NodeStyle const &style)
+{
+    _nodeStyle = style;
+}
 void NodeDataModel::
 
     setInData(std::vector<std::shared_ptr<NodeData>> nodeData, PortIndex port)

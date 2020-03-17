@@ -28,15 +28,11 @@ unsigned int ImageShowModel::nPorts(PortType portType) const
 
     switch (portType)
     {
-        case PortType::In:
-            result = 1;
-            break;
+        case PortType::In: result = 1; break;
 
-        case PortType::Out:
-            result = 1;
+        case PortType::Out: result = 1;
 
-        default:
-            break;
+        default: break;
     }
 
     return result;
@@ -62,9 +58,15 @@ bool ImageShowModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-NodeDataType ImageShowModel::dataType(PortType, PortIndex) const { return PixmapData().type(); }
+NodeDataType ImageShowModel::dataType(PortType, PortIndex) const
+{
+    return PixmapData().type();
+}
 
-std::shared_ptr<NodeData> ImageShowModel::outData(PortIndex) { return _nodeData; }
+std::shared_ptr<NodeData> ImageShowModel::outData(PortIndex)
+{
+    return _nodeData;
+}
 
 void ImageShowModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex)
 {

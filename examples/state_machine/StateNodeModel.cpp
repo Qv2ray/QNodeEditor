@@ -1,8 +1,14 @@
 #include "StateNodeModel.hpp"
 
-QString StateNodeModel::caption() const { return QStringLiteral("State"); }
+QString StateNodeModel::caption() const
+{
+    return QStringLiteral("State");
+}
 
-QString StateNodeModel::name() const { return QStringLiteral("state_node"); }
+QString StateNodeModel::name() const
+{
+    return QStringLiteral("state_node");
+}
 
 unsigned int StateNodeModel::nPorts(PortType portType) const
 {
@@ -17,7 +23,10 @@ NodeDataType StateNodeModel::dataType(PortType portType, PortIndex portIndex) co
     return getTranstitionType();
 }
 
-NodeDataType StateNodeModel::getTranstitionType() { return NodeDataType{ "transition_port", "" }; }
+NodeDataType StateNodeModel::getTranstitionType()
+{
+    return NodeDataType{ "transition_port", "" };
+}
 
 QtNodes::NodeDataModel::ConnectionPolicy StateNodeModel::portOutConnectionPolicy(PortIndex) const
 {

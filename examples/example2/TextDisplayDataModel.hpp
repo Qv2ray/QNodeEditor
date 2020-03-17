@@ -21,16 +21,30 @@ class TextDisplayDataModel : public NodeDataModel
   public:
     TextDisplayDataModel();
 
-    virtual ~TextDisplayDataModel() {}
+    virtual ~TextDisplayDataModel()
+    {
+    }
 
   public:
-    QString caption() const override { return QString("Text Display"); }
+    QString caption() const override
+    {
+        return QString("Text Display");
+    }
 
-    bool captionVisible() const override { return false; }
+    bool captionVisible() const override
+    {
+        return false;
+    }
 
-    static QString Name() { return QString("TextDisplayDataModel"); }
+    static QString Name()
+    {
+        return QString("TextDisplayDataModel");
+    }
 
-    QString name() const override { return TextDisplayDataModel::Name(); }
+    QString name() const override
+    {
+        return TextDisplayDataModel::Name();
+    }
 
   public:
     unsigned int nPorts(PortType portType) const override;
@@ -55,7 +69,10 @@ class TextDisplayDataModel : public NodeDataModel
         _label->adjustSize();
     }
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override
+    {
+        return _label;
+    }
 
   private:
     QLabel *_label;

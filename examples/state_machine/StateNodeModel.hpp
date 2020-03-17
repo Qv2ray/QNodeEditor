@@ -24,5 +24,8 @@ class StateNodeModel : public QtNodes::NodeDataModel
     void setInData(std::vector<std::shared_ptr<NodeData>> nodeData, PortIndex port) override;
     std::shared_ptr<NodeData> outData(PortIndex port) override;
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override
+    {
+        return nullptr;
+    }
 };

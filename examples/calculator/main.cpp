@@ -35,10 +35,8 @@ static std::shared_ptr<DataModelRegistry> registerDataModels()
     ret->registerModel<MultiplicationModel>("Operators");
     ret->registerModel<DivisionModel>("Operators");
     ret->registerModel<ModuloModel>("Operators");
-    ret->registerTypeConverter(std::make_pair(DecimalData().type(), IntegerData().type()),
-                               TypeConverter{ DecimalToIntegerConverter() });
-    ret->registerTypeConverter(std::make_pair(IntegerData().type(), DecimalData().type()),
-                               TypeConverter{ IntegerToDecimalConverter() });
+    ret->registerTypeConverter(std::make_pair(DecimalData().type(), IntegerData().type()), TypeConverter{ DecimalToIntegerConverter() });
+    ret->registerTypeConverter(std::make_pair(IntegerData().type(), DecimalData().type()), TypeConverter{ IntegerToDecimalConverter() });
     return ret;
 }
 

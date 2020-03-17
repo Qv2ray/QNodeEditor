@@ -25,16 +25,11 @@ void ConnectionGeometry::setEndPoint(PortType portType, QPointF const &point)
 {
     switch (portType)
     {
-        case PortType::Out:
-            _out = point;
-            break;
+        case PortType::Out: _out = point; break;
 
-        case PortType::In:
-            _in = point;
-            break;
+        case PortType::In: _in = point; break;
 
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -42,16 +37,11 @@ void ConnectionGeometry::moveEndPoint(PortType portType, QPointF const &offset)
 {
     switch (portType)
     {
-        case PortType::Out:
-            _out += offset;
-            break;
+        case PortType::Out: _out += offset; break;
 
-        case PortType::In:
-            _in += offset;
-            break;
+        case PortType::In: _in += offset; break;
 
-        default:
-            break;
+        default: break;
     }
 }
 
