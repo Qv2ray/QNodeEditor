@@ -80,7 +80,7 @@ public:
     return 1;
   }
 
-  NodeDataType
+  std::shared_ptr<NodeDataType>
   dataType(PortType portType,
            PortIndex portIndex) const
   {

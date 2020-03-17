@@ -10,13 +10,13 @@ using QtNodes::NodeDataType;
 class StateNodeModel : public QtNodes::NodeDataModel
 {
 public:
-  static NodeDataType getTranstitionType();
+  static std::shared_ptr<NodeDataType> getTranstitionType();
 
   QString caption() const override;
   QString name() const override;
 
   unsigned int nPorts(PortType portType) const override;
-  NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
+  std::shared_ptr<NodeDataType> dataType(PortType portType, PortIndex portIndex) const override;
   ConnectionPolicy portOutConnectionPolicy(PortIndex) const override;
   ConnectionPolicy portInConnectionPolicy(PortIndex) const override;
 

@@ -139,6 +139,9 @@ public:
   NodePainterDelegate*
   painterDelegate() const { return nullptr; }
 
+  bool wembed() const;
+  void setWembed(bool wembed);
+
 public Q_SLOTS:
 
   virtual void
@@ -170,6 +173,8 @@ Q_SIGNALS:
   void
   embeddedWidgetSizeUpdated();
 
+protected:
+    bool m_wembed;
 private:
 
   NodeStyle _nodeStyle;

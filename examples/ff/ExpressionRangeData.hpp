@@ -19,11 +19,10 @@ public:
     , _range(range)
   {}
 
-  NodeDataType
+  std::shared_ptr<NodeDataType>
   type() const override
   {
-    return NodeDataType {"ExpressionRange",
-                         "E"};
+    return std::make_shared<NodeDataType>("ExpressionRange", "E");
   }
 
   QString const &

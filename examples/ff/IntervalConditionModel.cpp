@@ -341,7 +341,7 @@ processData()
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 IntervalConditionModel::
 dataType(PortType portType, PortIndex index) const
 {

@@ -175,7 +175,7 @@ onRangeEdited(QString const &string)
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 ExpressionSourceModel::
 dataType(PortType, PortIndex) const
 {

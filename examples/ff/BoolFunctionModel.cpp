@@ -112,7 +112,7 @@ nPorts(PortType portType) const
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 BoolFunctionModel::
 dataType(PortType, PortIndex) const
 {

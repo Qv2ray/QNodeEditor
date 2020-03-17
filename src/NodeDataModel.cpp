@@ -10,7 +10,8 @@ using QtNodes::PortType;
 
 NodeDataModel::
 NodeDataModel()
-  : _nodeStyle(StyleCollection::nodeStyle())
+  : m_wembed(false), _nodeStyle(StyleCollection::nodeStyle())
+
 {
   // Derived classes can initialize specific style here
 }
@@ -67,7 +68,6 @@ setNodeStyle(NodeStyle const& style)
   _nodeStyle = style;
 }
 
-
 void
 NodeDataModel::
 setInData(std::vector<std::shared_ptr<NodeData> > nodeData, PortIndex port)
@@ -83,4 +83,13 @@ setInData(std::vector<std::shared_ptr<NodeData> > nodeData, PortIndex port)
   {
     Q_ASSERT(false);
   }
+}
+bool NodeDataModel::wembed() const
+{
+    return m_wembed;
+}
+
+void NodeDataModel::setWembed(bool wembed)
+{
+    m_wembed = wembed;
 }

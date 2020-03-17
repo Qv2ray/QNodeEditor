@@ -264,7 +264,7 @@ processData()
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 IfConditionModel::
 dataType(PortType portType, PortIndex index) const
 {
