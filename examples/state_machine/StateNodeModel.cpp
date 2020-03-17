@@ -25,7 +25,7 @@ nPorts(PortType portType) const
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 StateNodeModel::
 dataType(PortType portType, PortIndex portIndex) const
 {
@@ -35,11 +35,11 @@ dataType(PortType portType, PortIndex portIndex) const
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 StateNodeModel::
 getTranstitionType()
 {
-  return NodeDataType{"transition_port", ""};
+  return std::make_shared<NodeDataType>("transition_port", "");
 }
 
 

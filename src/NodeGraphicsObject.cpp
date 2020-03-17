@@ -29,6 +29,7 @@ NodeGraphicsObject(FlowScene &scene,
   , _node(node)
   , _locked(false)
   , _proxyWidget(nullptr)
+
 {
   _scene.addItem(this);
 
@@ -57,7 +58,7 @@ NodeGraphicsObject(FlowScene &scene,
 
   setZValue(0);
 
-  embedQWidget();
+  embedQWidget( true );
 
   // connect to the move signals to emit the move signals in FlowScene
   auto onMoveSlot = [this] {
@@ -93,41 +94,54 @@ node() const
 
 void
 NodeGraphicsObject::
-embedQWidget()
+embedQWidget( bool embed )
 {
-  NodeGeometry & geom = _node.nodeGeometry();
-
-  if (auto w = _node.nodeDataModel()->embeddedWidget())
-  {
-    _proxyWidget = new QGraphicsProxyWidget(this);
-
-    _proxyWidget->setWidget(w);
-
-    _proxyWidget->setPreferredWidth(5);
-
-    QSize size = w->size();
-    QSize correct = size;
-    correct = correct.expandedTo(geom.minimumEmbeddedSize());
-    correct = correct.boundedTo(geom.maximumEmbeddedSize());
-    if (size != correct)
+    NodeGeometry & geom = _node.nodeGeometry();
+    _node.nodeDataModel()->setWembed( embed );
+    if (auto w = _node.nodeDataModel()->embeddedWidget())
     {
-      size = correct;
-      w->resize(size);
+        if ( embed ){
+            if ( nullptr == _proxyWidget ) {
+                _proxyWidget = new QGraphicsProxyWidget(this);
+                w->setParent(nullptr);
+
+                _proxyWidget->setWidget(w);
+
+                _proxyWidget->setPreferredWidth(5);
+                geom.recalculateSize();
+                if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
+                {
+                  // If the widget wants to use as much vertical space as possible, set it to have the geom's equivalentWidgetHeight.
+                  _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
+                }
+                _proxyWidget->setPos(geom.widgetPosition());
+
+                update();
+
+                _proxyWidget->setOpacity(1.0);
+                _proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+            }
+
+        }else{
+            if ( nullptr != _proxyWidget ){
+                _proxyWidget->setWidget(nullptr);
+                QPoint pos = QCursor::pos();
+                _proxyWidget->deleteLater();
+                _proxyWidget = nullptr;
+                connect(this,SIGNAL(destroyed()), w, SLOT(deleteLater()));
+                geom.recalculateSize();
+                update();
+                w->setWindowTitle(_node.nodeDataModel()->caption());
+                w->setWindowFlags(Qt::Widget);
+                w->move(pos.x(),pos.y());
+                w->show();
+                w->raise();
+
+            }
+        }
     }
-
-    geom.recalculateSize();
-    if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
-    {
-      // If the widget wants to use as much vertical space as possible, set it to have the geom's equivalentWidgetHeight.
-      _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
-    }
-    _proxyWidget->setPos(geom.widgetPosition());
-
-    update();
-
-    _proxyWidget->setOpacity(1.0);
-    _proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
-  }
+    moveConnections();
+    scene()->update();
 }
 
 
@@ -387,6 +401,11 @@ hoverEnterEvent(QGraphicsSceneHoverEvent * event)
   // bring this node forward
   setZValue(1.0);
 
+  if (auto w = _node.nodeDataModel()->embeddedWidget())
+  {
+      w->raise();
+  }
+
   _node.nodeGeometry().setHovered(true);
   update();
   _scene.nodeHovered(node(), event->screenPos());
@@ -440,5 +459,7 @@ void
 NodeGraphicsObject::
 contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-  _scene.nodeContextMenu(node(), mapToScene(event->pos()));
+
+        _scene.nodeContextMenu(node(), mapToScene(event->pos()));
+
 }

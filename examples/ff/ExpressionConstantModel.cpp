@@ -200,7 +200,7 @@ onRangeEdited(QString const &string)
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 ExpressionConstantModel::
 dataType(PortType, PortIndex) const
 {

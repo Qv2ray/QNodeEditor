@@ -218,7 +218,7 @@ onRangeEdited(QString const &string)
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 ExpressionStepRangeModel::
 dataType(PortType, PortIndex) const
 {

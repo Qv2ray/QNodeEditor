@@ -92,7 +92,7 @@ nPorts(PortType portType) const
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 ExpressionDisplayModel::
 dataType(PortType, PortIndex) const
 {

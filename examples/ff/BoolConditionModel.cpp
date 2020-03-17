@@ -273,7 +273,7 @@ processData()
 }
 
 
-NodeDataType
+std::shared_ptr<NodeDataType>
 BoolConditionModel::
 dataType(PortType portType, PortIndex) const
 {
