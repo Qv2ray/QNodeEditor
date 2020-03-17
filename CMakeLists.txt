@@ -31,7 +31,7 @@ if(NE_DEVELOPER_DEFAULTS)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 endif()
 
-add_subdirectory(external)
+#add_subdirectory(external)
 
 # Find the QtWidgets library
 find_package(Qt5 5.3 COMPONENTS
@@ -151,7 +151,7 @@ endif()
 ##
 
 if(BUILD_TESTING)
-  add_subdirectory(test)
+  #add_subdirectory(test)
 endif()
 
 ###############
