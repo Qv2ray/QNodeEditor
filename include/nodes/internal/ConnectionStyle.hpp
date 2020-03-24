@@ -1,18 +1,14 @@
 #pragma once
-
 #include "Export.hpp"
 #include "Style.hpp"
 
 #include <QtGui/QColor>
-
 namespace QtNodes
 {
-
     class NODE_EDITOR_PUBLIC ConnectionStyle : public Style
     {
       public:
         ConnectionStyle();
-
         ConnectionStyle(QString jsonText);
 
       public:
@@ -20,9 +16,7 @@ namespace QtNodes
 
       private:
         void loadJsonText(QString jsonText) override;
-
         void loadJsonFile(QString fileName) override;
-
         void loadJsonFromByteArray(QByteArray const &byteArray) override;
 
       public:
@@ -32,11 +26,9 @@ namespace QtNodes
         QColor selectedColor() const;
         QColor selectedHaloColor() const;
         QColor hoveredColor() const;
-
         float lineWidth() const;
         float constructionLineWidth() const;
         float pointDiameter() const;
-
         bool useDataDefinedColors() const;
 
       private:
@@ -45,11 +37,9 @@ namespace QtNodes
         QColor SelectedColor;
         QColor SelectedHaloColor;
         QColor HoveredColor;
-
         float LineWidth;
         float ConstructionLineWidth;
         float PointDiameter;
-
         bool UseDataDefinedColors;
     };
 } // namespace QtNodes

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Export.hpp"
 #include "NodeData.hpp"
 #include "PortType.hpp"
@@ -8,13 +7,10 @@
 #include <QtCore/QUuid>
 #include <unordered_map>
 #include <vector>
-
 namespace QtNodes
 {
-
     class Connection;
     class NodeDataModel;
-
     /// Contains vectors of connected input and output connections.
     /// Stores bool for reacting on hovering connections
     class NODE_EDITOR_PUBLIC NodeState
@@ -31,45 +27,28 @@ namespace QtNodes
 
       public:
         using ConnectionPtrSet = std::unordered_map<QUuid, Connection *>;
-
         /// Returns vector of connections ID.
         /// Some of them can be empty (null)
         std::vector<ConnectionPtrSet> const &getEntries(PortType) const;
-
         std::vector<ConnectionPtrSet> &getEntries(PortType);
-
         ConnectionPtrSet connections(PortType portType, PortIndex portIndex) const;
-
         void setConnection(PortType portType, PortIndex portIndex, Connection &connection);
-
         void eraseConnection(PortType portType, PortIndex portIndex, QUuid id);
-
         ReactToConnectionState reaction() const;
-
         PortType reactingPortType() const;
-
-        NodeDataType reactingDataType() const;
-
+        std::shared_ptr<NodeDataType> reactingDataType() const;
         void setReaction(ReactToConnectionState reaction, PortType reactingPortType = PortType::None,
-                         NodeDataType reactingDataType = NodeDataType());
-
+                         std::shared_ptr<NodeDataType> reactingDataType = std::make_shared<NodeDataType>());
         bool isReacting() const;
-
         void setResizing(bool resizing);
-
         bool resizing() const;
-
-      public:
-        void updatePortCount(int inPorts, int outPorts);
 
       private:
         std::vector<ConnectionPtrSet> _inConnections;
         std::vector<ConnectionPtrSet> _outConnections;
-
         ReactToConnectionState _reaction;
         PortType _reactingPortType;
-        NodeDataType _reactingDataType;
-
+        std::shared_ptr<NodeDataType> _reactingDataType;
         bool _resizing;
     };
 } // namespace QtNodes

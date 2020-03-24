@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Compiler.hpp"
 #include "OperatingSystem.hpp"
-
 #ifdef NODE_EDITOR_PLATFORM_WINDOWS
     #define NODE_EDITOR_EXPORT __declspec(dllexport)
     #define NODE_EDITOR_IMPORT __declspec(dllimport)
@@ -16,13 +14,11 @@
     #define NODE_EDITOR_IMPORT
     #define NODE_EDITOR_LOCAL
 #endif
-
 #ifdef __cplusplus
     #define NODE_EDITOR_DEMANGLED extern "C"
 #else
     #define NODE_EDITOR_DEMANGLED
 #endif
-
 #if defined(NODE_EDITOR_SHARED) && !defined(NODE_EDITOR_STATIC)
     #ifdef NODE_EDITOR_EXPORTS
         #define NODE_EDITOR_PUBLIC NODE_EDITOR_EXPORT

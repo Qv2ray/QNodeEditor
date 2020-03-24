@@ -8,11 +8,9 @@
 #include "StyleCollection.hpp"
 
 #include <QtGui/QIcon>
-
 using QtNodes::Connection;
 using QtNodes::ConnectionGeometry;
 using QtNodes::ConnectionPainter;
-
 static QPainterPath cubicPath(ConnectionGeometry const &geom)
 {
     QPointF const &source = geom.source();
@@ -23,25 +21,21 @@ static QPainterPath cubicPath(ConnectionGeometry const &geom)
     cubic.cubicTo(c1c2.first, c1c2.second, sink);
     return cubic;
 }
-
 QPainterPath ConnectionPainter::getPainterStroke(ConnectionGeometry const &geom)
 {
     auto cubic = cubicPath(geom);
     QPointF const &source = geom.source();
     QPainterPath result(source);
     unsigned segments = 20;
-
     for (auto i = 0ul; i < segments; ++i)
     {
         double ratio = double(i + 1) / segments;
         result.lineTo(cubic.pointAtPercent(ratio));
     }
-
     QPainterPathStroker stroker;
     stroker.setWidth(10.0);
     return stroker.createStroke(result);
 }
-
 #ifdef NODE_DEBUG_DRAWING
 static void debugDrawing(QPainter *painter, Connection const &connection)
 {
@@ -68,12 +62,10 @@ static void debugDrawing(QPainter *painter, Connection const &connection)
     }
 }
 #endif
-
 static void drawSketchLine(QPainter *painter, Connection const &connection)
 {
     using QtNodes::ConnectionState;
     ConnectionState const &state = connection.connectionState();
-
     if (state.requiresPort())
     {
         auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
@@ -90,7 +82,6 @@ static void drawSketchLine(QPainter *painter, Connection const &connection)
         painter->drawPath(cubic);
     }
 }
-
 static void drawHoveredOrSelected(QPainter *painter, Connection const &connection)
 {
     using QtNodes::ConnectionGeometry;
@@ -98,7 +89,6 @@ static void drawHoveredOrSelected(QPainter *painter, Connection const &connectio
     bool const hovered = geom.hovered();
     auto const &graphicsObject = connection.getConnectionGraphicsObject();
     bool const selected = graphicsObject.isSelected();
-
     // drawn as a fat background
     if (hovered || selected)
     {
@@ -114,32 +104,28 @@ static void drawHoveredOrSelected(QPainter *painter, Connection const &connectio
         painter->drawPath(cubic);
     }
 }
-
 static void drawNormalLine(QPainter *painter, Connection const &connection)
 {
     using QtNodes::ConnectionState;
     ConnectionState const &state = connection.connectionState();
-
-    if (state.requiresPort()) return;
-
+    if (state.requiresPort())
+        return;
     // colors
     auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
     QColor normalColorOut = connectionStyle.normalColor();
     QColor normalColorIn = connectionStyle.normalColor();
     QColor selectedColor = connectionStyle.selectedColor();
     bool gradientColor = false;
-
     if (connectionStyle.useDataDefinedColors())
     {
         using QtNodes::PortType;
         auto dataTypeOut = connection.dataType(PortType::Out);
         auto dataTypeIn = connection.dataType(PortType::In);
-        gradientColor = (dataTypeOut.id != dataTypeIn.id);
-        normalColorOut = connectionStyle.normalColor(dataTypeOut.id);
-        normalColorIn = connectionStyle.normalColor(dataTypeIn.id);
+        gradientColor = (*dataTypeOut != *dataTypeIn);
+        normalColorOut = connectionStyle.normalColor(dataTypeOut->id());
+        normalColorIn = connectionStyle.normalColor(dataTypeIn->id());
         selectedColor = normalColorOut.darker(200);
     }
-
     // geometry
     ConnectionGeometry const &geom = connection.connectionGeometry();
     double const lineWidth = connectionStyle.lineWidth();
@@ -149,36 +135,29 @@ static void drawNormalLine(QPainter *painter, Connection const &connection)
     auto const &graphicsObject = connection.getConnectionGraphicsObject();
     bool const selected = graphicsObject.isSelected();
     auto cubic = cubicPath(geom);
-
     if (gradientColor)
     {
         painter->setBrush(Qt::NoBrush);
         QColor c = normalColorOut;
-
-        if (selected) c = c.darker(200);
-
+        if (selected)
+            c = c.darker(200);
         p.setColor(c);
         painter->setPen(p);
         unsigned int const segments = 60;
-
         for (unsigned int i = 0ul; i < segments; ++i)
         {
             double ratioPrev = double(i) / segments;
             double ratio = double(i + 1) / segments;
-
             if (i == segments / 2)
             {
                 QColor c = normalColorIn;
-
-                if (selected) c = c.darker(200);
-
+                if (selected)
+                    c = c.darker(200);
                 p.setColor(c);
                 painter->setPen(p);
             }
-
             painter->drawLine(cubic.pointAtPercent(ratioPrev), cubic.pointAtPercent(ratio));
         }
-
         {
             QIcon icon(":convert.png");
             QPixmap pixmap = icon.pixmap(QSize(22, 22));
@@ -188,18 +167,15 @@ static void drawNormalLine(QPainter *painter, Connection const &connection)
     else
     {
         p.setColor(normalColorOut);
-
         if (selected)
         {
             p.setColor(selectedColor);
         }
-
         painter->setPen(p);
         painter->setBrush(Qt::NoBrush);
         painter->drawPath(cubic);
     }
 }
-
 void ConnectionPainter::paint(QPainter *painter, Connection const &connection)
 {
     drawHoveredOrSelected(painter, connection);

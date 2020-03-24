@@ -1,18 +1,14 @@
 #pragma once
-
 #include "Export.hpp"
 #include "Style.hpp"
 
 #include <QtGui/QColor>
-
 namespace QtNodes
 {
-
     class NODE_EDITOR_PUBLIC FlowViewStyle : public Style
     {
       public:
         FlowViewStyle();
-
         FlowViewStyle(QString jsonText);
 
       public:
@@ -20,9 +16,7 @@ namespace QtNodes
 
       private:
         void loadJsonText(QString jsonText) override;
-
         void loadJsonFile(QString fileName) override;
-
         void loadJsonFromByteArray(QByteArray const &byteArray) override;
 
       public:

@@ -7,23 +7,21 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 
-#include <ConnectionStyle.hpp>
-#include <DataModelRegistry.hpp>
-#include <FlowScene.hpp>
-#include <FlowView.hpp>
-#include <NodeData.hpp>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QVBoxLayout>
-#include <TypeConverter.hpp>
-
+#include <nodes/ConnectionStyle>
+#include <nodes/DataModelRegistry>
+#include <nodes/FlowScene>
+#include <nodes/FlowView>
+#include <nodes/NodeData>
+#include <nodes/TypeConverter>
 using QtNodes::ConnectionStyle;
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
 using QtNodes::FlowView;
 using QtNodes::TypeConverter;
 using QtNodes::TypeConverterId;
-
 static std::shared_ptr<DataModelRegistry> registerDataModels()
 {
     auto ret = std::make_shared<DataModelRegistry>();
@@ -35,13 +33,12 @@ static std::shared_ptr<DataModelRegistry> registerDataModels()
     ret->registerModel<MultiplicationModel>("Operators");
     ret->registerModel<DivisionModel>("Operators");
     ret->registerModel<ModuloModel>("Operators");
-    ret->registerTypeConverter(std::make_pair(DecimalData().type(), IntegerData().type()),
+    ret->registerTypeConverter(std::make_pair(DecimalData().type()->id(), IntegerData().type()->id()),
                                TypeConverter{ DecimalToIntegerConverter() });
-    ret->registerTypeConverter(std::make_pair(IntegerData().type(), DecimalData().type()),
+    ret->registerTypeConverter(std::make_pair(IntegerData().type()->id(), DecimalData().type()->id()),
                                TypeConverter{ IntegerToDecimalConverter() });
     return ret;
 }
-
 static void setStyle()
 {
     ConnectionStyle::setConnectionStyle(
@@ -63,7 +60,6 @@ static void setStyle()
   }
   )");
 }
-
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

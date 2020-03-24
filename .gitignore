@@ -1,7 +1,6 @@
+*.user
 *.py
 *.pyc
-*.user
+build/
 _build
 CMakeLists.txt.user
-build/
-examples/build*/
