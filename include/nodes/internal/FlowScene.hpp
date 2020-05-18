@@ -47,6 +47,14 @@ namespace QtNodes
         QSizeF getNodeSize(Node const &node) const;
 
       public:
+        inline std::unique_ptr<Node> const &node(const QUuid &id) const
+        {
+            return nodes().at(id);
+        }
+        inline std::shared_ptr<Connection> const &connection(const QUuid &id) const
+        {
+            return connections().at(id);
+        }
         std::unordered_map<QUuid, std::unique_ptr<Node>> const &nodes() const;
         std::unordered_map<QUuid, std::shared_ptr<Connection>> const &connections() const;
         std::vector<Node *> allNodes() const;
