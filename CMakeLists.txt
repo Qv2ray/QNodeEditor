@@ -5,6 +5,7 @@ project(NodeEditor CXX)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
+set(CORE_VERSION "2")
 
 get_directory_property(_has_parent PARENT_DIRECTORY)
 if(_has_parent)
@@ -76,6 +77,10 @@ add_library(nodes
   ${RESOURCES}
 )
 add_library(NodeEditor::nodes ALIAS nodes)
+
+set_target_properties(nodes PROPERTIES
+  SOVERSION ${CORE_VERSION}
+)
 
 target_include_directories(nodes
   PUBLIC
