@@ -51,19 +51,19 @@ void NodeGeometry::recalculateSize() const
         _height = step * maxNumOfEntries;
     }
     if (_dataModel->wembed())
-    if (auto w = _dataModel->embeddedWidget())
-    {
-        _height = std::max(_height, static_cast<unsigned>(w->height()));
-    }
+        if (auto w = _dataModel->embeddedWidget())
+        {
+            _height = std::max(_height, static_cast<unsigned>(w->height()));
+        }
     _height += captionHeight();
-        _inputPortWidth = portWidth(PortType::In);
-        _outputPortWidth = portWidth(PortType::Out);
+    _inputPortWidth = portWidth(PortType::In);
+    _outputPortWidth = portWidth(PortType::Out);
     _width = _inputPortWidth + _outputPortWidth + 2 * _spacing;
     if (_dataModel->wembed())
-    if (auto w = _dataModel->embeddedWidget())
-    {
-        _width += w->width();
-    }
+        if (auto w = _dataModel->embeddedWidget())
+        {
+            _width += w->width();
+        }
     _width = std::max(_width, captionWidth());
     if (_dataModel->validationState() != NodeValidationState::Valid)
     {
@@ -194,14 +194,14 @@ unsigned int NodeGeometry::captionHeight() const
 {
     if (!_dataModel->captionVisible())
         return 0;
-        QString name = _dataModel->caption();
+    QString name = _dataModel->caption();
     return _boldFontMetrics.boundingRect(name).height();
 }
 unsigned int NodeGeometry::captionWidth() const
 {
     if (!_dataModel->captionVisible())
         return 0;
-        QString name = _dataModel->caption();
+    QString name = _dataModel->caption();
     return _boldFontMetrics.boundingRect(name).width();
 }
 unsigned int NodeGeometry::validationHeight() const
