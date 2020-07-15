@@ -66,22 +66,22 @@ void NodeGraphicsObject::embedQWidget(bool embed)
         {
             if (nullptr == _proxyWidget)
             {
-        _proxyWidget = new QGraphicsProxyWidget(this);
+                _proxyWidget = new QGraphicsProxyWidget(this);
                 w->setParent(nullptr);
-        _proxyWidget->setWidget(w);
-        _proxyWidget->setPreferredWidth(5);
-        geom.recalculateSize();
-        if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
-        {
+                _proxyWidget->setWidget(w);
+                _proxyWidget->setPreferredWidth(5);
+                geom.recalculateSize();
+                if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
+                {
                     // If the widget wants to use as much vertical space as possible, set
                     // it to have the geom's equivalentWidgetHeight.
-            _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
-        }
-        _proxyWidget->setPos(geom.widgetPosition());
-        update();
-        _proxyWidget->setOpacity(1.0);
-        _proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
-    }
+                    _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
+                }
+                _proxyWidget->setPos(geom.widgetPosition());
+                update();
+                _proxyWidget->setOpacity(1.0);
+                _proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+            }
         }
         else
         {
