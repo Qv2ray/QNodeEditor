@@ -42,11 +42,12 @@ void NodeDataModel::setInData(std::vector<std::shared_ptr<NodeData>> nodeData, P
         if (nodeData.empty())
             setInData(nullptr, port);
         else
+            // Sends the first piece of data since ConnectionPolicy == One
             setInData(nodeData[0], port);
     }
     else
     {
-        Q_ASSERT(false);
+        Q_ASSERT_X(false, Q_FUNC_INFO, "Please override this function if you want to support multi-in data.");
     }
 }
 bool NodeDataModel::wembed() const
