@@ -39,8 +39,9 @@ QRectF NodeGeometry::entryBoundingRect() const
 QRectF NodeGeometry::boundingRect() const
 {
     auto const &nodeStyle = StyleCollection::nodeStyle();
-    double addon = 4 * nodeStyle.ConnectionPointDiameter;
-    return QRectF(0 - addon, 0 - addon, _width + 2 * addon, _height + 2 * addon);
+    double hAddon = 1 * nodeStyle.ConnectionPointDiameter;
+    double vAddon = 2 * nodeStyle.ConnectionPointDiameter;
+    return QRectF(0 - vAddon, 0 - hAddon, _width + 2 * vAddon, _height + 2 * hAddon);
 }
 void NodeGeometry::recalculateSize() const
 {

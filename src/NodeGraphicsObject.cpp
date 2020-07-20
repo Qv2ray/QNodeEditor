@@ -270,6 +270,7 @@ void NodeGraphicsObject::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
         w->raise();
     }
     _node.nodeGeometry().setHovered(true);
+    _node.nodeDataModel()->onNodeHoverEnter();
     update();
     _scene.nodeHovered(node(), event->screenPos());
     event->accept();
@@ -277,6 +278,7 @@ void NodeGraphicsObject::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 void NodeGraphicsObject::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     _node.nodeGeometry().setHovered(false);
+    _node.nodeDataModel()->onNodeHoverLeave();
     update();
     _scene.nodeHoverLeft(node());
     event->accept();

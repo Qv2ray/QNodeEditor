@@ -74,6 +74,8 @@ namespace QtNodes
         void setNodeStyle(NodeStyle const &style);
 
       public:
+        virtual void onNodeHoverEnter(){};
+        virtual void onNodeHoverLeave(){};
         /// Triggers the algorithm
         virtual void setInData(std::shared_ptr<NodeData> nodeData, PortIndex port) = 0;
         virtual void setInData(std::vector<std::shared_ptr<NodeData>> nodeData, PortIndex port);
@@ -97,19 +99,13 @@ namespace QtNodes
         }
         bool wembed() const;
         void setWembed(bool wembed);
+
       public Q_SLOTS:
-        virtual void inputConnectionCreated(Connection const &)
-        {
-        }
-        virtual void inputConnectionDeleted(Connection const &)
-        {
-        }
-        virtual void outputConnectionCreated(Connection const &)
-        {
-        }
-        virtual void outputConnectionDeleted(Connection const &)
-        {
-        }
+        virtual void inputConnectionCreated(Connection const &){};
+        virtual void inputConnectionDeleted(Connection const &){};
+        virtual void outputConnectionCreated(Connection const &){};
+        virtual void outputConnectionDeleted(Connection const &){};
+
       Q_SIGNALS:
         void dataUpdated(PortIndex index);
         void dataInvalidated(PortIndex index);
