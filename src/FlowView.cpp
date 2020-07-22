@@ -26,7 +26,8 @@ FlowView::FlowView(QWidget *parent)
     setRenderHint(QPainter::Antialiasing);
     auto const &flowViewStyle = StyleCollection::flowViewStyle();
     setBackgroundBrush(flowViewStyle.BackgroundColor);
-    // setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    // Workaround the painting error when the embed widget resizes.
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     // setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
