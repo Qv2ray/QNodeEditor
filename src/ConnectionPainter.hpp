@@ -8,6 +8,7 @@ namespace QtNodes
     class ConnectionPainter
     {
       public:
+        static bool IsDebuggingEnabled;
         static void paint(QPainter *painter, Connection const &connection);
         static QPainterPath getPainterStroke(ConnectionGeometry const &geom);
     };

@@ -11,6 +11,9 @@
 using QtNodes::Connection;
 using QtNodes::ConnectionGeometry;
 using QtNodes::ConnectionPainter;
+
+bool ConnectionPainter::IsDebuggingEnabled = false;
+
 static QPainterPath cubicPath(ConnectionGeometry const &geom)
 {
     QPointF const &source = geom.source();
@@ -36,7 +39,7 @@ QPainterPath ConnectionPainter::getPainterStroke(ConnectionGeometry const &geom)
     stroker.setWidth(10.0);
     return stroker.createStroke(result);
 }
-#ifdef NODE_DEBUG_DRAWING
+
 static void debugDrawing(QPainter *painter, Connection const &connection)
 {
     Q_UNUSED(painter);
@@ -61,7 +64,7 @@ static void debugDrawing(QPainter *painter, Connection const &connection)
         painter->drawRect(geom.boundingRect());
     }
 }
-#endif
+
 static void drawSketchLine(QPainter *painter, Connection const &connection)
 {
     using QtNodes::ConnectionState;
@@ -181,9 +184,10 @@ void ConnectionPainter::paint(QPainter *painter, Connection const &connection)
     drawHoveredOrSelected(painter, connection);
     drawSketchLine(painter, connection);
     drawNormalLine(painter, connection);
-#ifdef NODE_DEBUG_DRAWING
-    debugDrawing(painter, connection);
-#endif
+
+    if (IsDebuggingEnabled)
+        debugDrawing(painter, connection);
+
     // draw end points
     ConnectionGeometry const &geom = connection.connectionGeometry();
     QPointF const &source = geom.source();
