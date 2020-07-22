@@ -57,6 +57,18 @@ bool NodeConnectionInteraction::canConnect(PortIndex &portIndex, TypeConverter &
         }
         return (converter != nullptr);
     }
+    // 5) There isn't an existing connection.
+    {
+        const auto &inNode = (PortType::In == requiredPort) ? _node : _connection->getNode(PortType::In);
+        const auto &outNode = (PortType::Out == requiredPort) ? _node : _connection->getNode(PortType::Out);
+        for (const auto &conn : _scene->connections())
+        {
+            const auto inMatched = conn.second->getNode(PortType::In) == inNode;
+            const auto outMatched = conn.second->getNode(PortType::Out) == outNode;
+            if (inMatched && outMatched && conn.second->id() != _connection->id())
+                return false;
+        }
+    }
     return true;
 }
 bool NodeConnectionInteraction::tryConnect() const
