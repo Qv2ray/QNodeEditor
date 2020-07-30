@@ -32,7 +32,7 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
         int h = _label->height();
         if (event->type() == QEvent::MouseButtonPress)
         {
-            QString fileName = QFileDialog::getOpenFileName(nullptr, tr("Open Image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
+            QString fileName = QFileDialog::getOpenFileName(nullptr, "Open Image", QDir::homePath(), "Image Files (*.png *.jpg *.bmp)");
             _pixmap = QPixmap(fileName);
             _label->setPixmap(_pixmap.scaled(w, h, Qt::KeepAspectRatio));
             Q_EMIT dataUpdated(0);
