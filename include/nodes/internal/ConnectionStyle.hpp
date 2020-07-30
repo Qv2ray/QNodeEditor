@@ -13,8 +13,10 @@ namespace QtNodes
 
       public:
         static void setConnectionStyle(QString jsonText);
+        static void reset();
 
       private:
+        void resetStyle() override;
         void loadJsonText(QString jsonText) override;
         void loadJsonFile(QString fileName) override;
         void loadJsonFromByteArray(QByteArray const &byteArray) override;

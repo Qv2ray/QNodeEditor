@@ -26,6 +26,14 @@ FlowViewStyle::FlowViewStyle(QString jsonText)
 {
     loadJsonText(jsonText);
 }
+void FlowViewStyle::reset()
+{
+    StyleCollection::setFlowViewStyle(FlowViewStyle());
+}
+void FlowViewStyle::resetStyle()
+{
+    loadJsonFile(":DefaultStyle.json");
+}
 void FlowViewStyle::setStyle(QString jsonText)
 {
     FlowViewStyle style(jsonText);

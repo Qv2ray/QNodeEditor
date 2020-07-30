@@ -23,9 +23,18 @@ NodeStyle::NodeStyle()
     // statically
     loadJsonFile(":DefaultStyle.json");
 }
+
 NodeStyle::NodeStyle(QString jsonText)
 {
     loadJsonText(jsonText);
+}
+void NodeStyle::reset()
+{
+    StyleCollection::setNodeStyle(NodeStyle());
+}
+void NodeStyle::resetStyle()
+{
+    loadJsonFile(":DefaultStyle.json");
 }
 void NodeStyle::setNodeStyle(QString jsonText)
 {
