@@ -291,7 +291,7 @@ void FlowScene::clearScene()
 }
 void FlowScene::save() const
 {
-    QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Open Flow Scene"), QDir::homePath(), tr("Flow Scene Files (*.flow)"));
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Open Flow Scene", QDir::homePath(), "Flow Scene Files (*.flow)");
     if (!fileName.isEmpty())
     {
         if (!fileName.endsWith("flow", Qt::CaseInsensitive))
@@ -305,7 +305,7 @@ void FlowScene::save() const
 }
 void FlowScene::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(nullptr, tr("Open Flow Scene"), QDir::homePath(), tr("Flow Scene Files (*.flow)"));
+    QString fileName = QFileDialog::getOpenFileName(nullptr, "Open Flow Scene", QDir::homePath(), "Flow Scene Files (*.flow)");
     if (!QFileInfo::exists(fileName))
         return;
     QFile file(fileName);
