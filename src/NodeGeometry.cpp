@@ -246,7 +246,11 @@ unsigned int NodeGeometry::portWidth(PortType portType) const
         {
             name = _dataModel->dataType(portType, i)->name();
         }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
         width = std::max(unsigned(_fontMetrics.horizontalAdvance(name)), width);
+#else
+        width = std::max(unsigned(_fontMetrics.width(name)), width);
+#endif
     }
     return width;
 }
